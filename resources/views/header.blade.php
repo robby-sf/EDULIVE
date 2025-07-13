@@ -183,6 +183,7 @@
     </header>
 
     <script>
+        // For Hamburger Menu
         const menuToggle = document.getElementById('menu-toggle');
         const menu = document.getElementById('menu');
 
@@ -190,6 +191,7 @@
             menu.classList.toggle('hidden');
         });
 
+        // For Dashboard Dropdown
         const dashboardToggle = document.getElementById('dashboard-toggle');
         const mobileDashboardMenu = document.getElementById('mobile-dashboard-menu');
         const desktopDashboardMenu = document.getElementById('desktop-dashboard-menu');
@@ -197,7 +199,6 @@
 
         dashboardToggle.addEventListener('click', (event) => {
             event.stopPropagation();
-
             if (window.matchMedia('(min-width: 768px)').matches) {
                 // Desktop view
                 desktopDashboardMenu.classList.toggle('hidden');
