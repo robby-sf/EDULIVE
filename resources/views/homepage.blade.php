@@ -8,7 +8,8 @@
         <div class="container mx-auto">
             <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-8 justify-between px-24">
                 <div class="text-center lg:text-left max-w-2xl">
-                    <h1 id="animated-title" class="text-[#000000] text-6xl sm:text-7xl md:text-8xl lg:text-[120px] font-semibold uppercase tracking-[10px] leading-tight">
+                    <h1 id="animated-title"
+                        class="text-[#000000] text-6xl sm:text-7xl md:text-8xl lg:text-[120px] font-semibold uppercase tracking-[10px] leading-tight">
                         {{-- Dibiarkan kosong, akan diisi oleh JS --}}
                     </h1>
                     <p id="animated-tagline" class="text-[#5E5E5E] text-lg md:text-xl mt-4 tracking-[2px] uppercase">
@@ -16,7 +17,6 @@
                     </p>
                 </div>
                 <div class="relative hidden lg:flex items-center justify-center lg:w-1/2 h-[568px]">
-                    {{-- PERUBAHAN DI SINI: Hapus inline style dan tambahkan ID --}}
                     <spline-viewer url="https://prod.spline.design/uVNsVwMkUOp-DedR/scene.splinecode"></spline-viewer>
                     <div class="absolute bottom-4 right-4 w-40 h-10 bg-white z-10"></div>
 
@@ -24,4 +24,26 @@
             </div>
         </div>
     </section>
+
+    {{-- SECTION 2 - PARALLAX --}}
+    <div class="relative overflow-hidden h-auto">
+        <div class="flex flex-col gap-2">
+            <h1
+                class="reveal-text text-black font-extrabold text-5xl md:text-6xl lg:text-[80px] uppercase tracking-wide opacity-0 translate-y-6 transition-all duration-700">
+                YOUR BEST ASSISTENT
+            </h1>
+            <h1
+                class="reveal-text text-neutral-400 font-extrabold text-5xl md:text-6xl lg:text-[80px] uppercase tracking-wide opacity-0 translate-y-6 transition-all duration-700 delay-100">
+                YOUR BEST ASSISTENT
+            </h1>
+            <h1
+                class="reveal-text text-neutral-400 font-extrabold text-5xl md:text-6xl lg:text-[80px] uppercase tracking-wide opacity-0 translate-y-6 transition-all duration-700 delay-200">
+                YOUR BEST ASSISTENT
+            </h1>
+            <h1
+                class="reveal-text text-neutral-400 font-extrabold text-5xl md:text-6xl lg:text-[80px] uppercase tracking-wide opacity-0 translate-y-6 transition-all duration-700 delay-300">
+                YOUR BEST ASSISTENT
+            </h1>
+        </div>
+    </div>
 @endsection

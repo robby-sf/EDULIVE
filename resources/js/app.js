@@ -126,3 +126,21 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// EventListener Section 2 HOMEPAGE
+document.addEventListener('DOMContentLoaded', () => {
+    const revealEls = document.querySelectorAll('.reveal-text');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target); // hanya sekali
+            }
+        });
+    }, {
+        threshold: 0.3
+    });
+
+    revealEls.forEach(el => observer.observe(el));
+});
