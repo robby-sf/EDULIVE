@@ -1,24 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>EDULIVE HEADER</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-
-    <style>
-    </style>
-</head>
-
-<body class="bg-white font-poppins">
-
-    <svg class="absolute hidden">
+ <svg class="absolute hidden">
         <defs>
             <filter id="molten">
                 <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
@@ -182,43 +162,47 @@
         </nav>
     </header>
 
-    <script>
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Toggle mobile menu
         const menuToggle = document.getElementById('menu-toggle');
-        const menu = document.getElementById('menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (menuToggle && mobileMenu) {
+            menuToggle.addEventListener('click', function () {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
 
-        menuToggle.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
-        });
+        // Toggle mobile dashboard submenu
+        const mobileDashboardToggle = document.getElementById('mobile-dashboard-toggle');
+        const mobileDashboardLinks = document.getElementById('mobile-dashboard-links');
+        if (mobileDashboardToggle && mobileDashboardLinks) {
+            mobileDashboardToggle.addEventListener('click', function () {
+                mobileDashboardLinks.classList.toggle('hidden');
+            });
+        }
 
+        // Desktop dashboard dropdown
         const dashboardToggle = document.getElementById('dashboard-toggle');
-        const mobileDashboardMenu = document.getElementById('mobile-dashboard-menu');
-        const desktopDashboardMenu = document.getElementById('desktop-dashboard-menu');
+        const dashboardMenu = document.getElementById('desktop-dashboard-menu');
         const dashboardChevron = document.getElementById('dashboard-chevron');
-
-        dashboardToggle.addEventListener('click', (event) => {
-            event.stopPropagation();
-
-            if (window.matchMedia('(min-width: 768px)').matches) {
-                // Desktop view
-                desktopDashboardMenu.classList.toggle('hidden');
-            } else {
-                // Mobile view
-                mobileDashboardMenu.classList.toggle('hidden');
-            }
-
-            dashboardChevron.classList.toggle('rotate-180');
-        });
-
-        window.addEventListener('click', (event) => {
-            if (!dashboardToggle.contains(event.target)) {
-                mobileDashboardMenu.classList.add('hidden');
-                desktopDashboardMenu.classList.add('hidden');
-                dashboardChevron.classList.remove('rotate-180');
-            }
-        });
-
-    </script>
-
-</body>
-
-</html>
+        if (dashboardToggle && dashboardMenu && dashboardChevron) {
+            dashboardToggle.addEventListener('click', function (e) {
+                e.stopPropagation();
+                dashboardMenu.classList.toggle('hidden');
+                dashboardChevron.classList.toggle('rotate-180');
+            });
+            document.addEventListener('click', function (e) {
+                if (!dashboardMenu.classList.contains('hidden')) {
+                    dashboardMenu.classList.add('hidden');
+                    dashboardChevron.classList.remove('rotate-180');
+                }
+            });
+            dashboardMenu.addEventListener('click', function (e) {
+                e.stopPropagation();
+            });
+        }
+    });
+</script>
+@endpush
