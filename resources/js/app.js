@@ -7,10 +7,10 @@ const menuOverlay = document.getElementById("menu-overlay");
 if (menuToggle && menu && menuOverlay) {
     menuToggle.addEventListener("click", () => {
         menu.classList.toggle("hidden");
-        menuOverlay.classList.toggle("hidden"); // Toggle overlay juga
+        menuOverlay.classList.toggle("hidden");
     });
 
-    // (Opsional tapi direkomendasikan) Tutup menu saat overlay diklik
+    // Close the menu when clicking outside of it
     menuOverlay.addEventListener("click", () => {
         menu.classList.add("hidden");
         menuOverlay.classList.add("hidden");
@@ -43,6 +43,43 @@ window.addEventListener("click", (event) => {
     }
 });
 
+// Profile Dropdown
+document.addEventListener('DOMContentLoaded', function () {
+    const profileButton = document.getElementById('profile-menu-button');
+    const profileDropdown = document.getElementById('profile-menu-dropdown');
+
+
+    if (profileButton && profileDropdown) {
+
+        profileButton.addEventListener('click', function (event) {
+            event.stopPropagation();
+            profileDropdown.classList.toggle('hidden');
+            if (!profileDropdown.classList.contains('hidden')) {
+                setTimeout(() => {
+                    profileDropdown.classList.add('opacity-100', 'scale-100');
+                    profileDropdown.classList.remove('opacity-0', 'scale-95');
+                }, 10);
+            } else {
+                profileDropdown.classList.remove('opacity-100', 'scale-100');
+                profileDropdown.classList.add('opacity-0', 'scale-95');
+            }
+        });
+
+        window.addEventListener('click', function (event) {
+            if (!profileDropdown.contains(event.target) && !profileButton.contains(event.target)) {
+                if (!profileDropdown.classList.contains('hidden')) {
+                     profileDropdown.classList.remove('opacity-100', 'scale-100');
+                     profileDropdown.classList.add('opacity-0', 'scale-95');
+
+                     setTimeout(() => {
+                        profileDropdown.classList.add('hidden');
+                     }, 300);
+                }
+            }
+        });
+    }
+});
+
 // EventListener Section 1 HOMEPAGE
 document.addEventListener('DOMContentLoaded', function() {
     const titleText = "EDULIVE";
@@ -51,7 +88,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const taglineContainer = document.getElementById('animated-tagline');
 
     if (titleContainer && taglineContainer) {
-        // 1. Animasikan judul per huruf
         titleText.split('').forEach((char, index) => {
             const span = document.createElement('span');
             span.innerHTML = char === ' ' ? '&nbsp;' : char;
@@ -59,7 +95,6 @@ document.addEventListener('DOMContentLoaded', function() {
             titleContainer.appendChild(span);
         });
 
-        // 2. Animasikan tagline per kata
         const words = taglineText.split(' ');
         words.forEach((word, index) => {
             const span = document.createElement('span');
@@ -67,17 +102,13 @@ document.addEventListener('DOMContentLoaded', function() {
             span.style.transitionDelay = `${(titleText.length * 0.05) + (index * 0.1)}s`;
             taglineContainer.appendChild(span);
 
-            // Tambahkan spasi setelah setiap kata, kecuali kata terakhir
             if (index < words.length - 1) {
                 const space = document.createElement('span');
                 space.innerHTML = '&nbsp;';
-                // Beri jeda animasi yang sama agar spasi tidak mengganggu alur
                 space.style.transitionDelay = `${(titleText.length * 0.05) + (index * 0.1)}s`;
                 taglineContainer.appendChild(space);
             }
         });
-
-        // 3. Memicu animasi
         setTimeout(() => {
             titleContainer.classList.add('visible');
             taglineContainer.classList.add('visible');
@@ -85,15 +116,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-//spline load section 1 HOMEPAGE
+//spline load section 1 HOMEPAGE (Not Affected For Spline Now)
 document.addEventListener('DOMContentLoaded', function() {
     const splineModel = document.getElementById('spline-model');
 
-    // Pastikan elemen spline ada di halaman ini
     if (splineModel) {
-        // Dengarkan event 'load' dari Spline Viewer
         splineModel.addEventListener('load', () => {
-            // Tambahkan kelas untuk memicu transisi fade-in
             splineModel.classList.add('spline-visible');
         });
     }

@@ -21,7 +21,7 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
 
         if(Auth::attempt($credentials, $request->filled('remember'))) {
-            return redirect()->intended('dashboard')->with('success', 'Login successful!');
+            return redirect()->intended('homepage')->with('success', 'Login successful!');
         }
 
         return back()->withErrors([
@@ -31,6 +31,6 @@ class LoginController extends Controller
 
     public function logout(Request $request) {
         Auth::logout();
-        return redirect('/dashboard')->with('success', 'You have been logged out successfully.');
+        return redirect('/')->with('success', 'You have been logged out successfully.');
     }
 }

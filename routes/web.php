@@ -20,7 +20,7 @@ Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('Homepage');
-    })->name('Homepage');
+    Route::get('/', function () {
+        return view('homepage');
+    })->name('homepage');
 });
