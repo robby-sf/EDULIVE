@@ -129,18 +129,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // EventListener Section 2 HOMEPAGE
 document.addEventListener('DOMContentLoaded', () => {
-    const revealEls = document.querySelectorAll('.reveal-text');
+    // 1. Ambil elemen section pembungkus dan semua elemen teks
+    const parallaxSection = document.getElementById('parallax-section');
+    const revealTexts = document.querySelectorAll('.reveal-text');
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target); // hanya sekali
-            }
+    // Pastikan elemennya ada sebelum melanjutkan
+    if (!parallaxSection || revealTexts.length === 0) return;
+
+    // 2. Loop setiap elemen teks untuk menambahkan event 'mouseenter'
+    revealTexts.forEach(textElement => {
+        textElement.addEventListener('mouseenter', () => {
+            // Saat mouse masuk, tambahkan kelas 'visible' untuk memunculkannya
+            textElement.classList.add('visible');
         });
-    }, {
-        threshold: 0.3
+        // Tidak ada 'mouseleave' di sini agar teks tetap terlihat
     });
 
-    revealEls.forEach(el => observer.observe(el));
+    // 3. Tambahkan satu event 'mouseleave' pada section pembungkus
+    parallaxSection.addEventListener('mouseleave', () => {
+        // Saat mouse keluar dari seluruh section, reset semua teks
+        revealTexts.forEach(el => {
+            el.classList.remove('visible');
+        });
+    });
 });

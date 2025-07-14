@@ -26,24 +26,43 @@
     </section>
 
     {{-- SECTION 2 - PARALLAX --}}
-    <div class="relative overflow-hidden h-auto">
-        <div class="flex flex-col gap-2">
-            <h1
-                class="reveal-text text-black font-extrabold text-5xl md:text-6xl lg:text-[80px] uppercase tracking-wide opacity-0 translate-y-6 transition-all duration-700">
-                YOUR BEST ASSISTENT
-            </h1>
-            <h1
-                class="reveal-text text-neutral-400 font-extrabold text-5xl md:text-6xl lg:text-[80px] uppercase tracking-wide opacity-0 translate-y-6 transition-all duration-700 delay-100">
-                YOUR BEST ASSISTENT
-            </h1>
-            <h1
-                class="reveal-text text-neutral-400 font-extrabold text-5xl md:text-6xl lg:text-[80px] uppercase tracking-wide opacity-0 translate-y-6 transition-all duration-700 delay-200">
-                YOUR BEST ASSISTENT
-            </h1>
-            <h1
-                class="reveal-text text-neutral-400 font-extrabold text-5xl md:text-6xl lg:text-[80px] uppercase tracking-wide opacity-0 translate-y-6 transition-all duration-700 delay-300">
-                YOUR BEST ASSISTENT
-            </h1>
+    <section>
+        <div id="parallax-section" class="relative overflow-hidden h-auto py-16">
+            {{-- Ubah 'gap-2' menjadi 'gap-4' atau lebih besar untuk menambah jarak --}}
+            <div class="flex flex-col gap-6 text-center">
+                <h1 {{-- Perbesar nilai font, contoh: dari 80px menjadi 100px --}}
+                    class="reveal-text text-black font-extrabold text-5xl md:text-7xl lg:text-[100px] uppercase tracking-wide opacity-0 translate-y-6 transition-all duration-700">
+                    YOUR BEST ASSISTENT
+                </h1>
+                <h1
+                    class="reveal-text text-neutral-400 font-extrabold text-5xl md:text-7xl lg:text-[100px] uppercase tracking-wide opacity-0 translate-y-6 transition-all duration-700 delay-100">
+                    YOUR BEST ASSISTENT
+                </h1>
+                <h1
+                    class="reveal-text text-neutral-400 font-extrabold text-5xl md:text-7xl lg:text-[100px] uppercase tracking-wide opacity-0 translate-y-6 transition-all duration-700 delay-200">
+                    YOUR BEST ASSISTENT
+                </h1>
+                <h1
+                    class="reveal-text text-neutral-400 font-extrabold text-5xl md:text-7xl lg:text-[100px] uppercase tracking-wide opacity-0 translate-y-6 transition-all duration-700 delay-300">
+                    YOUR BEST ASSISTENT
+                </h1>
+                <h1
+                    class="reveal-text text-neutral-400 font-extrabold text-5xl md:text-7xl lg:text-[100px] uppercase tracking-wide opacity-0 translate-y-6 transition-all duration-700 delay-300">
+                    YOUR BEST ASSISTENT
+                </h1>
+                <h1
+                    class="reveal-text text-neutral-400 font-extrabold text-5xl md:text-7xl lg:text-[100px] uppercase tracking-wide opacity-0 translate-y-6 transition-all duration-700 delay-300">
+                    YOUR BEST ASSISTENT
+                </h1>
+                <h1
+                    class="reveal-text text-neutral-400 font-extrabold text-5xl md:text-7xl lg:text-[100px] uppercase tracking-wide opacity-0 translate-y-6 transition-all duration-700 delay-300">
+                    YOUR BEST ASSISTENT
+                </h1>
+                <h1
+                    class="reveal-text text-neutral-400 font-extrabold text-5xl md:text-7xl lg:text-[100px] uppercase tracking-wide opacity-0 translate-y-6 transition-all duration-700 delay-300">
+                    YOUR BEST ASSISTENT
+                </h1>
+            </div>
         </div>
-    </div>
+    </section>
 @endsection
