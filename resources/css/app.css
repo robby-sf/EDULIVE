@@ -9,3 +9,30 @@
     --font-sans: 'Poppins', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+/* this is for section 1 homepage */
+#animated-title span,
+#animated-tagline span {
+    display: inline-block;
+    opacity:0;
+    filter: blur(4px);
+    transform: translateY(30px);
+    transition:opacity 0.6s ease-out, filter 0.6s ease-out, transform 0.6s ease-out;
+}
+
+#animated-title.visible span,
+#animated-tagline.visible span {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+}
+
+/* Keadaan awal (disembunyikan dengan transisi) */
+#spline-model {
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+}
+#spline-model.spline-visible {
+    opacity: 1;
+}
+

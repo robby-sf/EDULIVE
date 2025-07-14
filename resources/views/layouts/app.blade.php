@@ -13,17 +13,17 @@
     {{-- Link Font & Ikon bisa tetap ada --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" /> --}}
+    {{-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> --}}
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.27/build/spline-viewer.js"></script>
+
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
             background-color: #ffffff;
         }
 
-        @keyframes fade-in-down {
+        /* @keyframes fade-in-down {
             0% {
                 opacity: 0;
                 transform: translateY(-20px);
@@ -36,8 +36,8 @@
         }
 
         .animate-fade-in-down {
-            animation: fade-in-down 0.5s ease-out both;
-        }
+            animation: fade-in-down 1s ease-out both;
+        } */
     </style>
 
     @stack('styles')
@@ -47,50 +47,15 @@
 
     @include('partials.header')
 
+    <div id="menu-overlay" class="hidden fixed inset-0 bg-black/50 z-40"></div>
+
     <main>
         @yield('content')
     </main>
 
-    <footer class="mt-20 py-8 border-t border-white/10 text-center text-sm text-gray-400">
+    {{-- <footer class="mt-20 py-8 border-t border-white/10 text-center text-sm text-gray-400">
         &copy; {{ date('Y') }} EDULIVE. All rights reserved.
-    </footer>
+    </footer> --}}
 </body>
-
-<script>
-        const menuToggle = document.getElementById('menu-toggle');
-        const menu = document.getElementById('menu');
-
-        menuToggle.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
-        });
-
-        const dashboardToggle = document.getElementById('dashboard-toggle');
-        const mobileDashboardMenu = document.getElementById('mobile-dashboard-menu');
-        const desktopDashboardMenu = document.getElementById('desktop-dashboard-menu');
-        const dashboardChevron = document.getElementById('dashboard-chevron');
-
-        dashboardToggle.addEventListener('click', (event) => {
-            event.stopPropagation();
-
-            if (window.matchMedia('(min-width: 768px)').matches) {
-                // Desktop view
-                desktopDashboardMenu.classList.toggle('hidden');
-            } else {
-                // Mobile view
-                mobileDashboardMenu.classList.toggle('hidden');
-            }
-
-            dashboardChevron.classList.toggle('rotate-180');
-        });
-
-        window.addEventListener('click', (event) => {
-            if (!dashboardToggle.contains(event.target)) {
-                mobileDashboardMenu.classList.add('hidden');
-                desktopDashboardMenu.classList.add('hidden');
-                dashboardChevron.classList.remove('rotate-180');
-            }
-        });
-
-    </script>
-
+@stack('scripts')
 </html>
