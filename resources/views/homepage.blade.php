@@ -19,7 +19,6 @@
                 <div class="relative hidden lg:flex items-center justify-center lg:w-1/2 h-[568px]">
                     <spline-viewer url="https://prod.spline.design/uVNsVwMkUOp-DedR/scene.splinecode"></spline-viewer>
                     <div class="absolute bottom-4 right-4 w-40 h-10 bg-white z-10"></div>
-
                 </div>
             </div>
         </div>
