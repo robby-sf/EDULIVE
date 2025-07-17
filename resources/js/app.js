@@ -153,3 +153,55 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+// EventListener Section 4 HOMEPAGE
+document.addEventListener('DOMContentLoaded', () => {
+    const teamSection = document.querySelector('#team-section');
+    const teamCards = document.querySelectorAll('.team-card');
+
+    if (!teamSection || teamCards.length === 0) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                teamCards.forEach((card, index) => {
+                    // Delay dibuat berbeda untuk setiap kartu agar muncul satu per satu
+                    setTimeout(() => {
+                        card.classList.add('is-visible');
+                    }, index * 200); // Jeda 200ms
+                });
+                // Hentikan observasi setelah animasi berjalan agar tidak berulang
+                observer.unobserve(teamSection);
+            }
+        });
+    }, {
+        threshold: 0.2 // Animasi akan berjalan saat 20% dari section terlihat
+    });
+
+    observer.observe(teamSection);
+});
+
+// EventListener Section 5 HOMEPAGE
+document.addEventListener('DOMContentLoaded', () => {
+    const section = document.querySelector('#get-ready-section');
+    const words = document.querySelectorAll('.get-ready');
+
+    if (!section || words.length === 0) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                words.forEach((word, index) => {
+                    setTimeout(() => {
+                        word.classList.add('visible');
+                    }, index * 400); // Delay 400ms antar kata
+                });
+                observer.unobserve(section); // Hentikan observasi setelah animasi berjalan
+            }
+        });
+    }, {
+        threshold: 0.5 // Animasi berjalan saat 50% section terlihat
+    });
+
+    observer.observe(section);
+});

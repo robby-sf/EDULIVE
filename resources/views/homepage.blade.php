@@ -159,92 +159,121 @@
     </section>
 
     {{-- SECTION 4 - TEAM MEMBER --}}
-    <section class="px-4 py-16 mt-15">
-        <div class="container mx-auto ">
-            {{-- Header Section --}}
-            <header class="text-center mb-28">
-                <h2 class="text-outline font-black" style="font-size: 130px; line-height: 1;">
+   <section id="team-section" class="px-4 py-16 mt-15">
+    <div class="container mx-auto ">
+        {{-- Header Section --}}
+        <header class="text-center mb-28">
+                <h2 class="team-card text-outline font-black" style="font-size: 130px; line-height: 1;">
                     OUR
                 </h2>
-                <div class="inline-block bg-black text-white px-8 py-2 -mt-2">
+                <div class="team-card inline-block bg-black text-white px-8 py-2 -mt-2">
                     <h3 class="text-7xl font-bold tracking-widest">TEAM MEMBER</h3>
                 </div>
             </header>
 
-            {{-- Grid untuk Anggota Tim --}}
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-12">
+        {{-- Grid untuk Anggota Tim --}}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-12">
 
-                {{-- Anggota 1: Ravelin --}}
-                <div class="flex flex-col items-center">
+            {{-- Anggota 1: Ravelin --}}
+            <div class="team-card flex flex-col items-center">
+                <div
+                    class="relative w-[240px] h-[260px] group cursor-pointer transform transition-transform duration-300 hover:-translate-y-[30px]">
                     <div
-                        class="relative w-[240px] h-[260px] group cursor-pointer transform transition-transform duration-300 hover:-translate-y-[30px]">
-                        <div
-                            class="bg-[#000000] rounded-3xl shadow-lg w-full h-full transition-all duration-300 group-hover:shadow-2xl">
-                        </div>
-
-                        <img src="{{ asset('asset/placeholderteam.png') }}" alt="Team Member"
-                            class="absolute left-1/2 bottom-0 w-auto h-[320px] object-cover rounded-3xl drop-shadow-lg transform -translate-x-1/2" />
-
+                        class="bg-[#000000] rounded-3xl shadow-lg w-full h-full transition-all duration-300 group-hover:shadow-2xl">
                     </div>
 
-                    <div class="mt-6 max-w-[240px] text-center sm:text-left">
-                        <div class="flex items-center justify-center sm:justify-start mb-2">
-                            <span class="text-[30px] font-medium text-black">Ravelin</span>
-                        </div>
-                        <p class="text-[#5E5E5E] leading-relaxed mb-4 text-justify text-[20px]">
-                            Improve well being, grow future leader, become the greatness human
-                        </p>
-                        <a href="{{ route('team.ceo')}}" class="text-blue-600 font-bold hover:underline text-sm">
-                            Find out more &rarr;
-                        </a>
-                    </div>
+                    <img src="{{ asset('asset/placeholderteam.png') }}" alt="Team Member"
+                        class="absolute left-1/2 bottom-0 w-auto h-[320px] object-cover rounded-3xl drop-shadow-lg transform -translate-x-1/2" />
+
                 </div>
 
-                {{-- Anggota 2: Robby --}}
-                <div class="flex flex-col items-center">
-                        <div class="relative w-[240px] h-[260px] group cursor-pointer transform transition-transform duration-300 hover:-translate-y-[30px]">
-                            <div class="bg-[#000000] rounded-3xl shadow-lg w-full h-full transition-all duration-300 group-hover:shadow-2xl"></div>
-
-                            <img src="{{ asset('asset/placeholderteam.png') }}" alt="Team Member"
-                                class="absolute left-1/2 bottom-0 w-auto h-[320px] object-cover rounded-3xl drop-shadow-lg transform -translate-x-1/2" />
-                        </div>
-
-                        <div class="mt-6 max-w-[240px] text-center sm:text-left">
-                            <div class="flex items-center justify-center sm:justify-start mb-2">
-                                <span class="text-[30px] font-medium text-black">Robby</span>
-                            </div>
-                            <p class="text-[#5E5E5E] leading-relaxed mb-4 text-justify text-[20px]">
-                                Improve well being, grow future leader, become the greatness human
-                            </p>
-                            <a href="{{ route('team.cto')}}" class="text-blue-600 font-bold hover:underline text-sm">
-                                Find out more &rarr;
-                            </a>
-                        </div>
+                <div class="mt-6 max-w-[240px] text-center sm:text-left">
+                    <div class="flex items-center justify-center sm:justify-start mb-2">
+                        <span class="text-[30px] font-medium text-black">Ravelin</span>
                     </div>
-
-                {{-- Anggota 3: Rifqi --}}
-                <div class="flex flex-col items-center">
-                        <div class="relative w-[240px] h-[260px] group cursor-pointer transform transition-transform duration-300 hover:-translate-y-[30px]">
-                            <div class="bg-[#000000] rounded-3xl shadow-lg w-full h-full transition-all duration-300 group-hover:shadow-2xl"></div>
-
-                            <img src="{{ asset('asset/placeholderteam.png') }}" alt="Team Member"
-                                class="absolute left-1/2 bottom-0 w-auto h-[320px] object-cover rounded-3xl drop-shadow-lg transform -translate-x-1/2" />
-                        </div>
-
-                        <div class="mt-6 max-w-[240px] text-center sm:text-left">
-                            <div class="flex items-center justify-center sm:justify-start mb-2">
-                                <span class="text-[30px] font-medium text-black">Rifqi</span>
-                            </div>
-                            <p class="text-[#5E5E5E] leading-relaxed mb-4 text-justify text-[20px]">
-                                Improve well being, grow future leader, become the greatness human
-                            </p>
-                            <a href="{{ route('team.hrmanager')}}" class="text-blue-600 font-bold hover:underline text-sm">
-                                Find out more &rarr;
-                            </a>
-                        </div>
-                    </div>
-
+                    <p class="text-[#5E5E5E] leading-relaxed mb-4 text-justify text-[20px]">
+                        Improve well being, grow future leader, become the greatness human
+                    </p>
+                    <a href="{{ route('team.ceo') }}" class="text-blue-600 font-bold hover:underline text-sm">
+                        Find out more &rarr;
+                    </a>
+                </div>
             </div>
+
+            {{-- Anggota 2: Robby --}}
+            <div class="team-card flex flex-col items-center">
+                <div
+                    class="relative w-[240px] h-[260px] group cursor-pointer transform transition-transform duration-300 hover:-translate-y-[30px]">
+                    <div
+                        class="bg-[#000000] rounded-3xl shadow-lg w-full h-full transition-all duration-300 group-hover:shadow-2xl">
+                    </div>
+
+                    <img src="{{ asset('asset/placeholderteam.png') }}" alt="Team Member"
+                        class="absolute left-1/2 bottom-0 w-auto h-[320px] object-cover rounded-3xl drop-shadow-lg transform -translate-x-1/2" />
+                </div>
+
+                <div class="mt-6 max-w-[240px] text-center sm:text-left">
+                    <div class="flex items-center justify-center sm:justify-start mb-2">
+                        <span class="text-[30px] font-medium text-black">Robby</span>
+                    </div>
+                    <p class="text-[#5E5E5E] leading-relaxed mb-4 text-justify text-[20px]">
+                        Improve well being, grow future leader, become the greatness human
+                    </p>
+                    <a href="{{ route('team.cto') }}" class="text-blue-600 font-bold hover:underline text-sm">
+                        Find out more &rarr;
+                    </a>
+                </div>
+            </div>
+
+            {{-- Anggota 3: Rifqi --}}
+            <div class="team-card flex flex-col items-center">
+                <div
+                    class="relative w-[240px] h-[260px] group cursor-pointer transform transition-transform duration-300 hover:-translate-y-[30px]">
+                    <div
+                        class="bg-[#000000] rounded-3xl shadow-lg w-full h-full transition-all duration-300 group-hover:shadow-2xl">
+                    </div>
+
+                    <img src="{{ asset('asset/placeholderteam.png') }}" alt="Team Member"
+                        class="absolute left-1/2 bottom-0 w-auto h-[320px] object-cover rounded-3xl drop-shadow-lg transform -translate-x-1/2" />
+                </div>
+
+                <div class="mt-6 max-w-[240px] text-center sm:text-left">
+                    <div class="flex items-center justify-center sm:justify-start mb-2">
+                        <span class="text-[30px] font-medium text-black">Rifqi</span>
+                    </div>
+                    <p class="text-[#5E5E5E] leading-relaxed mb-4 text-justify text-[20px]">
+                        Improve well being, grow future leader, become the greatness human
+                    </p>
+                    <a href="{{ route('team.hrmanager') }}" class="text-blue-600 font-bold hover:underline text-sm">
+                        Find out more &rarr;
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+    {{-- SECTION 5 - GET READY --}}
+    <section id="get-ready-section" class="px-4 py-16 relative w-full min-h-screen">
+        <div class="absolute top-0 left-0 w-full h-full z-0">
+        {{-- Jangan tambahkan class pada spline-viewer, cukup biarkan ia mengisi wrapper div --}}
+        <spline-viewer url="https://prod.spline.design/ik78JS8lLV3pxy7D/scene.splinecode"></spline-viewer>
+        <div class="absolute bottom-4 right-4 w-40 h-10 bg-white z-10"></div>
+    </div>
+
+        <div class="relative z-10 min-h-screen flex flex-col items-center justify-center text-center">
+
+            <div class="text-black font-light" style="font-family: 'Poppins', sans-serif;">
+                <h2 class="get-ready text-[100px] leading-tight">LETS</h2>
+                <h2 class="get-ready text-[100px] leading-tight">GET</h2>
+                <h2 class="get-ready text-[100px] leading-tight">STARTED</h2>
+            </div>
+
+            <a href="#"
+                class="get-ready mt-8 px-8 py-3 bg-black text-white text-sm font-light tracking-widest rounded-full hover:bg-gray-800 transition-colors duration-300">
+                START
+            </a>
         </div>
     </section>
 @endsection
