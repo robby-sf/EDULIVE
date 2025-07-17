@@ -65,4 +65,186 @@
             </div>
         </div>
     </section>
+
+    {{-- SECTION 3 - FEATURES --}}
+    <section class="w-full bg-white px-4 py-16 mt-8">
+        <div class="container mx-auto">
+            {{-- Judul Section --}}
+            <h2 class="text-4xl md:text-5xl font-normal text-black uppercase tracking-widest mb-16">
+                FEATURES
+            </h2>
+
+            {{-- Kontainer untuk Kartu Fitur --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+
+                {{-- Card 1: AI DETECTION --}}
+                <div class="relative w-full h-96 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+                    {{-- Background --}}
+                    <div class="absolute inset-0 bg-zinc-300"></div>
+
+                    {{-- Content Wrapper --}}
+                    <div class="relative h-full p-6 flex flex-col justify-between">
+                        {{-- Top Part: "AI" and "DETECTION" --}}
+                        <div>
+                            {{-- "AI" text. Using text with extreme font size and leading to mimic vector stretching --}}
+                            <div class="text-left text-black font-semibold" style="font-family: 'Poppins', sans-serif;">
+                                <span style="font-size: 140px; line-height: 0.8;">A</span><span
+                                    style="font-size: 140px; line-height: 0.8; margin-left: 0.01em;">I</span>
+                            </div>
+                            {{-- "DETECTION" text --}}
+                            <p class="text-left text-black text-4xl font-normal leading-9 mt-2">DETECTION</p>
+                        </div>
+
+                        {{-- Bottom Part: Description --}}
+                        <div class="w-full">
+                            <p class="text-black text-base font-light tracking-wide text-left">
+                                Dengan integrasi teknologi Computer Vision & Machine Learning, EDULIVE secara otomatis
+                                mendeteksi postur tubuh pengguna saat belajar.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Card 2: SMART TIMER --}}
+                <div class="relative w-full h-96 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+                    <div class="absolute inset-0 bg-zinc-300"></div>
+                    <div class="relative h-full p-8 flex flex-col justify-between">
+                        {{-- Top Part: Description --}}
+                        <div class="w-full">
+                            <p class="text-black text-base font-light tracking-wide text-center">
+                                EDULIVE menggunakan sistem otomatis berbasis aktivitas: timer akan aktif saat kamu
+                                terdeteksi sedang fokus
+                            </p>
+                        </div>
+
+                        {{-- Bottom Part: "SMART" and "TIMER" --}}
+                        <div class="w-full">
+                            <div class="text-center text-black font-semibold"
+                                style="font-family: 'Poppins', sans-serif; font-size: 100px; line-height: 1;">
+                                <span style="margin-left: 0.01em;">S</span><span style="margin-left: 0.01em;">M</span><span
+                                    style="margin-left: 0.01em;">A</span><span style="margin-left: 0.01em;">R</span><span
+                                    style="margin-left: 0.01em;">T</span>
+                            </div>
+                            <p class="text-center text-black text-4xl font-normal leading-9 mt-2">TIMER</p>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Card 3: PROGRESS TRACKER --}}
+                <div class="relative w-full h-96 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+                    <div class="absolute inset-0 bg-zinc-300"></div>
+                    <div class="relative h-full p-6 flex flex-col justify-between">
+                        {{-- Top Part: "PROGRESS" and "TRACKER" --}}
+                        <div>
+                            <div class="text-left text-black font-semibold"
+                                style="font-family: 'Poppins', sans-serif; font-size: 90px; line-height: 1; letter-spacing: -0.05em;">
+                                PROGRESS
+                            </div>
+                            <p class="text-left text-black text-4xl font-normal leading-9 mt-2">TRACKER</p>
+                        </div>
+
+                        {{-- Bottom Part: Description --}}
+                        <div class="w-full">
+                            {{-- Menggunakan deskripsi yang lebih relevan --}}
+                            <p class="text-black text-base font-light tracking-wide text-left">
+                                Pantau statistik dan riwayat belajar Anda untuk memvisualisasikan kemajuan dan memahami pola
+                                belajar Anda secara mendalam.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    {{-- SECTION 4 - TEAM MEMBER --}}
+    <section class="px-4 py-16 mt-15">
+        <div class="container mx-auto ">
+            {{-- Header Section --}}
+            <header class="text-center mb-28">
+                <h2 class="text-outline font-black" style="font-size: 130px; line-height: 1;">
+                    OUR
+                </h2>
+                <div class="inline-block bg-black text-white px-8 py-2 -mt-2">
+                    <h3 class="text-7xl font-bold tracking-widest">TEAM MEMBER</h3>
+                </div>
+            </header>
+
+            {{-- Grid untuk Anggota Tim --}}
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-12">
+
+                {{-- Anggota 1: Ravelin --}}
+                <div class="flex flex-col items-center">
+                    <div
+                        class="relative w-[240px] h-[260px] group cursor-pointer transform transition-transform duration-300 hover:-translate-y-[30px]">
+                        <div
+                            class="bg-[#000000] rounded-3xl shadow-lg w-full h-full transition-all duration-300 group-hover:shadow-2xl">
+                        </div>
+
+                        <img src="{{ asset('asset/placeholderteam.png') }}" alt="Team Member"
+                            class="absolute left-1/2 bottom-0 w-auto h-[320px] object-cover rounded-3xl drop-shadow-lg transform -translate-x-1/2" />
+
+                    </div>
+
+                    <div class="mt-6 max-w-[240px] text-center sm:text-left">
+                        <div class="flex items-center justify-center sm:justify-start mb-2">
+                            <span class="text-[30px] font-medium text-black">Ravelin</span>
+                        </div>
+                        <p class="text-[#5E5E5E] leading-relaxed mb-4 text-justify text-[20px]">
+                            Improve well being, grow future leader, become the greatness human
+                        </p>
+                        <a href="{{ route('team.ceo')}}" class="text-blue-600 font-bold hover:underline text-sm">
+                            Find out more &rarr;
+                        </a>
+                    </div>
+                </div>
+
+                {{-- Anggota 2: Robby --}}
+                <div class="flex flex-col items-center">
+                        <div class="relative w-[240px] h-[260px] group cursor-pointer transform transition-transform duration-300 hover:-translate-y-[30px]">
+                            <div class="bg-[#000000] rounded-3xl shadow-lg w-full h-full transition-all duration-300 group-hover:shadow-2xl"></div>
+
+                            <img src="{{ asset('asset/placeholderteam.png') }}" alt="Team Member"
+                                class="absolute left-1/2 bottom-0 w-auto h-[320px] object-cover rounded-3xl drop-shadow-lg transform -translate-x-1/2" />
+                        </div>
+
+                        <div class="mt-6 max-w-[240px] text-center sm:text-left">
+                            <div class="flex items-center justify-center sm:justify-start mb-2">
+                                <span class="text-[30px] font-medium text-black">Robby</span>
+                            </div>
+                            <p class="text-[#5E5E5E] leading-relaxed mb-4 text-justify text-[20px]">
+                                Improve well being, grow future leader, become the greatness human
+                            </p>
+                            <a href="{{ route('team.cto')}}" class="text-blue-600 font-bold hover:underline text-sm">
+                                Find out more &rarr;
+                            </a>
+                        </div>
+                    </div>
+
+                {{-- Anggota 3: Rifqi --}}
+                <div class="flex flex-col items-center">
+                        <div class="relative w-[240px] h-[260px] group cursor-pointer transform transition-transform duration-300 hover:-translate-y-[30px]">
+                            <div class="bg-[#000000] rounded-3xl shadow-lg w-full h-full transition-all duration-300 group-hover:shadow-2xl"></div>
+
+                            <img src="{{ asset('asset/placeholderteam.png') }}" alt="Team Member"
+                                class="absolute left-1/2 bottom-0 w-auto h-[320px] object-cover rounded-3xl drop-shadow-lg transform -translate-x-1/2" />
+                        </div>
+
+                        <div class="mt-6 max-w-[240px] text-center sm:text-left">
+                            <div class="flex items-center justify-center sm:justify-start mb-2">
+                                <span class="text-[30px] font-medium text-black">Rifqi</span>
+                            </div>
+                            <p class="text-[#5E5E5E] leading-relaxed mb-4 text-justify text-[20px]">
+                                Improve well being, grow future leader, become the greatness human
+                            </p>
+                            <a href="{{ route('team.hrmanager')}}" class="text-blue-600 font-bold hover:underline text-sm">
+                                Find out more &rarr;
+                            </a>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+    </section>
 @endsection

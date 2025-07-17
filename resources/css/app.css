@@ -49,3 +49,10 @@
   opacity: 1;
   transform: translateY(0);
 }
+
+/* section 3 - team member */
+.text-outline {
+    color: transparent;
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: black;
+}

@@ -12,6 +12,10 @@ Route::get('/header', function () {
     return view('header');
 });
 
+Route::view('/team/ravelin-lutfhan','team.ceo')->name('team.ceo');
+Route::view('/team/rizky-amalia','team.cto')->name('team.cto');
+Route::view('/team/rafi-amirudin','team.hrmanager')->name('team.hrmanager');
+
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);

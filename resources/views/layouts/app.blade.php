@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title', 'EDULIVE')</title>
 
+
     {{-- HANYA GUNAKAN INI: Memuat semua CSS & JS melalui Vite --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
