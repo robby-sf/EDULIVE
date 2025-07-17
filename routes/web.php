@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     return view('homepage');
@@ -27,4 +28,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', function () {
         return view('homepage');
     })->name('homepage');
+
+     Route::prefix('profile')->name('profile.')->group(function () {
+        Route::get('/', [ProfileController::class, 'index'])->name('index');
+        Route::post('/biodata', [ProfileController::class, 'updateBiodata'])->name('update.biodata');
+        Route::post('/summary', [ProfileController::class, 'updateSummary'])->name('update.summary');
+
+        // Education Routes
+        Route::prefix('education')->name('education.')->group(function () {
+            Route::post('/', [ProfileController::class, 'storeEducation'])->name('store');
+            Route::put('/{education}', [ProfileController::class, 'updateEducation'])->name('update');
+            Route::delete('/{education}', [ProfileController::class, 'destroyEducation'])->name('destroy');
+        });
+    });
 });

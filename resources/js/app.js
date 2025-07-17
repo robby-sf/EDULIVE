@@ -205,3 +205,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     observer.observe(section);
 });
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+        console.log('Profile page loaded. Ready for pop-up logic.');
+
+        // Contoh: Event listener untuk tombol "Change Profile"
+        const editBiodataBtn = document.getElementById('edit-biodata-btn');
+        if (editBiodataBtn) {
+            editBiodataBtn.addEventListener('click', function() {
+                // Tampilkan modal/pop-up untuk edit biodata
+                alert('Logic to open Edit Biodata pop-up goes here!');
+            });
+        }
+    });

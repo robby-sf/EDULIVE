@@ -81,7 +81,7 @@
                          <a href="#"
                              class="block py-2 px-2 text-gray-700 tracking-wide font-extralight hover:bg-gray-100 rounded">LEARNING
                              HISTORY</a>
-                         <a href="#"
+                         <a href="{{ route('profile.index') }}"
                              class="block py-2 px-2 text-gray-700 tracking-wide font-extralight hover:bg-gray-100 rounded">MY
                              PROFILE</a>
                      </div>
@@ -102,7 +102,7 @@
                                  class="w-full h-12 flex items-center justify-center text-white text-sm font-medium tracking-wide transition-all duration-300 ease-in-out delay-200 hover:bg-white/10">
                                  LEARNING HISTORY
                              </a>
-                             <a href="#"
+                             <a href="{{ route('profile.index') }}"
                                  class="w-full h-12 flex items-center justify-center text-white text-sm font-medium tracking-wide transition-all duration-300 ease-in-out delay-300 hover:bg-white/10 rounded-b-2xl">
                                  MY PROFILE
                              </a>
@@ -164,7 +164,7 @@
 
                         {{-- Dropdown Menu --}}
                         <div id="profile-menu-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden transition-all duration-300 ease-in-out transform opacity-0 scale-95">
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Profile</a>
+                            <a href="{{ route('profile.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Profile</a>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
