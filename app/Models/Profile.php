@@ -16,6 +16,7 @@ class Profile extends Model
         'address_location',
         'phone_number',
         'personal_summary',
+        'profile_image'
     ];
 
     public function user()

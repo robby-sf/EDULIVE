@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('address_location')->nullable();
             $table->string('phone_number')->nullable();
             $table->text('personal_summary')->nullable();
+            $table->string('profile_image')->nullable();
             $table->timestamps();
         });
     }

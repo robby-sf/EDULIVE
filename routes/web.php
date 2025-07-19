@@ -6,9 +6,9 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicProfileController;
 
-Route::get('/', function () {
-    return view('homepage');
-})->name('homepage');
+// Route::get('/', function () {
+//     return view('homepage');
+// })->name('homepage');
 
 Route::get('/header', function () {
     return view('header');
@@ -36,6 +36,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', [ProfileController::class, 'index'])->name('index');
         Route::post('/biodata', [ProfileController::class, 'updateBiodata'])->name('update.biodata');
         Route::post('/summary', [ProfileController::class, 'updateSummary'])->name('update.summary');
+        Route::post('/picture', [ProfileController::class, 'updatePicture'])->name('update.picture');
 
         // Education Routes
         Route::prefix('education')->name('education.')->group(function () {

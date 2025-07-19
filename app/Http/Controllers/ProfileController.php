@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Education;
 use Exception;
 
@@ -58,6 +59,34 @@ class ProfileController extends Controller
                 'message' => 'An unexpected error occurred. Please try again later.',
             ], 500);
         }
+    }
+
+    public function updatePicture(Request $request)
+    {
+        $request->validate([
+            'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi: harus gambar, maks 2MB
+        ]);
+
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $profile = $user->profile()->firstOrCreate(['user_id' => $user->id]);
+
+        // Hapus gambar lama jika ada
+        if ($profile->profile_image && Storage::disk('public')->exists($profile->profile_image)) {
+            Storage::disk('public')->delete($profile->profile_image);
+        }
+
+        // Simpan gambar baru dan dapatkan path-nya
+        $path = $request->file('profile_image')->store('avatars', 'public');
+
+        // Update path gambar di database
+        $profile->update(['profile_image' => $path]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Profile picture updated successfully!',
+            'path' => $path
+        ]);
     }
 
     public function updateSummary(Request $request) {

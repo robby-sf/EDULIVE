@@ -27,6 +27,23 @@ export function initProfile() {
             "notification-close-btn"
         );
 
+        // --- FOTO PROFIL ---
+        const editPictureBtn = document.getElementById("edit-picture-btn");
+        const pictureUploadModal = document.getElementById(
+            "picture-upload-modal"
+        );
+        const cancelUploadBtn = document.getElementById("cancel-upload-btn");
+        const pictureUploadForm = document.getElementById(
+            "picture-upload-form"
+        );
+        const profilePictureDisplay = document.getElementById(
+            "profile-picture-display"
+        );
+        const openPictureModal = () =>
+            pictureUploadModal?.classList.remove("hidden");
+        const closePictureModal = () =>
+            pictureUploadModal?.classList.add("hidden");
+
         // Elemen-elemen form lainnya
         const countrySelect = document.getElementById("country");
         const stateSelect = document.getElementById("state");
@@ -59,6 +76,33 @@ export function initProfile() {
         const previewProfileLinkBtn = document.getElementById(
             "preview-profile-link-btn"
         );
+
+        const addSummaryBtn = document.getElementById('add-summary-btn');
+const editSummaryBtn = document.getElementById('edit-summary-btn');
+const summaryModal = document.getElementById('summary-modal');
+const summaryModalContent = document.getElementById('summary-modal-content'); // Ambil elemen konten
+const closeSummaryModalBtn = document.getElementById('close-summary-modal-btn');
+const cancelSummaryModalBtn = document.getElementById('cancel-summary-modal-btn');
+const summaryForm = document.getElementById('summary-form');
+
+const openSummaryModal = () => {
+    if (summaryModal && summaryModalContent) {
+        summaryModal.classList.remove('hidden');
+        void summaryModal.offsetWidth; // Memicu reflow browser
+        summaryModal.classList.remove('opacity-0');
+        summaryModalContent.classList.remove('opacity-0', 'scale-95');
+        summaryModalContent.classList.add('opacity-100', 'scale-100');
+    }
+};
+
+const closeSummaryModal = () => {
+    if (summaryModal && summaryModalContent) {
+        summaryModalContent.classList.remove('opacity-100', 'scale-100');
+        summaryModalContent.classList.add('opacity-0', 'scale-95');
+        summaryModal.classList.add('opacity-0');
+        setTimeout(() => summaryModal.classList.add('hidden'), 300); // Sesuaikan durasi dengan transisi
+    }
+};
 
         // --- Fungsi BARU untuk Modal Share Profile ---
         const openShareModal = () => {
@@ -329,6 +373,79 @@ export function initProfile() {
         };
 
         // --- EVENTS ---
+
+        // --- FOTO PROFIL ---
+        editPictureBtn?.addEventListener("click", openPictureModal);
+        cancelUploadBtn?.addEventListener("click", closePictureModal);
+
+        pictureUploadForm?.addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const submitButton = this.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.textContent = "Uploading...";
+
+            try {
+                const response = await axios.post(this.action, formData, {
+                    headers: { "Content-Type": "multipart/form-data" },
+                });
+
+                if (response.data.success) {
+                    // Update gambar di halaman tanpa reload
+                    const newImagePath = `/storage/${
+                        response.data.path
+                    }?t=${new Date().getTime()}`;
+                    profilePictureDisplay.src = newImagePath;
+
+                    showNotification("Success!", response.data.message, true);
+                    closePictureModal();
+                }
+            } catch (error) {
+                const errorMessage =
+                    error.response?.data?.message ||
+                    "Upload failed. Please try again.";
+                showNotification("Woopsie!", errorMessage, false);
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = "Upload";
+            }
+        });
+
+        // --- SUMMARY ---
+        addSummaryBtn?.addEventListener('click', openSummaryModal);
+editSummaryBtn?.addEventListener('click', openSummaryModal);
+closeSummaryModalBtn?.addEventListener('click', closeSummaryModal);
+cancelSummaryModalBtn?.addEventListener('click', closeSummaryModal);
+summaryModal?.addEventListener('click', (e) => {
+    if (e.target === summaryModal) {
+        closeSummaryModal();
+    }
+});
+
+    summaryForm?.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        const saveBtn = this.querySelector('button[type="submit"]');
+        saveBtn.disabled = true;
+        saveBtn.textContent = "Saving...";
+
+        try {
+            const response = await axios.post(this.action, formData);
+            if (response.data.success) {
+                showNotification('Success!', response.data.message, true);
+                // Refresh halaman untuk melihat perubahan
+                setTimeout(() => window.location.reload(), 1500);
+            }
+        } catch (error) {
+            const errorMessage = error.response?.data?.message || 'Save failed. Please try again.';
+            showNotification('Woopsie!', errorMessage, false);
+        } finally {
+            saveBtn.disabled = false;
+            saveBtn.textContent = "Save";
+            closeSummaryModal();
+        }
+    });
 
         // --- Event Listeners BARU untuk Modal Share Profile ---
         shareProfileBtn?.addEventListener("click", openShareModal);

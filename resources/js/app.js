@@ -7,6 +7,7 @@ import { initProfile } from './components/profile.js';
 initNavigation();
 initHomepage();
 initProfile();
+initEducationModal();
 
 // // menu toggle dll
 // const menuToggle = document.getElementById("menu-toggle");

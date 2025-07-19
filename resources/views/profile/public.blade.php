@@ -11,8 +11,11 @@
 
                 {{-- FOTO PROFIL --}}
                 <div class="relative flex-shrink-0">
-                    <div class="w-40 h-40 md:w-48 md:h-48 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden shadow-md">
-                        <span class="text-7xl font-bold text-gray-500">{{ strtoupper(substr($user->name, 0, 1)) }}</span>
+                    <div class="w-40 h-40 md:w-48 md:h-48 rounded-full shadow-md">
+                        {{-- Menampilkan gambar dari storage atau fallback dari UI Avatars --}}
+                        <img src="{{ $user->profile?->profile_image ? asset('storage/' . $user->profile->profile_image) : 'https://ui-avatars.com/api/?name=' . urlencode($user->name) . '&background=EBF4FF&color=7F9CF5&size=192' }}"
+                             alt="Profile picture of {{ $user->name }}"
+                             class="w-full h-full rounded-full object-cover">
                     </div>
                 </div>
 
