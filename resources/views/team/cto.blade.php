@@ -34,9 +34,10 @@
 
             <div class="relative w-full max-w-xs lg:w-2/5 flex-shrink-0">
                 <div class="bg-gradient-to-t from-blue-600 to-blue-400 h-96 w-full rounded-2xl shadow-lg"></div>
-                <img src="{{ asset('asset/placeholderteam.png') }}" alt="Foto Member"
-                    class="absolute bottom-0 left-1/2 -translate-x-1/2 h-[26rem] w-auto object-contain filter grayscale">
+                <img src="{{ asset('asset/robysep.png') }}" alt="Foto Member"
+                    class="absolute bottom-[-48px] left-1/2 -translate-x-1/2 h-[26rem] w-[600px] object-contain">
             </div>
+
 
             <div class="w-full lg:w-3/5 flex flex-col justify-between self-stretch">
 
@@ -83,16 +84,16 @@
 
                 <div class="flex justify-between items-center mt-8 pt-6 border-t border-gray-200">
                     <div class="flex space-x-5">
-                         <a href="mailto:ravelinlutfhanrlsp@gmail.com" class="relative group h-7 w-7">
+                         <a href="mailto:robbyrobby9889@gmail.com" class="relative group h-7 w-7">
                             <img src="{{ asset('asset/Gmailgray.png') }}" alt="Email" class="absolute inset-0 w-full h-full object-contain opacity-100 group-hover:opacity-0 transition-opacity duration-300">
                             <img src="{{ asset('asset/Gmailblue.png') }}" alt="Email Hover" class="absolute inset-0 w-full h-full object-contain opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         </a>
 
-                        <a href="https://www.instagram.com/ravelinluth/" class="relative group h-7 w-7">
+                        <a href="https://www.instagram.com/robby.sf_/" class="relative group h-7 w-7">
                             <img src="{{ asset('asset/Instagramgray.png') }}" alt="Instagram" class="absolute inset-0 w-full h-full object-contain opacity-100 group-hover:opacity-0 transition-opacity duration-300">
                             <img src="{{ asset('asset/Instagramblue.png') }}" alt="Instagram Hover" class="absolute inset-0 w-full h-full object-contain opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         </a>
-                        <a href="https://www.linkedin.com/in/ravelin-syach-97460028a/" class="relative group h-7 w-7">
+                        <a href="https://www.linkedin.com/in/robby-septian-fajar-2b7b4b253/?originalSubdomain=id" class="relative group h-7 w-7">
                             <img src="{{ asset('asset/LinkedIngray.png') }}" alt="LinkedIn" class="absolute inset-0 w-full h-full object-contain opacity-100 group-hover:opacity-0 transition-opacity duration-300">
                             <img src="{{ asset('asset/LinkedInblue.png') }}" alt="LinkedIn Hover" class="absolute inset-0 w-full h-full object-contain opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         </a>

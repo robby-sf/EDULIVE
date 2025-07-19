@@ -25,11 +25,14 @@ class ProfileController extends Controller
 
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
-                'address_location' => 'nullable|string|max:255',
-                'phone_number' => 'nullable|string|max:20',
+                'address_location' => 'required|string|max:255',
+                'phone_number' => 'required|string|max:20',
+            ], [
+                'name.required' => 'Nama harus diisi.',
+                'address_location.required' => 'Alamat harus diisi.',
+                'phone_number.required' => 'Nomor telepon harus diisi.',
             ]);
 
-            // Gabungkan dua operasi dalam satu transaksi database
             DB::transaction(function () use ($user, $validated) {
                 $user->update(['name' => $validated['name']]);
 
@@ -48,13 +51,12 @@ class ProfileController extends Controller
             ]);
 
         } catch (Exception $e) {
-            // Catat error untuk debugging
             Log::error('Error updating biodata: ' . $e->getMessage());
 
             return response()->json([
                 'success' => false,
                 'message' => 'An unexpected error occurred. Please try again later.',
-            ], 500); // Kirim status error server
+            ], 500);
         }
     }
 

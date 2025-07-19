@@ -208,8 +208,8 @@
                         class="bg-[#000000] rounded-3xl shadow-lg w-full h-full transition-all duration-300 group-hover:shadow-2xl">
                     </div>
 
-                    <img src="{{ asset('asset/placeholderteam.png') }}" alt="Team Member"
-                        class="absolute left-1/2 bottom-0 w-auto h-[320px] object-cover rounded-3xl drop-shadow-lg transform -translate-x-1/2" />
+                    <img src="{{ asset('asset/robysep.png') }}" alt="Team Member"
+                        class="absolute left-[55%] bottom-0 w-auto h-[320px] object-cover rounded-3xl drop-shadow-lg transform -translate-x-1/2" />
                 </div>
 
                 <div class="mt-6 max-w-[240px] text-center sm:text-left">

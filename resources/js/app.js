@@ -1,5 +1,6 @@
 import "./bootstrap";
 
+// menu toggle dll
 const menuToggle = document.getElementById("menu-toggle");
 const menu = document.getElementById("menu");
 const menuOverlay = document.getElementById("menu-overlay");
@@ -43,6 +44,9 @@ window.addEventListener("click", (event) => {
     }
 });
 
+
+
+
 // Profile Dropdown
 document.addEventListener("DOMContentLoaded", function () {
     const profileButton = document.getElementById("profile-menu-button");
@@ -84,6 +88,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+
+
+
 // EventListener Section 1 HOMEPAGE
 document.addEventListener("DOMContentLoaded", function () {
     const titleText = "EDULIVE";
@@ -124,6 +131,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+
+
+
 //spline load section 1 HOMEPAGE (Not Affected For Spline Now)
 document.addEventListener("DOMContentLoaded", function () {
     const splineModel = document.getElementById("spline-model");
@@ -134,6 +144,10 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+
+
+
+
 
 // EventListener Section 2 HOMEPAGE
 document.addEventListener("DOMContentLoaded", () => {
@@ -161,6 +175,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+
+
+
 
 // EventListener Section 4 HOMEPAGE
 document.addEventListener("DOMContentLoaded", () => {
@@ -192,6 +209,9 @@ document.addEventListener("DOMContentLoaded", () => {
     observer.observe(teamSection);
 });
 
+
+
+
 // EventListener Section 5 HOMEPAGE
 document.addEventListener("DOMContentLoaded", () => {
     const section = document.querySelector("#get-ready-section");
@@ -220,103 +240,162 @@ document.addEventListener("DOMContentLoaded", () => {
     observer.observe(section);
 });
 
+
+
+// EventListener profile biodata , education, dll
 document.addEventListener("DOMContentLoaded", () => {
     // --- ELEMENTS ---
     const editBiodataBtn = document.getElementById("edit-biodata-btn");
     const biodataModal = document.getElementById("biodata-modal");
-    const biodataModalContent = document.getElementById(
-        "biodata-modal-content"
-    );
+    const biodataModalContent = document.getElementById("biodata-modal-content");
     const closeBiodataModalBtn = document.getElementById("close-biodata-modal");
-    const cancelBiodataModalBtn = document.getElementById(
-        "cancel-biodata-modal"
-    );
+    const cancelBiodataModalBtn = document.getElementById("cancel-biodata-modal");
     const biodataForm = document.getElementById("biodata-form");
-    const notification = document.getElementById("notification");
-    const notificationMessage = document.getElementById("notification-message");
 
+    // Elemen-elemen untuk notifikasi baru yang lebih detail
+    const notification = document.getElementById("notification");
+    const notificationTitle = document.getElementById("notification-title");
+    const notificationMessage = document.getElementById("notification-message");
+    const notificationIconContainer = document.getElementById("notification-icon-container");
+    const notificationCloseBtn = document.getElementById("notification-close-btn");
+
+    // Elemen-elemen form lainnya
     const countrySelect = document.getElementById("country");
     const stateSelect = document.getElementById("state");
     const citySelect = document.getElementById("city");
-    const phoneCodeSelect = document.getElementById("phone_code");
     const phoneNumberInput = document.getElementById("phone_number_input");
     const hiddenAddressLocation = document.getElementById("address_location");
     const hiddenPhoneNumber = document.getElementById("phone_number");
     let countriesData = [];
 
-
+    // Sebaiknya simpan API Key di file .env untuk keamanan
     const API_KEY = "RmxzNnpCNlBiTUVzYWJFWlFmdm5tUFRlOEZBU0xxQ0hQQVIzaFFDRw==";
 
-    // --- FUNGSI BARU UNTUK MENGATUR LOKASI AWAL ---
-    const setInitialLocation = async (addressString) => {
-        if (!addressString) {
-            // Jika tidak ada alamat, tetap populate negara dan kode telepon
-            await populateCountries();
-            return;
-        };
+     // --- Elemen BARU untuk Modal Share Profile ---
+    const shareProfileBtn = document.getElementById("share-profile-btn");
+    const shareModal = document.getElementById("share-modal");
+    const shareModalContent = document.getElementById("share-modal-content");
+    const closeShareModalBtn = document.getElementById("close-share-modal-btn");
+    const profileLinkDisplay = document.getElementById("profile-link-display");
+    const copyProfileLinkBtn = document.getElementById("copy-profile-link-btn");
+    const previewProfileLinkBtn = document.getElementById("preview-profile-link-btn");
 
-        // Pisahkan string alamat menjadi City, State, Country
-        const parts = addressString.split(",").map((part) => part.trim());
-        if (parts.length < 3) {
-            await populateCountries();
-            return;
-        }
-
-        const [cityName, stateName, countryName] = parts;
-
-        try {
-            // 1. Populate negara dan tunggu selesai
-            await populateCountries();
-
-            // 2. Cari dan pilih negara yang sesuai
-            const countryOption = Array.from(countrySelect.options).find(
-                (opt) => opt.text === countryName
-            );
-
-            if (countryOption) {
-                countrySelect.value = countryOption.value;
-                // Trigger event change SECARA MANUAL untuk memastikan semua listener berjalan
-                countrySelect.dispatchEvent(new Event('change'));
-
-                // 3. Tunggu state selesai di-load
-                await populateStates(countryOption.value);
-
-                // 4. Cari dan pilih state/provinsi yang sesuai
-                const stateOption = Array.from(stateSelect.options).find(
-                    (opt) => opt.text === stateName
-                );
-
-                if (stateOption) {
-                    stateSelect.value = stateOption.value;
-                    // Trigger event change untuk memuat kota
-                    await populateCities(countrySelect.value, stateOption.value);
-
-                    // 5. Pilih kota yang sesuai
-                    const cityOption = Array.from(citySelect.options).find(
-                        (opt) => opt.text === cityName
-                    );
-                    if (cityOption) {
-                        citySelect.value = cityOption.value;
-                    }
-                }
-            }
-        } catch (error) {
-            console.error("Failed to set initial location:", error);
-            showNotification("Could not pre-fill location data.", false);
-        }
+    // --- Fungsi BARU untuk Modal Share Profile ---
+    const openShareModal = () => {
+        if (!shareModal || !shareProfileBtn) return;
+        const profileUrl = shareProfileBtn.dataset.shareUrl;
+        profileLinkDisplay.value = profileUrl;
+        previewProfileLinkBtn.href = profileUrl;
+        shareModal.classList.remove("hidden");
+        void shareModal.offsetWidth;
+        shareModal.classList.remove("opacity-0");
+        shareModalContent.classList.remove("opacity-0", "scale-95");
+        shareModalContent.classList.add("opacity-100", "scale-100");
     };
 
-    // --- MODAL CONTROL (MODIFIKASI) ---
+    const closeShareModal = () => {
+        if (!shareModal) return;
+        shareModalContent.classList.remove("opacity-100", "scale-100");
+        shareModalContent.classList.add("opacity-0", "scale-95");
+        shareModal.classList.add("opacity-0");
+        setTimeout(() => shareModal.classList.add("hidden"), 300);
+    };
+
+    const copyProfileLink = () => {
+        if (!profileLinkDisplay) return;
+        navigator.clipboard.writeText(profileLinkDisplay.value).then(() => {
+            showNotification('Copied!', 'Profile link copied to clipboard.', true);
+            closeShareModal();
+        }).catch(err => {
+            showNotification('Woopsie!', 'Failed to copy link.', false);
+        });
+    };
+
+    // --- FUNGSI NOTIFIKASI BARU (MODIFIKASI TOTAL) ---
+    /**
+     * Menampilkan notifikasi universal.
+     * @param {string} title - Judul notifikasi (cth: "Successful!" atau "Woopsie!").
+     * @param {string} message - Pesan detail notifikasi.
+     * @param {boolean} isSuccess - Menentukan apakah ini notifikasi sukses (true) atau gagal (false).
+     */
+
+    const notificationContent = document.getElementById("notification-content");
+
+    const showNotification = (title, message, isSuccess = true) => {
+    if (!notification || !notificationTitle || !notificationMessage || !notificationIconContainer || !notificationContent) {
+        console.error("Elemen notifikasi tidak ditemukan!");
+        return;
+    }
+
+    // Set judul dan pesan
+    notificationTitle.textContent = title;
+    notificationMessage.textContent = message;
+
+    // Reset ikon dan warna
+    notificationIconContainer.innerHTML = '';
+    notificationIconContainer.classList.remove('bg-green-100', 'bg-red-100');
+
+    if (isSuccess) {
+        // --- Style untuk notifikasi SUKSES ---
+        notificationIconContainer.classList.add('bg-green-100');
+        notificationIconContainer.innerHTML = `
+            <svg class="w-12 h-12 text-green-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+            </svg>`;
+    } else {
+        // --- Style untuk notifikasi GAGAL ---
+        notificationIconContainer.classList.add('bg-red-100');
+        notificationIconContainer.innerHTML = `
+            <svg class="w-12 h-12 text-red-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>`;
+    }
+
+    // Tampilkan notifikasi
+    notification.classList.remove("hidden");
+    // Paksa browser untuk me-render elemen sebelum memulai transisi
+    void notification.offsetWidth;
+
+    // Animasi muncul: scale up dan fade in
+    notification.classList.add('-translate-x-1/2', '-translate-y-1/2');
+    notificationContent.classList.remove("opacity-0", "scale-95");
+    notificationContent.classList.add("opacity-100", "scale-100");
+
+
+    // Sembunyikan otomatis setelah 3 detik
+    setTimeout(() => {
+        hideNotification();
+    }, 3000);
+};
+
+const hideNotification = () => {
+    if (!notification || !notificationContent) return;
+
+    // Animasi hilang: scale down dan fade out
+    notificationContent.classList.remove("opacity-100", "scale-100");
+    notificationContent.classList.add("opacity-0", "scale-95");
+
+    // Sembunyikan elemen setelah animasi selesai
+    setTimeout(() => {
+        notification.classList.add("hidden");
+        // Hapus kelas transform agar posisi reset untuk pemanggilan berikutnya
+        notification.classList.remove('-translate-x-1/2', '-translate-y-1/2');
+    }, 300); // 300ms sesuai durasi transisi
+};
+
+
+    // Tambahkan event listener untuk tombol close pada notifikasi
+    notificationCloseBtn?.addEventListener('click', hideNotification);
+
+
+    // --- MODAL CONTROL ---
     const openModal = () => {
         if (!biodataModal || !biodataModalContent) return;
-
         biodataModal.classList.remove("hidden");
         void biodataModal.offsetWidth;
         biodataModal.classList.add("opacity-100");
         biodataModalContent.classList.remove("scale-95", "opacity-0");
         biodataModalContent.classList.add("scale-100", "opacity-100");
-
-        // Ambil alamat dari atribut data-* dan set lokasi
         const savedAddress = editBiodataBtn.dataset.address;
         setInitialLocation(savedAddress);
     };
@@ -328,162 +407,149 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => biodataModal.classList.add("hidden"), 300);
     };
 
-    // --- NOTIFICATION ---
-    const showNotification = (message, isSuccess = true) => {
-        if (!notification || !notificationMessage) return;
-        notificationMessage.textContent = message;
-        notification.className = `fixed top-5 right-5 px-6 py-3 rounded-lg shadow-lg text-white transition-all duration-300 transform ${
-            isSuccess ? "bg-green-500" : "bg-red-500"
-        }`;
 
-        notification.classList.remove("hidden", "translate-x-full");
-        notification.classList.add("translate-x-0");
-
-        setTimeout(() => {
-            notification.classList.remove("translate-x-0");
-            notification.classList.add("translate-x-full");
-            setTimeout(() => notification.classList.add("hidden"), 300);
-        }, 3000);
+    // --- FUNGSI LOKASI & API (Tidak ada perubahan, tapi panggilannya diupdate) ---
+    const setInitialLocation = async (addressString) => {
+        if (!addressString) {
+            await populateCountries();
+            return;
+        }
+        const parts = addressString.split(",").map((part) => part.trim());
+        if (parts.length < 3) {
+            await populateCountries();
+            return;
+        }
+        const [cityName, stateName, countryName] = parts;
+        try {
+            await populateCountries();
+            const countryOption = Array.from(countrySelect.options).find(opt => opt.text === countryName);
+            if (countryOption) {
+                countrySelect.value = countryOption.value;
+                countrySelect.dispatchEvent(new Event('change'));
+                await populateStates(countryOption.value);
+                const stateOption = Array.from(stateSelect.options).find(opt => opt.text === stateName);
+                if (stateOption) {
+                    stateSelect.value = stateOption.value;
+                    stateSelect.dispatchEvent(new Event('change'));
+                    await populateCities(countrySelect.value, stateOption.value);
+                    const cityOption = Array.from(citySelect.options).find(opt => opt.text === cityName);
+                    if (cityOption) {
+                        citySelect.value = cityOption.value;
+                    }
+                }
+            }
+        } catch (error) {
+            console.error("Failed to set initial location:", error);
+            // Panggilan notifikasi diupdate
+            showNotification("Woopsie!", "Could not pre-fill location data.", false);
+        }
     };
 
-    // --- API DATA ---
     const fetchWithKey = async (url) => {
-        const response = await fetch(url, {
-            headers: { "X-CSCAPI-KEY": API_KEY },
-        });
+        const response = await fetch(url, { headers: { "X-CSCAPI-KEY": API_KEY } });
         if (!response.ok) throw new Error("API request failed");
         return response.json();
     };
 
     const populateCountries = async () => {
-    try {
-        const response = await fetch(
-            "https://api.countrystatecity.in/v1/countries",
-            {
-                headers: { "X-CSCAPI-KEY": API_KEY },
-            }
-        );
-        if (!response.ok) throw new Error("Failed to fetch countries");
-
-        const countries = await response.json();
-        countriesData = countries;
-
-        // Kosongkan select box negara sebelum diisi
-        countrySelect.innerHTML = '<option value="">Select Country</option>';
-
-        // Isi dropdown negara
-        countries.forEach((country) => {
-            countrySelect.appendChild(
-                new Option(country.name, country.iso2)
-            );
-        });
-
-        console.log("Country data populated successfully.");
-    } catch (error) {
-        console.error("Error populating countries:", error);
-        showNotification("Failed to load country data.", false);
-    }
-};
+        try {
+            const countries = await fetchWithKey("https://api.countrystatecity.in/v1/countries");
+            countriesData = countries;
+            countrySelect.innerHTML = '<option value="">Select Country</option>';
+            countries.forEach((country) => countrySelect.appendChild(new Option(country.name, country.iso2)));
+        } catch (error) {
+            console.error("Error populating countries:", error);
+            // Panggilan notifikasi diupdate
+            showNotification("Woopsie!", "Failed to load country data.", false);
+        }
+    };
 
     const populateStates = async (countryId) => {
         if (!countryId) return;
-
         stateSelect.disabled = true;
         citySelect.disabled = true;
         stateSelect.innerHTML = "<option>Loading States...</option>";
         citySelect.innerHTML = "<option>Select City</option>";
-
         try {
-            const states = await fetchWithKey(
-                `https://api.countrystatecity.in/v1/countries/${countryId}/states`
-            );
+            const states = await fetchWithKey(`https://api.countrystatecity.in/v1/countries/${countryId}/states`);
             stateSelect.innerHTML = '<option value="">Select State</option>';
             states.forEach((s) => stateSelect.add(new Option(s.name, s.iso2)));
             stateSelect.disabled = false;
         } catch (e) {
-            console.error(e);
             stateSelect.innerHTML = '<option value="">Failed to load</option>';
         }
     };
 
     const populateCities = async (countryId, stateId) => {
         if (!countryId || !stateId) return;
-
         citySelect.disabled = true;
         citySelect.innerHTML = "<option>Loading Cities...</option>";
-
         try {
-            const cities = await fetchWithKey(
-                `https://api.countrystatecity.in/v1/countries/${countryId}/states/${stateId}/cities`
-            );
+            const cities = await fetchWithKey(`https://api.countrystatecity.in/v1/countries/${countryId}/states/${stateId}/cities`);
             citySelect.innerHTML = '<option value="">Select City</option>';
             cities.forEach((c) => citySelect.add(new Option(c.name, c.name)));
             citySelect.disabled = false;
         } catch (e) {
-            console.error(e);
             citySelect.innerHTML = '<option value="">Failed to load</option>';
         }
     };
 
+
     // --- EVENTS ---
+
+    // --- Event Listeners BARU untuk Modal Share Profile ---
+    shareProfileBtn?.addEventListener("click", openShareModal);
+    closeShareModalBtn?.addEventListener("click", closeShareModal);
+    copyProfileLinkBtn?.addEventListener("click", copyProfileLink);
+    shareModal?.addEventListener("click", (e) => {
+        // Menutup modal jika klik di area luar konten (backdrop)
+        if (e.target === shareModal) closeShareModal();
+    });
+
     editBiodataBtn?.addEventListener("click", openModal);
     closeBiodataModalBtn?.addEventListener("click", closeModal);
     cancelBiodataModalBtn?.addEventListener("click", closeModal);
     biodataModal?.addEventListener("click", (e) => {
         if (e.target === biodataModal) closeModal();
     });
+    countrySelect?.addEventListener("change", (e) => populateStates(e.target.value));
+    stateSelect?.addEventListener("change", (e) => populateCities(countrySelect.value, e.target.value));
 
-    countrySelect?.addEventListener("change", async (e) => {
-    const countryId = e.target.value;
-    await populateStates(countryId);
-});
-    stateSelect?.addEventListener("change", (e) =>
-        populateCities(countrySelect.value, e.target.value)
-    );
 
-    // --- FORM SUBMISSION ---
+    // --- FORM SUBMISSION (PANGGILAN NOTIFIKASI DIUPDATE) ---
     biodataForm?.addEventListener("submit", async function (event) {
-    event.preventDefault();
+        event.preventDefault();
 
-    const countryText = countrySelect?.options[countrySelect.selectedIndex]?.text;
-    const stateText = stateSelect?.options[stateSelect.selectedIndex]?.text;
-    const cityText = citySelect?.options[citySelect.selectedIndex]?.text;
+        const countryText = countrySelect?.options[countrySelect.selectedIndex]?.text;
+        const stateText = stateSelect?.options[stateSelect.selectedIndex]?.text;
+        const cityText = citySelect?.options[citySelect.selectedIndex]?.text;
 
-    if (
-        hiddenAddressLocation &&
-        cityText &&
-        stateText &&
-        countryText &&
-        cityText !== "Select City" &&
-        stateText !== "Select State" &&
-        countryText !== "Select Country"
-    ) {
-        hiddenAddressLocation.value = `${cityText}, ${stateText}, ${countryText}`;
-    }
+        if (hiddenAddressLocation && cityText && stateText && countryText && cityText !== "Select City" && stateText !== "Select State" && countryText !== "Select Country") {
+            hiddenAddressLocation.value = `${cityText}, ${stateText}, ${countryText}`;
+        }
 
-    // Cukup ambil nilai dari input nomor telepon
-    if (hiddenPhoneNumber && phoneNumberInput.value) {
-        hiddenPhoneNumber.value = phoneNumberInput.value;
-    }
+        if (hiddenPhoneNumber && phoneNumberInput.value) {
+            hiddenPhoneNumber.value = phoneNumberInput.value;
+        }
 
-    const formData = new FormData(this);
-    const saveBtn = this.querySelector('button[type="submit"]');
-    saveBtn.disabled = true;
-    saveBtn.textContent = "Saving...";
+        const formData = new FormData(this);
+        const saveBtn = this.querySelector('button[type="submit"]');
+        saveBtn.disabled = true;
+        saveBtn.textContent = "Saving...";
 
-    try {
-        const response = await axios.post(this.action, formData);
-        closeModal();
-        showNotification(response.data.message, true);
-        setTimeout(() => window.location.reload(), 1500);
-    } catch (error) {
-        const errorMessage =
-            error.response?.data?.message ||
-            "An error occurred. Please try again.";
-        showNotification(errorMessage, false);
-    } finally {
-        saveBtn.disabled = false;
-        saveBtn.textContent = "Save";
-    }
-});
+        try {
+            const response = await axios.post(this.action, formData);
+            closeModal();
+            // Panggil notifikasi baru dengan JUDUL dan PESAN
+            showNotification('Successful!', response.data.message, true);
+            setTimeout(() => window.location.reload(), 1500);
+        } catch (error) {
+            const errorMessage = error.response?.data?.message || "An error occurred. Please try again.";
+            // Panggil notifikasi baru dengan JUDUL dan PESAN
+            showNotification('Woopsie!', errorMessage, false);
+        } finally {
+            saveBtn.disabled = false;
+            saveBtn.textContent = "Save";
+        }
+    });
 });

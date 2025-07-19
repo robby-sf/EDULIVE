@@ -71,7 +71,8 @@
                             class="px-5 py-2.5 bg-white text-black text-sm font-medium border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 transition">
                             Change Profile
                         </button>
-                        <button
+                        <button id="share-profile-btn"
+                            data-share-url="{{ route('profile.public', ['user' => $user->name]) }}"
                             class="px-5 py-2.5 bg-white text-black text-sm font-medium border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 transition">
                             Share
                         </button>
@@ -154,6 +155,7 @@
         </div>
 
         @include('profile.biodata-form')
+        @include('partials.share-modal')
     </div>
     </div>
 @endsection

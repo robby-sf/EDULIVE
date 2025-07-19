@@ -91,3 +91,9 @@
     -webkit-backdrop-filter: blur(4px); /* Setara dengan backdrop-blur-sm */
     backdrop-filter: blur(4px);
 }
+
+#share-modal.modal-overlay {
+  background-color: rgba(17, 24, 39, 0.6); /* Setara dengan bg-gray-900 bg-opacity-60 */
+  -webkit-backdrop-filter: blur(4px);      /* Setara dengan backdrop-blur-sm untuk Safari */
+  backdrop-filter: blur(4px);              /* Setara dengan backdrop-blur-sm */
+}
