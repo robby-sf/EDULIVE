@@ -83,6 +83,9 @@
                         <input name="name" type="text" placeholder="Enter your fullname"
                             value="{{ old('name') }}" required autocomplete="name"
                             class="w-full h-12 bg-white/5 rounded-lg border border-white/10 pl-12 pr-4 text-zinc-300 placeholder-zinc-500 font-light focus:outline-none focus:ring-1 focus:ring-blue-500">
+                            @error('name')
+                            <p class="text-red-400 text-xs mt-2">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     {{-- Email --}}
@@ -93,6 +96,9 @@
                         <input name="email" type="email" placeholder="Enter your email" value="{{ old('email') }}"
                             required autocomplete="email"
                             class="w-full h-12 bg-white/5 rounded-lg border border-white/10 pl-12 pr-4 text-zinc-300 placeholder-zinc-500 font-light focus:outline-none focus:ring-1 focus:ring-blue-500">
+                             @error('email')
+                            <p class="text-red-400 text-xs mt-2">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     {{-- Password --}}
@@ -103,6 +109,9 @@
                         <input id="password" name="password" type="password" placeholder="Enter your password" required
                             autocomplete="new-password"
                             class="w-full h-12 bg-white/5 rounded-lg border border-white/10 pl-12 pr-12 text-zinc-300 placeholder-zinc-500 font-light focus:outline-none focus:ring-1 focus:ring-blue-500">
+                            @error('password')
+                            <p class="text-red-400 text-xs mt-2">{{ $message }}</p>
+                        @enderror
                         <div class="absolute inset-y-0 right-0 flex items-center pr-4 cursor-pointer"
                             onclick="togglePassword('password', 'eyeIcon1')">
                             <i id="eyeIcon1" class="fas fa-eye text-zinc-500 hover:text-white transition"></i>

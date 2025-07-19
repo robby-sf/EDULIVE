@@ -78,13 +78,17 @@
                 <h1 class="text-white text-3xl font-semibold mb-12">WELCOME BACK</h1>
 
                 <form method="POST" action="{{ route('login') }}" class="w-full flex flex-col items-center">
-                    @csrf <div class="relative w-96 mb-6 transition-all duration-300">
+                    @csrf
+                    <div class="relative w-96 mb-6 transition-all duration-300">
                         <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
                             <i class="fas fa-envelope text-zinc-500"></i>
                         </div>
                         <input name="email" type="email" placeholder="Email Address" value="{{ old('email') }}"
                             required autocomplete="email" autofocus
                             class="w-full h-12 bg-white/5 rounded-lg border border-white/10 pl-12 pr-4 text-zinc-300 placeholder-zinc-500 font-light focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300">
+                             @error('email')
+                            <p class="text-red-400 text-xs mt-2">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="relative w-96 mb-6 transition-all duration-300">
@@ -98,6 +102,9 @@
                             onclick="togglePassword()">
                             <i id="eyeIcon" class="fas fa-eye text-zinc-500 hover:text-white transition"></i>
                         </div>
+                        @error('password')
+                            <p class="text-red-400 text-xs mt-2">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <button type="submit"
