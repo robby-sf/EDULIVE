@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 use App\Models\Education;
+use Exception;
+
 class ProfileController extends Controller
 {
     public function index() {
@@ -15,30 +19,43 @@ class ProfileController extends Controller
     }
 
     public function updateBiodata(Request $request) {
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
+        try {
+            /** @var \App\Models\User $user */
+            $user = Auth::user();
 
-        $validated = $request->validate([
-            'first_name' => 'required|string|max:100',
-            'last_name' => 'required|string|max:100',
-            'address_location' => 'nullable|string|max:255',
-            'phone_number' => 'nullable|string|max:20',
-        ]);
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'address_location' => 'nullable|string|max:255',
+                'phone_number' => 'nullable|string|max:20',
+            ]);
 
-        $user->name = $validated['first_name'] . ' ' . $validated['last_name'];
-        $user->save();
+            // Gabungkan dua operasi dalam satu transaksi database
+            DB::transaction(function () use ($user, $validated) {
+                $user->update(['name' => $validated['name']]);
 
-        $user->profile()->updateOrCreate(
-            ['user_id' => $user->id],
-            [
-                'first_name' => $validated['first_name'],
-                'last_name' => $validated['last_name'],
-                'address_location' => $validated['address_location'],
-                'phone_number' => $validated['phone_number'],
-            ]
-        );
+                $user->profile()->updateOrCreate(
+                    ['user_id' => $user->id],
+                    [
+                        'address_location' => $validated['address_location'],
+                        'phone_number' => $validated['phone_number'],
+                    ]
+                );
+            });
 
-        return response()->json(['message' => 'Biodata successfully updated!']);
+            return response()->json([
+                'success' => true,
+                'message' => 'Biodata successfully updated!',
+            ]);
+
+        } catch (Exception $e) {
+            // Catat error untuk debugging
+            Log::error('Error updating biodata: ' . $e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'An unexpected error occurred. Please try again later.',
+            ], 500); // Kirim status error server
+        }
     }
 
     public function updateSummary(Request $request) {
@@ -54,7 +71,10 @@ class ProfileController extends Controller
             $validated
         );
 
-        return response()->json(['message' => 'Summary successfully saved!']);
+        return response()->json([
+            'success' => true,
+            'message' => 'Summary successfully saved!',
+        ]);
     }
 
     public function storeEducation(Request $request) {
@@ -72,18 +92,21 @@ class ProfileController extends Controller
         $education = $user->educations()->create($validated);
 
         return response()->json([
+            'success' => true,
             'message' => 'Education history added!',
-            'education' => $education // Mengirim kembali data yang baru dibuat
+            'data' => $education // Gunakan key 'data'
         ]);
     }
 
     public function updateEducation(Request $request, Education $education) {
-        // Pastikan pengguna hanya bisa mengedit data miliknya sendiri
         if ($education->user_id !== Auth::id()) {
-            abort(403, 'Unauthorized action.');
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized action.',
+            ], 403);
         }
 
-         $validated = $request->validate([
+        $validated = $request->validate([
             'institution_name' => 'required|string|max:255',
             'degree' => 'required|string|max:100',
             'field_of_study' => 'required|string|max:150',
@@ -94,18 +117,25 @@ class ProfileController extends Controller
         $education->update($validated);
 
         return response()->json([
+            'success' => true,
             'message' => 'Education history updated!',
-            'education' => $education
+            'data' => $education // Gunakan key 'data'
         ]);
     }
 
     public function deleteEducation(Education $education) {
         if ($education->user_id !== Auth::id()) {
-            abort(403, 'Unauthorized action.');
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized action.',
+            ], 403);
         }
 
         $education->delete();
 
-        return response()->json(['message' => 'Education history removed!']);
+        return response()->json([
+            'success' => true,
+            'message' => 'Education history removed!',
+        ]);
     }
 }

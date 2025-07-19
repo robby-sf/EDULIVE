@@ -55,6 +55,7 @@
         @yield('content')
     </main>
 
+    @include('partials.notification')
     {{-- <footer class="mt-20 py-8 border-t border-white/10 text-center text-sm text-gray-400">
         &copy; {{ date('Y') }} EDULIVE. All rights reserved.
     </footer> --}}

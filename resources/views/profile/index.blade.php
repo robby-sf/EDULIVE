@@ -51,13 +51,15 @@
 
                     <div class="mt-4 space-y-2">
                         @if ($user->profile && $user->profile->address_location)
-                            <p class="text-[#5E5E5E] text-sm flex items-center justify-center md:justify-start gap-2 font-light">
+                            <p
+                                class="text-[#5E5E5E] text-sm flex items-center justify-center md:justify-start gap-2 font-light">
                                 <img src="https://img.icons8.com/ios-glyphs/30/5e5e5e/marker.png" alt="location icon"
                                     class="w-5 h-5" />
                                 <span>{{ $user->profile->address_location }}</span>
                             </p>
                         @endif
-                        <p class="text-[#5E5E5E] text-sm flex items-center justify-center md:justify-start gap-2 font-light">
+                        <p
+                            class="text-[#5E5E5E] text-sm flex items-center justify-center md:justify-start gap-2 font-light">
                             <img src="https://img.icons8.com/ios-glyphs/30/5e5e5e/filled-message.png" alt="email icon"
                                 class="w-5 h-5" />
                             <span>{{ $user->email }}</span>
@@ -65,7 +67,7 @@
                     </div>
 
                     <div class="mt-6 flex flex-wrap gap-4 justify-center md:justify-start">
-                        <button id="edit-biodata-btn"
+                        <button id="edit-biodata-btn" data-address="{{ $user->profile->address_location ?? '' }}"
                             class="px-5 py-2.5 bg-white text-black text-sm font-medium border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 transition">
                             Change Profile
                         </button>

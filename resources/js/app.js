@@ -1,5 +1,4 @@
 import "./bootstrap";
-import { parsePhoneNumberFromString, AsYouType } from 'libphonenumber-js';
 
 const menuToggle = document.getElementById("menu-toggle");
 const menu = document.getElementById("menu");
@@ -225,34 +224,101 @@ document.addEventListener("DOMContentLoaded", () => {
     // --- ELEMENTS ---
     const editBiodataBtn = document.getElementById("edit-biodata-btn");
     const biodataModal = document.getElementById("biodata-modal");
-    const biodataModalContent = document.getElementById("biodata-modal-content");
+    const biodataModalContent = document.getElementById(
+        "biodata-modal-content"
+    );
     const closeBiodataModalBtn = document.getElementById("close-biodata-modal");
-    const cancelBiodataModalBtn = document.getElementById("cancel-biodata-modal");
+    const cancelBiodataModalBtn = document.getElementById(
+        "cancel-biodata-modal"
+    );
     const biodataForm = document.getElementById("biodata-form");
     const notification = document.getElementById("notification");
     const notificationMessage = document.getElementById("notification-message");
 
-    const countrySelect = document.getElementById('country');
-    const stateSelect = document.getElementById('state');
-    const citySelect = document.getElementById('city');
-    const phoneCodeSelect = document.getElementById('phone_code');
-    const phoneNumberInput = document.getElementById('phone_number_input');
-    const hiddenAddressLocation = document.getElementById('address_location');
-    const hiddenPhoneNumber = document.getElementById('phone_number');
+    const countrySelect = document.getElementById("country");
+    const stateSelect = document.getElementById("state");
+    const citySelect = document.getElementById("city");
+    const phoneCodeSelect = document.getElementById("phone_code");
+    const phoneNumberInput = document.getElementById("phone_number_input");
+    const hiddenAddressLocation = document.getElementById("address_location");
+    const hiddenPhoneNumber = document.getElementById("phone_number");
+    let countriesData = [];
 
-    const API_KEY = 'RmxzNnpCNlBiTUVzYWJFWlFmdm5tUFRlOEZBU0xxQ0hQQVIzaFFDRw=='; // <<< GANTI API KEY ANDA
 
-    // --- MODAL CONTROL ---
+    const API_KEY = "RmxzNnpCNlBiTUVzYWJFWlFmdm5tUFRlOEZBU0xxQ0hQQVIzaFFDRw==";
+
+    // --- FUNGSI BARU UNTUK MENGATUR LOKASI AWAL ---
+    const setInitialLocation = async (addressString) => {
+        if (!addressString) {
+            // Jika tidak ada alamat, tetap populate negara dan kode telepon
+            await populateCountries();
+            return;
+        };
+
+        // Pisahkan string alamat menjadi City, State, Country
+        const parts = addressString.split(",").map((part) => part.trim());
+        if (parts.length < 3) {
+            await populateCountries();
+            return;
+        }
+
+        const [cityName, stateName, countryName] = parts;
+
+        try {
+            // 1. Populate negara dan tunggu selesai
+            await populateCountries();
+
+            // 2. Cari dan pilih negara yang sesuai
+            const countryOption = Array.from(countrySelect.options).find(
+                (opt) => opt.text === countryName
+            );
+
+            if (countryOption) {
+                countrySelect.value = countryOption.value;
+                // Trigger event change SECARA MANUAL untuk memastikan semua listener berjalan
+                countrySelect.dispatchEvent(new Event('change'));
+
+                // 3. Tunggu state selesai di-load
+                await populateStates(countryOption.value);
+
+                // 4. Cari dan pilih state/provinsi yang sesuai
+                const stateOption = Array.from(stateSelect.options).find(
+                    (opt) => opt.text === stateName
+                );
+
+                if (stateOption) {
+                    stateSelect.value = stateOption.value;
+                    // Trigger event change untuk memuat kota
+                    await populateCities(countrySelect.value, stateOption.value);
+
+                    // 5. Pilih kota yang sesuai
+                    const cityOption = Array.from(citySelect.options).find(
+                        (opt) => opt.text === cityName
+                    );
+                    if (cityOption) {
+                        citySelect.value = cityOption.value;
+                    }
+                }
+            }
+        } catch (error) {
+            console.error("Failed to set initial location:", error);
+            showNotification("Could not pre-fill location data.", false);
+        }
+    };
+
+    // --- MODAL CONTROL (MODIFIKASI) ---
     const openModal = () => {
         if (!biodataModal || !biodataModalContent) return;
 
         biodataModal.classList.remove("hidden");
-        void biodataModal.offsetWidth; // trigger reflow
+        void biodataModal.offsetWidth;
         biodataModal.classList.add("opacity-100");
         biodataModalContent.classList.remove("scale-95", "opacity-0");
         biodataModalContent.classList.add("scale-100", "opacity-100");
 
-        if (countrySelect && countrySelect.options.length <= 1) populateCountries();
+        // Ambil alamat dari atribut data-* dan set lokasi
+        const savedAddress = editBiodataBtn.dataset.address;
+        setInitialLocation(savedAddress);
     };
 
     const closeModal = () => {
@@ -267,7 +333,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!notification || !notificationMessage) return;
         notificationMessage.textContent = message;
         notification.className = `fixed top-5 right-5 px-6 py-3 rounded-lg shadow-lg text-white transition-all duration-300 transform ${
-            isSuccess ? 'bg-green-500' : 'bg-red-500'
+            isSuccess ? "bg-green-500" : "bg-red-500"
         }`;
 
         notification.classList.remove("hidden", "translate-x-full");
@@ -283,38 +349,39 @@ document.addEventListener("DOMContentLoaded", () => {
     // --- API DATA ---
     const fetchWithKey = async (url) => {
         const response = await fetch(url, {
-            headers: { 'X-CSCAPI-KEY': API_KEY }
+            headers: { "X-CSCAPI-KEY": API_KEY },
         });
-        if (!response.ok) throw new Error('API request failed');
+        if (!response.ok) throw new Error("API request failed");
         return response.json();
     };
 
     const populateCountries = async () => {
     try {
-        const response = await fetch('https://api.countrystatecity.in/v1/countries', {
-            headers: { 'X-CSCAPI-KEY': API_KEY }
-        });
-        if (!response.ok) throw new Error('Failed to fetch countries');
+        const response = await fetch(
+            "https://api.countrystatecity.in/v1/countries",
+            {
+                headers: { "X-CSCAPI-KEY": API_KEY },
+            }
+        );
+        if (!response.ok) throw new Error("Failed to fetch countries");
 
         const countries = await response.json();
+        countriesData = countries;
 
+        // Kosongkan select box negara sebelum diisi
         countrySelect.innerHTML = '<option value="">Select Country</option>';
-        phoneCodeSelect.innerHTML = '<option value="">Code</option>';
 
-        countries.forEach(country => {
-            countrySelect.appendChild(new Option(country.name, country.iso2));
-
-            // Tambahkan validasi phone_code
-            if (country.phone_code && !phoneCodeSelect.querySelector(`option[value="+${country.phone_code}"]`)) {
-                const phoneLabel = `${country.iso2} (+${country.phone_code})`;
-                const phoneOption = new Option(phoneLabel, `+${country.phone_code}`);
-                phoneCodeSelect.appendChild(phoneOption);
-            }
+        // Isi dropdown negara
+        countries.forEach((country) => {
+            countrySelect.appendChild(
+                new Option(country.name, country.iso2)
+            );
         });
-        console.log("Country & phone codes populated.");
+
+        console.log("Country data populated successfully.");
     } catch (error) {
         console.error("Error populating countries:", error);
-        showNotification("Failed to load country & phone code.", false);
+        showNotification("Failed to load country data.", false);
     }
 };
 
@@ -323,13 +390,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         stateSelect.disabled = true;
         citySelect.disabled = true;
-        stateSelect.innerHTML = '<option>Loading States...</option>';
-        citySelect.innerHTML = '<option>Select City</option>';
+        stateSelect.innerHTML = "<option>Loading States...</option>";
+        citySelect.innerHTML = "<option>Select City</option>";
 
         try {
-            const states = await fetchWithKey(`https://api.countrystatecity.in/v1/countries/${countryId}/states`);
+            const states = await fetchWithKey(
+                `https://api.countrystatecity.in/v1/countries/${countryId}/states`
+            );
             stateSelect.innerHTML = '<option value="">Select State</option>';
-            states.forEach(s => stateSelect.add(new Option(s.name, s.iso2)));
+            states.forEach((s) => stateSelect.add(new Option(s.name, s.iso2)));
             stateSelect.disabled = false;
         } catch (e) {
             console.error(e);
@@ -341,12 +410,14 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!countryId || !stateId) return;
 
         citySelect.disabled = true;
-        citySelect.innerHTML = '<option>Loading Cities...</option>';
+        citySelect.innerHTML = "<option>Loading Cities...</option>";
 
         try {
-            const cities = await fetchWithKey(`https://api.countrystatecity.in/v1/countries/${countryId}/states/${stateId}/cities`);
+            const cities = await fetchWithKey(
+                `https://api.countrystatecity.in/v1/countries/${countryId}/states/${stateId}/cities`
+            );
             citySelect.innerHTML = '<option value="">Select City</option>';
-            cities.forEach(c => citySelect.add(new Option(c.name, c.name)));
+            cities.forEach((c) => citySelect.add(new Option(c.name, c.name)));
             citySelect.disabled = false;
         } catch (e) {
             console.error(e);
@@ -362,42 +433,57 @@ document.addEventListener("DOMContentLoaded", () => {
         if (e.target === biodataModal) closeModal();
     });
 
-    countrySelect?.addEventListener("change", (e) => populateStates(e.target.value));
-    stateSelect?.addEventListener("change", (e) => populateCities(countrySelect.value, e.target.value));
+    countrySelect?.addEventListener("change", async (e) => {
+    const countryId = e.target.value;
+    await populateStates(countryId);
+});
+    stateSelect?.addEventListener("change", (e) =>
+        populateCities(countrySelect.value, e.target.value)
+    );
 
     // --- FORM SUBMISSION ---
     biodataForm?.addEventListener("submit", async function (event) {
-        event.preventDefault();
+    event.preventDefault();
 
-        const countryText = countrySelect?.options[countrySelect.selectedIndex]?.text;
-        const stateText = stateSelect?.options[stateSelect.selectedIndex]?.text;
-        const cityText = citySelect?.options[citySelect.selectedIndex]?.text;
+    const countryText = countrySelect?.options[countrySelect.selectedIndex]?.text;
+    const stateText = stateSelect?.options[stateSelect.selectedIndex]?.text;
+    const cityText = citySelect?.options[citySelect.selectedIndex]?.text;
 
-        if (hiddenAddressLocation && cityText && stateText && countryText &&
-            cityText !== "Select City" && stateText !== "Select State" && countryText !== "Select Country") {
-            hiddenAddressLocation.value = `${cityText}, ${stateText}, ${countryText}`;
-        }
+    if (
+        hiddenAddressLocation &&
+        cityText &&
+        stateText &&
+        countryText &&
+        cityText !== "Select City" &&
+        stateText !== "Select State" &&
+        countryText !== "Select Country"
+    ) {
+        hiddenAddressLocation.value = `${cityText}, ${stateText}, ${countryText}`;
+    }
 
-        if (phoneCodeSelect.value && phoneNumberInput.value) {
-            hiddenPhoneNumber.value = `${phoneCodeSelect.value}${phoneNumberInput.value}`;
-        }
+    // Cukup ambil nilai dari input nomor telepon
+    if (hiddenPhoneNumber && phoneNumberInput.value) {
+        hiddenPhoneNumber.value = phoneNumberInput.value;
+    }
 
-        const formData = new FormData(this);
-        const saveBtn = this.querySelector('button[type="submit"]');
-        saveBtn.disabled = true;
-        saveBtn.textContent = "Saving...";
+    const formData = new FormData(this);
+    const saveBtn = this.querySelector('button[type="submit"]');
+    saveBtn.disabled = true;
+    saveBtn.textContent = "Saving...";
 
-        try {
-            const response = await axios.post(this.action, formData);
-            closeModal();
-            showNotification(response.data.message, true);
-            setTimeout(() => window.location.reload(), 1500);
-        } catch (error) {
-            const errorMessage = error.response?.data?.message || "An error occurred. Please try again.";
-            showNotification(errorMessage, false);
-        } finally {
-            saveBtn.disabled = false;
-            saveBtn.textContent = "Save";
-        }
-    });
+    try {
+        const response = await axios.post(this.action, formData);
+        closeModal();
+        showNotification(response.data.message, true);
+        setTimeout(() => window.location.reload(), 1500);
+    } catch (error) {
+        const errorMessage =
+            error.response?.data?.message ||
+            "An error occurred. Please try again.";
+        showNotification(errorMessage, false);
+    } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = "Save";
+    }
+});
 });
