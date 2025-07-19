@@ -3,6 +3,7 @@ import "./bootstrap";
 import { initNavigation } from './components/navigation.js';
 import { initHomepage } from './components/homepage.js';
 import { initProfile } from './components/profile.js';
+import { initEducationModal } from './components/education.js';
 
 initNavigation();
 initHomepage();

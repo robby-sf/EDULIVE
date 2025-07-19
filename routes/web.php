@@ -42,7 +42,7 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('education')->name('education.')->group(function () {
             Route::post('/', [ProfileController::class, 'storeEducation'])->name('store');
             Route::put('/{education}', [ProfileController::class, 'updateEducation'])->name('update');
-            Route::delete('/{education}', [ProfileController::class, 'destroyEducation'])->name('destroy');
+            Route::delete('/{education}', [ProfileController::class, 'deleteEducation   '])->name('delete');
         });
     });
 });
