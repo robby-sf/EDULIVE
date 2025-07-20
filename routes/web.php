@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\StudyController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ProfileController;
@@ -50,3 +52,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/dashboard/statistic', [DashboardController::class, 'statistic'])->name('dashboard.statistic');
 });
+
+Route::get('/belajar', function () {
+    return view('Testing');
+});
+
+
+Route::post('/chat', [ChatController::class, 'chat']);
+
+Route::post('/study-session', [StudyController::class, 'store']);
