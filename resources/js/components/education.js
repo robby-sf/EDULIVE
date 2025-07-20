@@ -1,17 +1,14 @@
 import { showNotification } from './notification.js';
 
 export function initEducationModal() {
-    // Cari container utama. Jika tidak ada di halaman ini, hentikan eksekusi fungsi.
     const container = document.getElementById('education-list-container');
     if (!container) {
         return;
     }
 
-    // Ambil URL dari atribut data-* pada HTML
     const storeUrl = container.dataset.storeUrl;
     const baseUpdateUrl = container.dataset.baseUpdateUrl;
 
-    // Definisikan semua elemen modal dan form yang dibutuhkan
     const modal = document.getElementById('education-modal');
     const modalContent = document.getElementById('education-modal-content');
     const form = document.getElementById('education-form');
@@ -38,9 +35,9 @@ export function initEducationModal() {
         modalContent.classList.add('scale-95', 'opacity-0');
         setTimeout(() => {
             modal.classList.add('hidden');
-            form.reset(); // Bersihkan form setiap kali modal ditutup
+            form.reset();
             form.removeAttribute('data-id');
-        }, 300); // Sesuaikan dengan durasi transisi
+        }, 300);
     };
 
     /**
