@@ -15,9 +15,9 @@ Route::get('/header', function () {
     return view('header');
 });
 
-Route::view('/team/ravelin-lutfhan','team.ceo')->name('team.ceo');
-Route::view('/team/robby-septian','team.cto')->name('team.cto');
-Route::view('/team/rifqi-makarim','team.hrmanager')->name('team.hrmanager');
+Route::view('/team/ravelin-lutfhan','team.member1')->name('team.member1');
+Route::view('/team/robby-septian','team.member2')->name('team.member2');
+Route::view('/team/rifqi-makarim','team.member3')->name('team.member3');
 
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -30,7 +30,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/p/{user:name}', [PublicProfileController::class, 'show'])->name('profile.public');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/', function () {
+    Route::get('/homepage', function () {
         return view('homepage');
     })->name('homepage');
 
@@ -47,6 +47,6 @@ Route::middleware(['auth'])->group(function () {
             Route::delete('/{education}', [ProfileController::class, 'deleteEducation   '])->name('delete');
         });
     });
-  
+
     Route::get('/dashboard/statistic', [DashboardController::class, 'statistic'])->name('dashboard.statistic');
 });

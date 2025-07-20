@@ -69,13 +69,13 @@ export function initHomepage() {
             // Tidak ada 'mouseleave' di sini agar teks tetap terlihat
         });
 
-        // 3. Tambahkan satu event 'mouseleave' pada section pembungkus
-        parallaxSection.addEventListener("mouseleave", () => {
-            // Saat mouse keluar dari seluruh section, reset semua teks
-            revealTexts.forEach((el) => {
-                el.classList.remove("visible");
-            });
-        });
+        // // 3. Tambahkan satu event 'mouseleave' pada section pembungkus
+        // parallaxSection.addEventListener("mouseleave", () => {
+        //     // Saat mouse keluar dari seluruh section, reset semua teks
+        //     revealTexts.forEach((el) => {
+        //         el.classList.remove("visible");
+        //     });
+        // });
     });
 
     // EventListener Section 4 HOMEPAGE
