@@ -197,18 +197,24 @@
     </div>
 </div>
 
+<!-- Panel Debug Status -->
+<div class="w-full max-w-xl mt-6 p-4 bg-white border border-gray-300 rounded-lg shadow text-left space-y-2">
+    <p class="font-semibold text-gray-800">🧪 <span class="text-indigo-600">Status Debug:</span></p>
+    <p>📌 <span class="font-medium">Pose:</span> <span id="debugPose" class="text-gray-700">-</span></p>
+    <p>🧠 <span class="font-medium">Ekspresi:</span> <span id="debugEmotion" class="text-gray-700">-</span></p>
+    <p>📱 <span class="font-medium">Objek (HP):</span> <span id="debugObject" class="text-gray-700">-</span></p>
+</div>
+
+
 <!-- TensorFlow Core -->
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter"></script>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.3.0"></script>
+
+<script src="https://cdn.jsdelivr.net/gh/justadudewhohacks/face-api.js@master/dist/face-api.min.js"></script>
 
 <!-- TensorFlow Model -->
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection"></script>
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.2/dist/coco-ssd.min.js"></script>
-
-<!-- ✅ HARUS di atas face.js -->
-<script src="/js/libs/face-api.min.js"></script>
 
 <!-- Script kamu -->
 <script src="/js/pose.js"></script>

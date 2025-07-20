@@ -15,4 +15,4 @@ Route::get('/belajar', function () {
 
 Route::post('/chat', [ChatController::class, 'chat']);
 
-Route::post('/study-sessrion', [StudyController::class, 'store']);
+Route::post('/study-session', [StudyController::class, 'store']);

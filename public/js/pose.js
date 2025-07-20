@@ -1,4 +1,7 @@
 let detector;
+let lastFocusTime = Date.now();
+let lastStatus = "Fokus ✅";
+let pendingStatus = "";
 console.log("Pose berhasil dimuat");
 
 const BLAZEPOSE_KEYPOINT_NAMES = [
@@ -36,6 +39,10 @@ function detectPoseLoop(video, canvas, ctx) {
     if (!detector) return;
 
     detector.estimatePoses(video).then(poses => {
+        let now = Date.now();
+        let newStatus = "Fokus ✅";
+        let isFokus = false;
+
         if (poses.length > 0) {
             const keypoints = poses[0].keypoints;
             const get = (name) => keypoints.find(p => p.name === name);
@@ -46,11 +53,9 @@ function detectPoseLoop(video, canvas, ctx) {
             const rightEar = get('right_ear');
 
             const allVisible = [nose, leftShoulder, rightShoulder].every(p => p && p.score > 0.3);
-            let status = "";
 
             if (!allVisible) {
-                console.log("🚫 Postur tidak terdeteksi (keluar frame?)");
-                status = "Keluar Frame ❌";
+                newStatus = "Keluar Frame ❌";
             } else {
                 const avgShoulderY = (leftShoulder.y + rightShoulder.y) / 2;
                 const headBelowShoulders = nose.y - avgShoulderY > 60;
@@ -62,24 +67,41 @@ function detectPoseLoop(video, canvas, ctx) {
                 const shouldersFlat = Math.abs(leftShoulder.y - rightShoulder.y) < 15;
 
                 if (headBelowShoulders) {
-                    console.log("📱 Menunduk (indikasi main HP)");
-                    status = "Menunduk 📱";
+                    newStatus = "Menunduk 📱";
                 } else if (earAligned && shouldersFlat) {
-                    console.log("🛌 Tiduran terdeteksi");
-                    status = "Tiduran 🛌";
+                    newStatus = "Tiduran 🛌";
                 } else {
-                    console.log("✅ Postur fokus");
-                    status = "Fokus ✅";
+                    newStatus = "Fokus ✅";
+                    isFokus = true;
                 }
             }
 
-            updateStatus(status);
             drawKeypoints(keypoints, canvas, ctx);
+        } else {
+            newStatus = "Keluar Frame ❌";
+        }
+
+        if (newStatus === "Fokus ✅") {
+            lastFocusTime = now;
+            if (lastStatus !== "Fokus ✅") {
+                lastStatus = "Fokus ✅";
+                updateStatus("Fokus ✅");
+            }
+        } else {
+            if (now - lastFocusTime >= 2000) {
+                if (lastStatus !== newStatus) {
+                    lastStatus = newStatus;
+                    updateStatus(newStatus);
+                }
+            } else {
+                console.log(`⌛ Belum 2 detik, tetap status: ${lastStatus}`);
+            }
         }
 
         requestAnimationFrame(() => detectPoseLoop(video, canvas, ctx));
     });
 }
+
 
 function drawKeypoints(keypoints, canvas, ctx) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -156,3 +178,5 @@ function updateStatus(status) {
         el.className = "text-2xl font-bold text-red-600";
     }
 }
+
+window.onPoseStatusUpdate?.(newStatus);
