@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>EDULIVE HEADER</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap">
@@ -93,9 +92,9 @@
                         </button>
 
                         <div id="mobile-dashboard-menu" class="hidden md:hidden pt-2 pl-4 border-b border-gray-200">
-                             <a href="#" class="block py-2 px-2 text-gray-700 tracking-wide font-light hover:bg-gray-100 rounded">LEARNING STATISTIC</a>
-                             <a href="#" class="block py-2 px-2 text-gray-700 tracking-wide font-light hover:bg-gray-100 rounded">LEARNING HISTORY</a>
-                             <a href="#" class="block py-2 px-2 text-gray-700 tracking-wide font-light hover:bg-gray-100 rounded">MY PROFILE</a>
+                            <a href="#" class="block py-2 px-2 text-gray-700 tracking-wide font-light hover:bg-gray-100 rounded">LEARNING STATISTIC</a>
+                            <a href="#" class="block py-2 px-2 text-gray-700 tracking-wide font-light hover:bg-gray-100 rounded">LEARNING HISTORY</a>
+                            <a href="#" class="block py-2 px-2 text-gray-700 tracking-wide font-light hover:bg-gray-100 rounded">MY PROFILE</a>
                         </div>
 
                         <div id="desktop-dashboard-menu"
@@ -106,7 +105,7 @@
                             </div>
 
                             <div class="relative z-10 flex flex-col items-center divide-y divide-white/10">
-                                <a href="#"
+                                <a href=""
                                     class="w-full h-12 flex items-center justify-center text-white text-sm font-medium tracking-wide transition-all duration-300 ease-in-out delay-100 hover:bg-white/10 rounded-t-2xl">
                                     LEARNING STATISTIC
                                 </a>
@@ -217,7 +216,6 @@
                 dashboardChevron.classList.remove('rotate-180');
             }
         });
-
     </script>
 
 </body>
