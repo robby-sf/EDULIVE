@@ -1,3 +1,5 @@
+import TypeIt from "typeit";
+
 export function initHomepage() {
     // --- Animasi Title Section 1 ---
     // EventListener Section 1 HOMEPAGE
@@ -76,6 +78,54 @@ export function initHomepage() {
         //         el.classList.remove("visible");
         //     });
         // });
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const featuresSection = document.querySelector("#features-section");
+        const featuresTitle = document.querySelector("#features-title");
+        const featureCards = document.querySelectorAll(".feature-card");
+
+        if (!featuresSection || !featuresTitle || !featureCards.length) {
+            console.error("Elemen untuk animasi fitur tidak ditemukan!");
+            return;
+        }
+
+        // Kosongkan konten judul agar bisa diketik oleh TypeIt
+        featuresTitle.textContent = "";
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        // Jalankan TypeIt hanya sekali
+                        new TypeIt("#features-title", {
+                            strings: "FEATURES",
+                            speed: 150,
+                            waitUntilVisible: true,
+                            cursor: true, // kamu bisa set ke false kalau tak ingin kursor
+                            afterComplete: async (instance) => {
+                                // Setelah efek ketik selesai, tampilkan kartu fitur
+                                featureCards.forEach((card, index) => {
+                                    setTimeout(() => {
+                                        card.classList.add("visible");
+                                    }, index * 200);
+                                });
+                                instance.destroy(); // Hentikan instance TypeIt
+                            },
+                        }).go();
+
+                        observer.unobserve(featuresSection);
+                    }
+                });
+            },
+            {
+                threshold: 0.2,
+            }
+        );
+
+        setTimeout(() => {
+            observer.observe(featuresSection);
+        }, 300);
     });
 
     // EventListener Section 4 HOMEPAGE
