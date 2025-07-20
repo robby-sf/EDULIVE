@@ -268,7 +268,7 @@
                 <h2 class="get-ready text-[100px] leading-tight">STARTED</h2>
             </div>
 
-            <a href="#"
+            <a href="{{route('belajar')}}"
                 class="get-ready mt-8 px-8 py-3 bg-black text-white text-sm font-light tracking-widest rounded-full hover:bg-gray-800 transition-colors duration-300">
                 START
             </a>
