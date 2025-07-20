@@ -66,18 +66,18 @@
     </section>
 
     {{-- SECTION 3 - FEATURES --}}
-    <section class="w-full bg-white px-4 py-16 mt-8">
+    <section id="features-section" class="w-full bg-white px-4 py-16 mt-8">
         <div class="container mx-auto">
             {{-- Judul Section --}}
-            <h2 class="text-4xl md:text-5xl font-normal text-black uppercase tracking-widest mb-16">
-                FEATURES
+            <h2 id="features-title"
+                class="text-4xl md:text-5xl font-normal text-black uppercase tracking-widest mb-16">
             </h2>
 
             {{-- Kontainer untuk Kartu Fitur --}}
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
 
                 {{-- Card 1: AI DETECTION --}}
-                <div class="relative w-full h-96 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+                <div class="feature-card relative w-full h-96 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
                     {{-- Background --}}
                     <div class="absolute inset-0 bg-zinc-300"></div>
 
@@ -86,7 +86,7 @@
                         {{-- Top Part: "AI" and "DETECTION" --}}
                         <div>
                             {{-- "AI" text. Using text with extreme font size and leading to mimic vector stretching --}}
-                            <div class="text-left text-black font-semibold" style="font-family: 'Poppins', sans-serif;">
+                            <div class="text-left text-black font-semibold" style="">
                                 <span style="font-size: 140px; line-height: 0.8;">A</span><span
                                     style="font-size: 140px; line-height: 0.8; margin-left: 0.01em;">I</span>
                             </div>
@@ -97,29 +97,28 @@
                         {{-- Bottom Part: Description --}}
                         <div class="w-full">
                             <p class="text-black text-base font-light tracking-wide text-left">
-                                Dengan integrasi teknologi Computer Vision & Machine Learning, EDULIVE secara otomatis
-                                mendeteksi postur tubuh pengguna saat belajar.
+                                With the integration of Computer Vision and Machine Learning technology,
+                                EDULIVE automatically detects the user's body posture while studying.
                             </p>
                         </div>
                     </div>
                 </div>
 
                 {{-- Card 2: SMART TIMER --}}
-                <div class="relative w-full h-96 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+                <div class="feature-card relative w-full h-96 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
                     <div class="absolute inset-0 bg-zinc-300"></div>
                     <div class="relative h-full p-8 flex flex-col justify-between">
                         {{-- Top Part: Description --}}
                         <div class="w-full">
                             <p class="text-black text-base font-light tracking-wide text-center">
-                                EDULIVE menggunakan sistem otomatis berbasis aktivitas: timer akan aktif saat kamu
-                                terdeteksi sedang fokus
+                                EDULIVE implements an automatic system that activates a timer based on the detection of your activity focus.
                             </p>
                         </div>
 
                         {{-- Bottom Part: "SMART" and "TIMER" --}}
                         <div class="w-full">
                             <div class="text-center text-black font-semibold"
-                                style="font-family: 'Poppins', sans-serif; font-size: 100px; line-height: 1;">
+                                style=" font-size: 100px; line-height: 1;">
                                 <span style="margin-left: 0.01em;">S</span><span style="margin-left: 0.01em;">M</span><span
                                     style="margin-left: 0.01em;">A</span><span style="margin-left: 0.01em;">R</span><span
                                     style="margin-left: 0.01em;">T</span>
@@ -130,24 +129,24 @@
                 </div>
 
                 {{-- Card 3: PROGRESS TRACKER --}}
-                <div class="relative w-full h-96 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
+                <div class="feature-card relative w-full h-96 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
                     <div class="absolute inset-0 bg-zinc-300"></div>
                     <div class="relative h-full p-6 flex flex-col justify-between">
                         {{-- Top Part: "PROGRESS" and "TRACKER" --}}
                         <div>
                             <div class="text-left text-black font-semibold"
-                                style="font-family: 'Poppins', sans-serif; font-size: 90px; line-height: 1; letter-spacing: -0.05em;">
+                                style=" font-size: 90px; line-height: 1; letter-spacing: -0.05em;">
                                 PROGRESS
                             </div>
-                            <p class="text-left text-black text-4xl font-normal leading-9 mt-2">TRACKER</p>
+                            <p class="text-right text-black text-4xl font-normal leading-9 mt-2">TRACKER</p>
                         </div>
 
                         {{-- Bottom Part: Description --}}
                         <div class="w-full">
                             {{-- Menggunakan deskripsi yang lebih relevan --}}
                             <p class="text-black text-base font-light tracking-wide text-left">
-                                Pantau statistik dan riwayat belajar Anda untuk memvisualisasikan kemajuan dan memahami pola
-                                belajar Anda secara mendalam.
+                                Monitor your statistics and learning history
+                                to visualize your progress and understand your learning patterns in depth.
                             </p>
                         </div>
                     </div>
@@ -158,10 +157,10 @@
     </section>
 
     {{-- SECTION 4 - TEAM MEMBER --}}
-   <section id="team-section" class="px-4 py-16 mt-15">
-    <div class="container mx-auto ">
-        {{-- Header Section --}}
-        <header class="text-center mb-28">
+    <section id="team-section" class="px-4 py-16 mt-15">
+        <div class="container mx-auto ">
+            {{-- Header Section --}}
+            <header class="text-center mb-28">
                 <h2 class="team-card text-outline font-black" style="font-size: 130px; line-height: 1;">
                     OUR
                 </h2>
@@ -170,100 +169,100 @@
                 </div>
             </header>
 
-        {{-- Grid untuk Anggota Tim --}}
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-12">
+            {{-- Grid untuk Anggota Tim --}}
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-12">
 
-            {{-- Anggota 1: Ravelin --}}
-            <div class="team-card flex flex-col items-center">
-                <div
-                    class="relative w-[240px] h-[260px] group cursor-pointer transform transition-transform duration-300 hover:-translate-y-[30px]">
+                {{-- Anggota 1: Ravelin --}}
+                <div class="team-card flex flex-col items-center">
                     <div
-                        class="bg-[#000000] rounded-3xl shadow-lg w-full h-full transition-all duration-300 group-hover:shadow-2xl">
+                        class="relative w-[240px] h-[260px] group cursor-pointer transform transition-transform duration-300 hover:-translate-y-[30px]">
+                        <div
+                            class="bg-[#000000] rounded-3xl shadow-lg w-full h-full transition-all duration-300 group-hover:shadow-2xl">
+                        </div>
+
+                        <img src="{{ asset('asset/ravelluth.png') }}" alt="Team Member"
+                            class="absolute left-1/2 bottom-0 w-auto h-[320px] object-cover rounded-3xl drop-shadow-lg transform -translate-x-1/2" />
+
                     </div>
 
-                    <img src="{{ asset('asset/ravelluth.png') }}" alt="Team Member"
-                        class="absolute left-1/2 bottom-0 w-auto h-[320px] object-cover rounded-3xl drop-shadow-lg transform -translate-x-1/2" />
-
-                </div>
-
-                <div class="mt-6 max-w-[240px] text-center sm:text-left">
-                    <div class="flex items-center justify-center sm:justify-center mb-2">
-                        <span class="text-[30px] font-medium text-black text">UI/UX Designer</span>
+                    <div class="mt-6 max-w-[240px] text-center sm:text-left">
+                        <div class="flex items-center justify-center sm:justify-center mb-2">
+                            <span class="text-[30px] font-medium text-black text">UI/UX Designer</span>
+                        </div>
+                        <p class="text-[#5E5E5E] leading-relaxed mb-4 text-center text-[20px]">
+                            Designing intuitive user experiences and attractive interfaces for the platform
+                        </p>
+                        <a href="{{ route('team.member1') }}" class="text-blue-600 font-bold hover:underline text-sm">
+                            Find out more &rarr;
+                        </a>
                     </div>
-                    <p class="text-[#5E5E5E] leading-relaxed mb-4 text-center text-[20px]">
-                        Designing intuitive user experiences and attractive interfaces for the platform
-                    </p>
-                    <a href="{{ route('team.member1') }}" class="text-blue-600 font-bold hover:underline text-sm">
-                        Find out more &rarr;
-                    </a>
                 </div>
-            </div>
 
-            {{-- Anggota 2: Robby --}}
-            <div class="team-card flex flex-col items-center">
-                <div
-                    class="relative w-[240px] h-[260px] group cursor-pointer transform transition-transform duration-300 hover:-translate-y-[30px]">
+                {{-- Anggota 2: Robby --}}
+                <div class="team-card flex flex-col items-center">
                     <div
-                        class="bg-[#000000] rounded-3xl shadow-lg w-full h-full transition-all duration-300 group-hover:shadow-2xl">
+                        class="relative w-[240px] h-[260px] group cursor-pointer transform transition-transform duration-300 hover:-translate-y-[30px]">
+                        <div
+                            class="bg-[#000000] rounded-3xl shadow-lg w-full h-full transition-all duration-300 group-hover:shadow-2xl">
+                        </div>
+
+                        <img src="{{ asset('asset/robysep.png') }}" alt="Team Member"
+                            class="absolute left-[55%] bottom-0 w-auto h-[320px] object-cover rounded-3xl drop-shadow-lg transform -translate-x-1/2" />
                     </div>
 
-                    <img src="{{ asset('asset/robysep.png') }}" alt="Team Member"
-                        class="absolute left-[55%] bottom-0 w-auto h-[320px] object-cover rounded-3xl drop-shadow-lg transform -translate-x-1/2" />
-                </div>
-
-                <div class="mt-6 max-w-[240px] text-center sm:text-left">
-                    <div class="flex items-center justify-center sm:justify-center mb-2">
-                        <span class="text-[30px] font-medium text-black">CTO</span>
+                    <div class="mt-6 max-w-[240px] text-center sm:text-left">
+                        <div class="flex items-center justify-center sm:justify-center mb-2">
+                            <span class="text-[30px] font-medium text-black">CTO</span>
+                        </div>
+                        <p class="text-[#5E5E5E] leading-relaxed mb-4 text-center text-[20px]">
+                            Overseeing core technology development and project technical strategy
+                        </p>
+                        <a href="{{ route('team.member2') }}" class="text-blue-600 font-bold hover:underline text-sm">
+                            Find out more &rarr;
+                        </a>
                     </div>
-                    <p class="text-[#5E5E5E] leading-relaxed mb-4 text-center text-[20px]">
-                        Overseeing core technology development and project technical strategy
-                    </p>
-                    <a href="{{ route('team.member2') }}" class="text-blue-600 font-bold hover:underline text-sm">
-                        Find out more &rarr;
-                    </a>
                 </div>
-            </div>
 
-            {{-- Anggota 3: Rifqi --}}
-            <div class="team-card flex flex-col items-center">
-                <div
-                    class="relative w-[240px] h-[260px] group cursor-pointer transform transition-transform duration-300 hover:-translate-y-[30px]">
+                {{-- Anggota 3: Rifqi --}}
+                <div class="team-card flex flex-col items-center">
                     <div
-                        class="bg-[#000000] rounded-3xl shadow-lg w-full h-full transition-all duration-300 group-hover:shadow-2xl">
+                        class="relative w-[240px] h-[260px] group cursor-pointer transform transition-transform duration-300 hover:-translate-y-[30px]">
+                        <div
+                            class="bg-[#000000] rounded-3xl shadow-lg w-full h-full transition-all duration-300 group-hover:shadow-2xl">
+                        </div>
+
+                        <img src="{{ asset('asset/rifqima.png') }}" alt="Team Member"
+                            class="absolute left-1/2 bottom-0 w-auto h-[350px] object-cover rounded-3xl drop-shadow-lg transform -translate-x-1/2" />
                     </div>
 
-                    <img src="{{ asset('asset/placeholderteam.png') }}" alt="Team Member"
-                        class="absolute left-1/2 bottom-0 w-auto h-[320px] object-cover rounded-3xl drop-shadow-lg transform -translate-x-1/2" />
+                    <div class="mt-6 max-w-[240px] text-center sm:text-left">
+                        <div class="flex items-center justify-center text-center sm:justify-center mb-2">
+                            <span class="text-[30px] font-medium text-black">Backend Developer</span>
+                        </div>
+                        <p class="text-[#5E5E5E] leading-relaxed mb-4 text-center text-[20px]">
+                            Responsible for architecting and implementing server-side systems
+                        </p>
+                        <a href="{{ route('team.member3') }}" class="text-blue-600 font-bold hover:underline text-sm">
+                            Find out more &rarr;
+                        </a>
+                    </div>
                 </div>
 
-                <div class="mt-6 max-w-[240px] text-center sm:text-left">
-                    <div class="flex items-center justify-center text-center sm:justify-center mb-2">
-                        <span class="text-[30px] font-medium text-black">Backend Developer</span>
-                    </div>
-                    <p class="text-[#5E5E5E] leading-relaxed mb-4 text-center text-[20px]">
-                        Responsible for architecting and implementing server-side systems
-                    </p>
-                    <a href="{{ route('team.member3') }}" class="text-blue-600 font-bold hover:underline text-sm">
-                        Find out more &rarr;
-                    </a>
-                </div>
             </div>
-
         </div>
-    </div>
-</section>
+    </section>
 
     {{-- SECTION 5 - GET READY --}}
     <section id="get-ready-section" class="px-4 py-16 relative w-full min-h-screen">
         <div class="absolute top-0 left-0 w-full h-full z-0">
-        {{-- Jangan tambahkan class pada spline-viewer, cukup biarkan ia mengisi wrapper div --}}
-        <spline-viewer url="https://prod.spline.design/ik78JS8lLV3pxy7D/scene.splinecode"></spline-viewer>
-        <div class="absolute bottom-4 right-4 w-40 h-10 bg-white z-10"></div>
-    </div>
+            {{-- Jangan tambahkan class pada spline-viewer, cukup biarkan ia mengisi wrapper div --}}
+            <spline-viewer url="https://prod.spline.design/ik78JS8lLV3pxy7D/scene.splinecode"></spline-viewer>
+            <div class="absolute bottom-4 right-4 w-40 h-10 bg-white z-10"></div>
+        </div>
 
         <div class="relative z-10 min-h-screen flex flex-col items-center justify-center text-center">
 
-            <div class="text-black font-light" style="font-family: 'Poppins', sans-serif;">
+            <div class="text-black font-light" style="">
                 <h2 class="get-ready text-[100px] leading-tight">LETS</h2>
                 <h2 class="get-ready text-[100px] leading-tight">GET</h2>
                 <h2 class="get-ready text-[100px] leading-tight">STARTED</h2>

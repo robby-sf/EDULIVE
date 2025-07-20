@@ -18,6 +18,7 @@
     },
     "dependencies": {
         "composer": "^4.1.0",
-        "libphonenumber-js": "^1.12.10"
+        "libphonenumber-js": "^1.12.10",
+        "typeit": "^8.8.7"
     }
 }

@@ -50,6 +50,29 @@
   transform: translateY(0);
 }
 
+
+#features-title {
+    visibility: visible; /* Tidak lagi disembunyikan, karena TypeIt langsung menulis */
+    white-space: nowrap; /* Supaya efek ketik satu baris */
+}
+
+#features-title .letter.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* Animasi untuk kartu fitur (tetap sama) */
+.feature-card {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.feature-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 /* section 3 - team member */
 .text-outline {
     color: transparent;
