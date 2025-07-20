@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title', 'EDULIVE')</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- Styling Alpine hidden -->
+    <style>[x-cloak] { display: none !important; }</style>
 
 
     {{-- HANYA GUNAKAN INI: Memuat semua CSS & JS melalui Vite --}}

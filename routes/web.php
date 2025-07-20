@@ -9,9 +9,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicProfileController;
 use App\Http\Controllers\DashboardController;
 
-// Route::get('/', function () {
-//     return view('homepage');
-// })->name('homepage');
+Route::get('/', function () {
+    return view('homepage');
+})->name('homepage');
 
 Route::get('/header', function () {
     return view('header');
