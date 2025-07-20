@@ -1,4 +1,5 @@
 // face.js
+console.log("✅ Memulai load face-api.js...");
 
 window.setupFaceDetection = async function () {
     try {
@@ -13,13 +14,19 @@ window.setupFaceDetection = async function () {
 
 window.detectFaces = async function (video, canvas, ctx, playWarning) {
     try {
-        const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
+        const detections = await faceapi
+            .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
             .withFaceLandmarks()
             .withFaceExpressions();
 
+        // Kosongkan canvas dulu
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Gambar deteksi wajah & landmark
         faceapi.draw.drawDetections(canvas, detections);
         faceapi.draw.drawFaceLandmarks(canvas, detections);
 
+        // Deteksi ekspresi
         for (let d of detections) {
             const exp = d.expressions;
             const topEmotion = Object.keys(exp).reduce((a, b) => exp[a] > exp[b] ? a : b);
