@@ -1,5 +1,5 @@
-let detector, video, canvas, ctx;
-console.log("✅ pose.js dimuat");
+let detector;
+console.log("Pose berhasil dimuat");
 
 const BLAZEPOSE_KEYPOINT_NAMES = [
   "nose", "left_eye", "right_eye", "left_ear", "right_ear",
@@ -15,53 +15,91 @@ const BLAZEPOSE_KEYPOINT_NAMES = [
   "mouth_center"
 ];
 
+window.setupPoseDetection = async function(video, canvas, ctx) {
+    if (tf.getBackend() !== 'webgl') {
+        await tf.setBackend('webgl');
+    }
 
-window.onload = () => {
-    video = document.getElementById('video');
-    canvas = document.getElementById('output');
-    ctx = canvas.getContext('2d');
-
-    video.onloadeddata = async () => {
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        console.log("🎥 Resolusi video:", video.videoWidth, video.videoHeight);
-        canvas.style.border = "5px solid red"
-        
-        if (video.videoWidth === 0 || video.videoHeight === 0) {
-            console.warn("⚠️ Video belum siap saat canvas diatur.");
-            return;
-        }
-
-        await setupBlazePose();
-        detectPoseLoop();
+    const model = poseDetection.SupportedModels.BlazePose;
+    const detectorConfig = {
+        runtime: 'mediapipe',
+        modelType: 'full',
+        solutionPath: 'https://cdn.jsdelivr.net/npm/@mediapipe/pose',
     };
+    detector = await poseDetection.createDetector(model, detectorConfig);
+    console.log("🔥 BlazePose siap!");
+
+    detectPoseLoop(video, canvas, ctx);
 };
 
-function drawKeypoints(keypoints, status) {
+function detectPoseLoop(video, canvas, ctx) {
+    if (!detector) return;
+
+    detector.estimatePoses(video).then(poses => {
+        if (poses.length > 0) {
+            const keypoints = poses[0].keypoints;
+            const get = (name) => keypoints.find(p => p.name === name);
+            const nose = get('nose');
+            const leftShoulder = get('left_shoulder');
+            const rightShoulder = get('right_shoulder');
+            const leftEar = get('left_ear');
+            const rightEar = get('right_ear');
+
+            const allVisible = [nose, leftShoulder, rightShoulder].every(p => p && p.score > 0.3);
+            let status = "";
+
+            if (!allVisible) {
+                console.log("🚫 Postur tidak terdeteksi (keluar frame?)");
+                status = "Keluar Frame ❌";
+            } else {
+                const avgShoulderY = (leftShoulder.y + rightShoulder.y) / 2;
+                const headBelowShoulders = nose.y - avgShoulderY > 60;
+
+                const earAligned = leftEar && rightEar &&
+                    leftEar.score > 0.3 && rightEar.score > 0.3 &&
+                    Math.abs(leftEar.y - rightEar.y) < 15;
+
+                const shouldersFlat = Math.abs(leftShoulder.y - rightShoulder.y) < 15;
+
+                if (headBelowShoulders) {
+                    console.log("📱 Menunduk (indikasi main HP)");
+                    status = "Menunduk 📱";
+                } else if (earAligned && shouldersFlat) {
+                    console.log("🛌 Tiduran terdeteksi");
+                    status = "Tiduran 🛌";
+                } else {
+                    console.log("✅ Postur fokus");
+                    status = "Fokus ✅";
+                }
+            }
+
+            updateStatus(status);
+            drawKeypoints(keypoints, canvas, ctx);
+        }
+
+        requestAnimationFrame(() => detectPoseLoop(video, canvas, ctx));
+    });
+}
+
+function drawKeypoints(keypoints, canvas, ctx) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // console.log("🎯 Keypoints:", keypoints);
 
-
-    console.log("🔥 Sample keypoint object:", keypoints[0]);
     keypoints.forEach((kp, i) => {
         if (kp && kp.score > 0.5) {
-            // console.log(`🎯 Keypoint [${i}]:`, kp.x, kp.y);
-
             ctx.beginPath();
             ctx.arc(kp.x, kp.y, 5, 0, 2 * Math.PI);
             ctx.fillStyle = 'red';
             ctx.fill();
         }
     });
+
     ctx.fillStyle = 'blue';
     ctx.font = '20px Arial';
     ctx.fillText('Canvas Aktif 🟢', 10, 30);
-
-    drawSkeleton(keypoints); // tambahkan ini
+    drawSkeleton(keypoints, ctx);
 }
 
-
-function drawSkeleton(keypoints) {
+function drawSkeleton(keypoints, ctx) {
     const connections = [
         ['left_shoulder', 'right_shoulder'],
         ['left_shoulder', 'left_elbow'],
@@ -95,8 +133,6 @@ function drawSkeleton(keypoints) {
         }
     }
 
-    console.log("🦴 Menggambar skeleton...");
-
     connections.forEach(([a, b]) => {
         const kp1 = pointMap[a];
         const kp2 = pointMap[b];
@@ -109,14 +145,9 @@ function drawSkeleton(keypoints) {
     });
 }
 
-
-
-
-
 function updateStatus(status) {
     const el = document.getElementById('statusBelajar');
     if (!el) return;
-
     el.textContent = status;
 
     if (status.includes("Fokus")) {
@@ -124,66 +155,4 @@ function updateStatus(status) {
     } else {
         el.className = "text-2xl font-bold text-red-600";
     }
-}
-
-// Inisialisasi model BlazePose
-async function setupBlazePose() {
-    await tf.setBackend('webgl');
-    const model = poseDetection.SupportedModels.BlazePose;
-    const detectorConfig = {
-        runtime: 'mediapipe',     // ✅ gunakan ini
-        modelType: 'full',
-        solutionPath: 'https://cdn.jsdelivr.net/npm/@mediapipe/pose', // ✅ wajib untuk mediapipe
-    };
-    detector = await poseDetection.createDetector(model, detectorConfig);
-    console.log("🔥 BlazePose siap!");
-}
-
-// Loop deteksi postur
-async function detectPoseLoop() {
-    if (!detector) return;
-
-    const poses = await detector.estimatePoses(video);
-    if (poses.length > 0) {
-        const keypoints = poses[0].keypoints;
-        const get = (name) => keypoints.find(p => p.name === name);
-        const nose = get('nose');
-        const leftShoulder = get('left_shoulder');
-        const rightShoulder = get('right_shoulder');
-        const leftEar = get('left_ear');
-        const rightEar = get('right_ear');
-
-        const allVisible = [nose, leftShoulder, rightShoulder].every(p => p && p.score > 0.3);
-        let status = "";
-
-        if (!allVisible) {
-            console.log("🚫 Postur tidak terdeteksi (keluar frame?)");
-            status = "Keluar Frame ❌";
-        } else {
-            const avgShoulderY = (leftShoulder.y + rightShoulder.y) / 2;
-            const headBelowShoulders = nose.y - avgShoulderY > 60;
-
-            const earAligned = leftEar && rightEar &&
-                leftEar.score > 0.3 && rightEar.score > 0.3 &&
-                Math.abs(leftEar.y - rightEar.y) < 15;
-
-            const shouldersFlat = Math.abs(leftShoulder.y - rightShoulder.y) < 15;
-
-            if (headBelowShoulders) {
-                console.log("📱 Menunduk (indikasi main HP)");
-                status = "Menunduk 📱";
-            } else if (earAligned && shouldersFlat) {
-                console.log("🛌 Tiduran terdeteksi");
-                status = "Tiduran 🛌";
-            } else {
-                console.log("✅ Postur fokus");
-                status = "Fokus ✅";
-            }
-        }
-
-        updateStatus(status);
-        drawKeypoints(keypoints, status);
-    }
-
-    requestAnimationFrame(detectPoseLoop);
 }

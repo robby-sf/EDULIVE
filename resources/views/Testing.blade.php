@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     @vite(['resources/css/app.css'])
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    
 </head>
 <body class="bg-gray-100 min-h-screen flex flex-col font-sans">
 
@@ -122,7 +123,6 @@
 
     <!-- Main Content -->
     <div class="flex flex-grow overflow-hidden">
-        <!-- Camera Panel -->
         <div :class="{'w-full': !showChatbot, 'w-3/5': showChatbot}" class="relative flex flex-col items-center justify-center p-4 transition-all duration-300">
 
             <h1 class="text-3xl font-bold text-gray-900 mb-4" x-show="showStartButton" x-cloak>Teman Belajar</h1>
@@ -197,18 +197,26 @@
     </div>
 </div>
 
-<!-- TensorFlow & Pose -->
-<script src="/js/chatbot.js"></script>
+<!-- TensorFlow Core -->
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script>
+
+<!-- TensorFlow Model -->
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection"></script>
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.2/dist/coco-ssd.min.js"></script>
 
+<!-- ✅ HARUS di atas face.js -->
+<script src="/js/libs/face-api.min.js"></script>
 
-<!-- Pose Detection Logic -->
-<script defer src="/js/pose.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/face-api.js"></script>
+<!-- Script kamu -->
+<script src="/js/pose.js"></script>
+<script src="/js/face.js"></script>
+<script src="/js/object.js"></script>
+<script src="/js/chatbot.js"></script>
+<script src="/js/main.js"></script>
+
 
 </div>
 </body>
