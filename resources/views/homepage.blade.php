@@ -181,19 +181,19 @@
                         class="bg-[#000000] rounded-3xl shadow-lg w-full h-full transition-all duration-300 group-hover:shadow-2xl">
                     </div>
 
-                    <img src="{{ asset('asset/placeholderteam.png') }}" alt="Team Member"
+                    <img src="{{ asset('asset/ravelluth.png') }}" alt="Team Member"
                         class="absolute left-1/2 bottom-0 w-auto h-[320px] object-cover rounded-3xl drop-shadow-lg transform -translate-x-1/2" />
 
                 </div>
 
                 <div class="mt-6 max-w-[240px] text-center sm:text-left">
-                    <div class="flex items-center justify-center sm:justify-start mb-2">
-                        <span class="text-[30px] font-medium text-black">Ravelin</span>
+                    <div class="flex items-center justify-center sm:justify-center mb-2">
+                        <span class="text-[30px] font-medium text-black text">UI/UX Designer</span>
                     </div>
-                    <p class="text-[#5E5E5E] leading-relaxed mb-4 text-justify text-[20px]">
-                        Improve well being, grow future leader, become the greatness human
+                    <p class="text-[#5E5E5E] leading-relaxed mb-4 text-center text-[20px]">
+                        Designing intuitive user experiences and attractive interfaces for the platform
                     </p>
-                    <a href="{{ route('team.ceo') }}" class="text-blue-600 font-bold hover:underline text-sm">
+                    <a href="{{ route('team.member1') }}" class="text-blue-600 font-bold hover:underline text-sm">
                         Find out more &rarr;
                     </a>
                 </div>
@@ -212,13 +212,13 @@
                 </div>
 
                 <div class="mt-6 max-w-[240px] text-center sm:text-left">
-                    <div class="flex items-center justify-center sm:justify-start mb-2">
-                        <span class="text-[30px] font-medium text-black">Robby</span>
+                    <div class="flex items-center justify-center sm:justify-center mb-2">
+                        <span class="text-[30px] font-medium text-black">CTO</span>
                     </div>
-                    <p class="text-[#5E5E5E] leading-relaxed mb-4 text-justify text-[20px]">
-                        Improve well being, grow future leader, become the greatness human
+                    <p class="text-[#5E5E5E] leading-relaxed mb-4 text-center text-[20px]">
+                        Overseeing core technology development and project technical strategy
                     </p>
-                    <a href="{{ route('team.cto') }}" class="text-blue-600 font-bold hover:underline text-sm">
+                    <a href="{{ route('team.member2') }}" class="text-blue-600 font-bold hover:underline text-sm">
                         Find out more &rarr;
                     </a>
                 </div>
@@ -237,13 +237,13 @@
                 </div>
 
                 <div class="mt-6 max-w-[240px] text-center sm:text-left">
-                    <div class="flex items-center justify-center sm:justify-start mb-2">
-                        <span class="text-[30px] font-medium text-black">Rifqi</span>
+                    <div class="flex items-center justify-center text-center sm:justify-center mb-2">
+                        <span class="text-[30px] font-medium text-black">Backend Developer</span>
                     </div>
-                    <p class="text-[#5E5E5E] leading-relaxed mb-4 text-justify text-[20px]">
-                        Improve well being, grow future leader, become the greatness human
+                    <p class="text-[#5E5E5E] leading-relaxed mb-4 text-center text-[20px]">
+                        Responsible for architecting and implementing server-side systems
                     </p>
-                    <a href="{{ route('team.hrmanager') }}" class="text-blue-600 font-bold hover:underline text-sm">
+                    <a href="{{ route('team.member3') }}" class="text-blue-600 font-bold hover:underline text-sm">
                         Find out more &rarr;
                     </a>
                 </div>

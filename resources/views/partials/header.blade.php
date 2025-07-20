@@ -78,9 +78,6 @@
                          <a href="{{ route('dashboard.statistic') }}"
                              class="block py-2 px-2 text-gray-700 tracking-wide font-extralight hover:bg-gray-100 rounded">LEARNING
                              STATISTIC</a>
-                         <a href="#"
-                             class="block py-2 px-2 text-gray-700 tracking-wide font-extralight hover:bg-gray-100 rounded">LEARNING
-                             HISTORY</a>
                          <a href="{{ route('profile.index') }}"
                              class="block py-2 px-2 text-gray-700 tracking-wide font-extralight hover:bg-gray-100 rounded">MY
                              PROFILE</a>
@@ -97,10 +94,6 @@
                              <a href="{{ route('dashboard.statistic') }}"
                                  class="w-full h-12 flex items-center justify-center text-white text-sm font-medium tracking-wide transition-all duration-300 ease-in-out delay-100 hover:bg-white/10 rounded-t-2xl">
                                  LEARNING STATISTIC
-                             </a>
-                             <a href="#"
-                                 class="w-full h-12 flex items-center justify-center text-white text-sm font-medium tracking-wide transition-all duration-300 ease-in-out delay-200 hover:bg-white/10">
-                                 LEARNING HISTORY
                              </a>
                              <a href="{{ route('profile.index') }}"
                                  class="w-full h-12 flex items-center justify-center text-white text-sm font-medium tracking-wide transition-all duration-300 ease-in-out delay-300 hover:bg-white/10 rounded-b-2xl">

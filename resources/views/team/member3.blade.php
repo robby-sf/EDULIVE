@@ -1,10 +1,22 @@
 @extends('layouts.app')
 
+@section('title', 'Profil - Rifqi Makarim')
 
-@section('title', 'Profil - Ravelin Lutfhan')
+@push('styles')
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
+        }
+    </style>
+@endpush
 
 
 @section('content')
+
     <div class="w-full bg-gradient-to-br from-slate-50 to-gray-200 px-4 py-16 sm:py-40">
 
         <div id="profile-card"
@@ -20,23 +32,25 @@
 
             <div class="relative w-full max-w-xs lg:w-2/5 flex-shrink-0">
                 <div class="bg-gradient-to-t from-blue-600 to-blue-400 h-96 w-full rounded-2xl shadow-lg"></div>
-                <img src="{{ asset('asset/placeholderteam.png') }}" alt="Foto Ravelin Lutfhan"
-                    class="absolute bottom-0 left-1/2 -translate-x-1/2 h-[26rem] w-auto object-contain filter grayscale">
+                <img src="{{ asset('asset/placeholderteam.png') }}" alt="Rifqi Makarim"
+                    class="absolute bottom-[-40px] left-1/2 -translate-x-1/2 h-[26rem] w-auto object-contain">
             </div>
 
             <div class="w-full lg:w-3/5 flex flex-col justify-between self-stretch">
 
                 <div>
                     <div class="w-16 h-1 bg-blue-500 mb-4 rounded"></div>
-                    <h1 class="text-4xl lg:text-5xl font-extrabold text-black tracking-tight">Ravelin Lutfhan</h1>
-                    <p class="text-lg font-medium text-gray-500 mt-1">CEO</p>
+                    <h1 class="text-4xl lg:text-5xl font-extrabold text-gray-800 tracking-tight">Rifqi Makarim</h1>
+                    <p class="text-lg font-medium text-gray-500 mt-1">HR Manager</p>
                 </div>
 
-                <div class="relative mt-6 overflow-hidden h-64">
+                <div class="relative mt-6 overflow-hidden h-72">
 
                     <div id="desc-panel-1" class="absolute top-0 left-0 w-full transition-transform duration-500 ease-in-out">
                         <p class="text-gray-600 leading-relaxed text-justify">
-                            Sebagai CEO AntiNganggur, Ravelin Lutfhan memimpin visi dan strategi perusahaan dalam memperkuat posisi di industri teknologi informasi. Dengan pengalaman luas di bidang IT dan manajemen, Ravelin berkomitmen untuk menciptakan platform yang tidak hanya menghubungkan perusahaan dengan pencari kerja, tetapi juga memberdayakan individu untuk mencapai potensi terbaik mereka.
+                            Sebagai HR Manager AntiNganggur, Rifqi Makarim bertanggung jawab untuk mengelola seluruh aspek sumber daya manusia perusahaan.
+                            Dengan pengalaman luas di bidang manajemen SDM, Rafi berfokus pada pengembangan dan penerapan strategi perekrutan yang efektif untuk menarik kandidat berkualitas.
+                            Dia juga berperan dalam menciptakan lingkungan kerja yang positif dan mendukung pertumbuhan karyawan.
                         </p>
                     </div>
 
@@ -45,19 +59,19 @@
                             <div class="flex items-start gap-4">
                                 <span class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-full border-2 border-gray-400 text-gray-500 font-bold text-sm mt-1">01</span>
                                 <p class="text-gray-600 leading-relaxed text-justify">
-                                    Mengembangkan dan mengimplementasikan strategi bisnis jangka panjang untuk memastikan pertumbuhan dan keberlanjutan perusahaan.
+                                    Mengelola proses perekrutan, penyusunan deskripsi pekerjaan hingga wawancara dan seleksi kandidat.
                                 </p>
                             </div>
                             <div class="flex items-start gap-4">
                                 <span class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-full border-2 border-gray-400 text-gray-500 font-bold text-sm mt-1">02</span>
                                 <p class="text-gray-600 leading-relaxed text-justify">
-                                    Memimpin tim manajemen dan memastikan kolaborasi yang efektif di seluruh departemen.
+                                    Mengembangkan dan menerapkan kebijakan sumber daya manusia yang mendukung visi dan misi perusahaan.
                                 </p>
                             </div>
                             <div class="flex items-start gap-4">
                                 <span class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-full border-2 border-gray-400 text-gray-500 font-bold text-sm mt-1">03</span>
                                 <p class="text-gray-600 leading-relaxed text-justify">
-                                    Mengawasi pengembangan produk dan layanan baru, memastikan bahwa mereka memenuhi kebutuhan pasar dan standar kualitas yang tinggi.
+                                    Mengawasi kinerja pegawai dan memberikan umpan balik untuk mendukung perkembangan individu.
                                 </p>
                             </div>
                         </div>
@@ -67,16 +81,16 @@
 
                 <div class="flex justify-between items-center mt-8 pt-6 border-t border-gray-200">
                     <div class="flex space-x-5">
-                         <a href="mailto:ravelinlutfhanrlsp@gmail.com" class="relative group h-7 w-7">
+                         <a href="mailto:rifqimakarim8@gmail.com" class="relative group h-7 w-7">
                             <img src="{{ asset('asset/Gmailgray.png') }}" alt="Email" class="absolute inset-0 w-full h-full object-contain opacity-100 group-hover:opacity-0 transition-opacity duration-300">
                             <img src="{{ asset('asset/Gmailblue.png') }}" alt="Email Hover" class="absolute inset-0 w-full h-full object-contain opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         </a>
 
-                        <a href="https://www.instagram.com/ravelinluth/" class="relative group h-7 w-7">
+                        <a href="https://www.instagram.com/_rifqi.m/" class="relative group h-7 w-7">
                             <img src="{{ asset('asset/Instagramgray.png') }}" alt="Instagram" class="absolute inset-0 w-full h-full object-contain opacity-100 group-hover:opacity-0 transition-opacity duration-300">
                             <img src="{{ asset('asset/Instagramblue.png') }}" alt="Instagram Hover" class="absolute inset-0 w-full h-full object-contain opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         </a>
-                        <a href="https://www.linkedin.com/in/ravelin-syach-97460028a/" class="relative group h-7 w-7">
+                        <a href="https://www.linkedin.com/in/rifqi-makarim-927408288/" class="relative group h-7 w-7">
                             <img src="{{ asset('asset/LinkedIngray.png') }}" alt="LinkedIn" class="absolute inset-0 w-full h-full object-contain opacity-100 group-hover:opacity-0 transition-opacity duration-300">
                             <img src="{{ asset('asset/LinkedInblue.png') }}" alt="LinkedIn Hover" class="absolute inset-0 w-full h-full object-contain opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         </a>
