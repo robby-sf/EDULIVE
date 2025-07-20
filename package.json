@@ -17,6 +17,7 @@
         "vite": "^6.2.4"
     },
     "dependencies": {
-        "composer": "^4.1.0"
+        "composer": "^4.1.0",
+        "libphonenumber-js": "^1.12.10"
     }
 }

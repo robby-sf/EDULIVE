@@ -49,3 +49,69 @@
   opacity: 1;
   transform: translateY(0);
 }
+
+/* section 3 - team member */
+.text-outline {
+    color: transparent;
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: black;
+}
+
+.team-card {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.team-card.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* section 4 - get ready */
+.get-ready {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, filter 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.get-ready.visible {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+}
+
+.progress-bar-fill {
+    transition: width 0.5s ease-in-out;
+}
+
+#biodata-modal.modal-overlay {
+    background-color: rgba(17, 24, 39, 0.6);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+}
+
+#share-modal.modal-overlay {
+  background-color: rgba(17, 24, 39, 0.6);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+#picture-upload-modal {
+    background-color: rgba(17, 24, 39, 0.6);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+}
+
+#summary-modal.modal-overlay {
+    background-color: rgba(17, 24, 39, 0.6);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+}
+
+#education-modal.modal-overlay {
+    background-color: rgba(17, 24, 39, 0.6);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+}
