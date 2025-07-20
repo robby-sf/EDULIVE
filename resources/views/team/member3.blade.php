@@ -32,8 +32,8 @@
 
             <div class="relative w-full max-w-xs lg:w-2/5 flex-shrink-0">
                 <div class="bg-gradient-to-t from-blue-600 to-blue-400 h-96 w-full rounded-2xl shadow-lg"></div>
-                <img src="{{ asset('asset/placeholderteam.png') }}" alt="Rifqi Makarim"
-                    class="absolute bottom-[-40px] left-1/2 -translate-x-1/2 h-[26rem] w-auto object-contain">
+                <img src="{{ asset('asset/rifqima.png') }}" alt="Rifqi Makarim"
+                    class="absolute bottom-[0px] left-1/2 -translate-x-1/2 h-[26rem] w-auto object-contain">
             </div>
 
             <div class="w-full lg:w-3/5 flex flex-col justify-between self-stretch">

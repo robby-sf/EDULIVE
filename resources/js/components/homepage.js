@@ -85,11 +85,6 @@ export function initHomepage() {
         const featuresTitle = document.querySelector("#features-title");
         const featureCards = document.querySelectorAll(".feature-card");
 
-        if (!featuresSection || !featuresTitle || !featureCards.length) {
-            console.error("Elemen untuk animasi fitur tidak ditemukan!");
-            return;
-        }
-
         // Kosongkan konten judul agar bisa diketik oleh TypeIt
         featuresTitle.textContent = "";
 

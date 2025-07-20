@@ -86,7 +86,7 @@
                         {{-- Top Part: "AI" and "DETECTION" --}}
                         <div>
                             {{-- "AI" text. Using text with extreme font size and leading to mimic vector stretching --}}
-                            <div class="text-left text-black font-semibold" style="font-family: 'Poppins', sans-serif;">
+                            <div class="text-left text-black font-semibold" style="">
                                 <span style="font-size: 140px; line-height: 0.8;">A</span><span
                                     style="font-size: 140px; line-height: 0.8; margin-left: 0.01em;">I</span>
                             </div>
@@ -97,8 +97,8 @@
                         {{-- Bottom Part: Description --}}
                         <div class="w-full">
                             <p class="text-black text-base font-light tracking-wide text-left">
-                                Dengan integrasi teknologi Computer Vision & Machine Learning, EDULIVE secara otomatis
-                                mendeteksi postur tubuh pengguna saat belajar.
+                                With the integration of Computer Vision and Machine Learning technology,
+                                EDULIVE automatically detects the user's body posture while studying.
                             </p>
                         </div>
                     </div>
@@ -111,15 +111,14 @@
                         {{-- Top Part: Description --}}
                         <div class="w-full">
                             <p class="text-black text-base font-light tracking-wide text-center">
-                                EDULIVE menggunakan sistem otomatis berbasis aktivitas: timer akan aktif saat kamu
-                                terdeteksi sedang fokus
+                                EDULIVE implements an automatic system that activates a timer based on the detection of your activity focus.
                             </p>
                         </div>
 
                         {{-- Bottom Part: "SMART" and "TIMER" --}}
                         <div class="w-full">
                             <div class="text-center text-black font-semibold"
-                                style="font-family: 'Poppins', sans-serif; font-size: 100px; line-height: 1;">
+                                style=" font-size: 100px; line-height: 1;">
                                 <span style="margin-left: 0.01em;">S</span><span style="margin-left: 0.01em;">M</span><span
                                     style="margin-left: 0.01em;">A</span><span style="margin-left: 0.01em;">R</span><span
                                     style="margin-left: 0.01em;">T</span>
@@ -136,18 +135,18 @@
                         {{-- Top Part: "PROGRESS" and "TRACKER" --}}
                         <div>
                             <div class="text-left text-black font-semibold"
-                                style="font-family: 'Poppins', sans-serif; font-size: 90px; line-height: 1; letter-spacing: -0.05em;">
+                                style=" font-size: 90px; line-height: 1; letter-spacing: -0.05em;">
                                 PROGRESS
                             </div>
-                            <p class="text-left text-black text-4xl font-normal leading-9 mt-2">TRACKER</p>
+                            <p class="text-right text-black text-4xl font-normal leading-9 mt-2">TRACKER</p>
                         </div>
 
                         {{-- Bottom Part: Description --}}
                         <div class="w-full">
                             {{-- Menggunakan deskripsi yang lebih relevan --}}
                             <p class="text-black text-base font-light tracking-wide text-left">
-                                Pantau statistik dan riwayat belajar Anda untuk memvisualisasikan kemajuan dan memahami pola
-                                belajar Anda secara mendalam.
+                                Monitor your statistics and learning history
+                                to visualize your progress and understand your learning patterns in depth.
                             </p>
                         </div>
                     </div>
@@ -232,8 +231,8 @@
                             class="bg-[#000000] rounded-3xl shadow-lg w-full h-full transition-all duration-300 group-hover:shadow-2xl">
                         </div>
 
-                        <img src="{{ asset('asset/placeholderteam.png') }}" alt="Team Member"
-                            class="absolute left-1/2 bottom-0 w-auto h-[320px] object-cover rounded-3xl drop-shadow-lg transform -translate-x-1/2" />
+                        <img src="{{ asset('asset/rifqima.png') }}" alt="Team Member"
+                            class="absolute left-1/2 bottom-0 w-auto h-[350px] object-cover rounded-3xl drop-shadow-lg transform -translate-x-1/2" />
                     </div>
 
                     <div class="mt-6 max-w-[240px] text-center sm:text-left">
@@ -263,7 +262,7 @@
 
         <div class="relative z-10 min-h-screen flex flex-col items-center justify-center text-center">
 
-            <div class="text-black font-light" style="font-family: 'Poppins', sans-serif;">
+            <div class="text-black font-light" style="">
                 <h2 class="get-ready text-[100px] leading-tight">LETS</h2>
                 <h2 class="get-ready text-[100px] leading-tight">GET</h2>
                 <h2 class="get-ready text-[100px] leading-tight">STARTED</h2>
