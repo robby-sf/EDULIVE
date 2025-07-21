@@ -19,8 +19,8 @@
     "dependencies": {
         "@tensorflow-models/coco-ssd": "^2.2.3",
         "@tensorflow/tfjs": "^4.22.0",
-        "face-api.js": "^0.22.2"
         "composer": "^4.1.0",
+        "face-api.js": "^0.22.2",
         "libphonenumber-js": "^1.12.10",
         "typeit": "^8.8.7"
     }
