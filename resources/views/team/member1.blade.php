@@ -29,14 +29,15 @@
                 <div>
                     <div class="w-16 h-1 bg-blue-500 mb-4 rounded"></div>
                     <h1 class="text-4xl lg:text-5xl font-extrabold text-black tracking-tight">Ravelin Lutfhan</h1>
-                    <p class="text-lg font-medium text-gray-500 mt-1">CEO</p>
+                    <p class="text-lg font-medium text-gray-500 mt-1">UI/UX Designer</p>
                 </div>
 
                 <div class="relative mt-6 overflow-hidden h-64">
 
                     <div id="desc-panel-1" class="absolute top-0 left-0 w-full transition-transform duration-500 ease-in-out">
                         <p class="text-gray-600 leading-relaxed text-justify">
-                            Sebagai CEO AntiNganggur, Ravelin Lutfhan memimpin visi dan strategi perusahaan dalam memperkuat posisi di industri teknologi informasi. Dengan pengalaman luas di bidang IT dan manajemen, Ravelin berkomitmen untuk menciptakan platform yang tidak hanya menghubungkan perusahaan dengan pencari kerja, tetapi juga memberdayakan individu untuk mencapai potensi terbaik mereka.
+                            Ravel is the UI/UX Designer responsible for creating an intuitive and engaging user experience on the EDULIVE platform.
+                            He translates user needs and business goals into visually appealing and easy-to-navigate interfaces, ensuring the platform is both functional and enjoyable.
                         </p>
                     </div>
 
@@ -45,19 +46,19 @@
                             <div class="flex items-start gap-4">
                                 <span class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-full border-2 border-gray-400 text-gray-500 font-bold text-sm mt-1">01</span>
                                 <p class="text-gray-600 leading-relaxed text-justify">
-                                    Mengembangkan dan mengimplementasikan strategi bisnis jangka panjang untuk memastikan pertumbuhan dan keberlanjutan perusahaan.
+                                    Conducts user research to understand their needs and behaviors.
                                 </p>
                             </div>
                             <div class="flex items-start gap-4">
                                 <span class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-full border-2 border-gray-400 text-gray-500 font-bold text-sm mt-1">02</span>
                                 <p class="text-gray-600 leading-relaxed text-justify">
-                                    Memimpin tim manajemen dan memastikan kolaborasi yang efektif di seluruh departemen.
+                                    Leads the design process from ideation to implementation, ensuring a cohesive and user-centered approach.
                                 </p>
                             </div>
                             <div class="flex items-start gap-4">
                                 <span class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-full border-2 border-gray-400 text-gray-500 font-bold text-sm mt-1">03</span>
                                 <p class="text-gray-600 leading-relaxed text-justify">
-                                    Mengawasi pengembangan produk dan layanan baru, memastikan bahwa mereka memenuhi kebutuhan pasar dan standar kualitas yang tinggi.
+                                    Collaborates with developers to ensure the design is implemented accurately and meets user expectations.
                                 </p>
                             </div>
                         </div>

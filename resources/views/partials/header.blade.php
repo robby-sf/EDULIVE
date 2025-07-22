@@ -105,9 +105,6 @@
 
                  {{-- <a href="#"
                      class="text-[#000000] font-extralight tracking-wide hover:text-gray-600 transition-colors duration-300">CHATBOT</a> --}}
-                 <a href="#"
-                     class="text-[#000000] font-extralight tracking-wide hover:text-gray-600 transition-colors duration-300">ABOUT
-                     US</a>
              </div>
 
              {{-- Mobile Button SignIn/SignUp --}}
