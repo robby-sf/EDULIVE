@@ -155,7 +155,7 @@ function stopSession() {
         distraction_log: readableDistractions
     };
 
-    console.log("📊 Data sesi belajar:", payload);
+    console.log("Data sesi belajar:", payload);
 
     fetch('/api/study-session', {
     method: 'POST',
