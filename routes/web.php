@@ -32,7 +32,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/p/{user:name}', [PublicProfileController::class, 'show'])->name('profile.public');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/homepage', function () {
+    Route::get('/', function () {
         return view('homepage');
     })->name('homepage');
 
