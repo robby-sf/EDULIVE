@@ -1,11 +1,5 @@
 let lastObjectStatus = "Tidak terdeteksi 📵";
 let lastObjectTime = Date.now();
-let mobilenetModel;
-
-async function loadObjectDetection() {
-  mobilenetModel = await mobilenet.load();
-  console.log("✅ Object detection (mobilenet) siap");
-}
 
 window.setupObjectDetection = async function () {
     window.objectModel = await cocoSsd.load();
@@ -13,10 +7,13 @@ window.setupObjectDetection = async function () {
 };
 
 window.detectObjects = async function (video, ctx, playWarning) {
-    if (!window.objectModel) return;
+    if (!window.objectModel || !ctx || !ctx.canvas) {
+        console.warn("❌ Object model atau canvas context belum siap.");
+        return;
+    }
 
     const predictions = await window.objectModel.detect(video);
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Bersihkan sebelum gambar baru
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
     let now = Date.now();
     let phoneDetected = false;
@@ -57,6 +54,14 @@ window.detectObjects = async function (video, ctx, playWarning) {
             console.log(`⌛ Menunggu 2 detik status objek: ${newStatus}`);
         }
     }
+    if (!window.objectModel) {
+        console.warn("⛔ objectModel belum diload!");
+        return;
+    }
+    if (!ctx || !ctx.canvas) {
+        console.warn("⛔ Context canvas belum siap!");
+        return;
+    }
 };
 
 function updateObjectStatus(status) {
@@ -70,6 +75,13 @@ function updateObjectStatus(status) {
     } else {
         el.className = "text-xl font-semibold text-green-600";
     }
+}
+async function loopDeteksi() {
+    if (!video || !ctx || video.paused || video.ended) return;
+
+    await detectPose(video, canvas, ctx);
+    await detectObjects(video, canvas, ctx, playWarning);
+    requestAnimationFrame(loopDeteksi);
 }
 
 window.onObjectDetected?.(newStatus);

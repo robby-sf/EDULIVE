@@ -11,20 +11,20 @@ class StudyController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'startTime' => 'required|date',
-            'endTime' => 'required|date',
-            'focusDuration' => 'required|numeric',
-            'distractionDuration' => 'required|numeric',
-            'distractionLog' => 'required|array',
+            'started_at' => 'required|date',
+            'ended_at' => 'required|date',
+            'focus_duration' => 'required|numeric',
+            'distraction_duration' => 'required|numeric',
+            'distractions' => 'required|array',
         ]);
 
         $session = StudySession::create([
-            'user_id' => Auth::id(), 
-            'start_time' => $data['startTime'],
-            'end_time' => $data['endTime'],
-            'total_focus_minutes' => $data['focusDuration'],
-            'total_distraction_minutes' => $data['distractionDuration'],
-            'distraction_log' => $data['distractionLog'], 
+            'user_id' => Auth::id(),
+            'start_time' => $data['started_at'],
+            'end_time' => $data['ended_at'],
+            'total_focus_minutes' => $data['focus_duration'],
+            'total_distraction_minutes' => $data['distraction_duration'],
+            'distraction_log' => $data['distractions']
         ]);
 
         return response()->json([

@@ -6,13 +6,21 @@ let distractionDuration = 0;
 let currentDistraction = null;
 let distractions = {}; // Contoh: { "cell phone": 120, "tiduran": 60 }
 let poseStatus = "Fokus ✅";
-let faceEmotion = "Netral 🙂";
 let objectStatus = "Tidak terdeteksi";
-
+let poseLoopId = null;
+let objectLoopId = null;
 let lastFocusTimes = null;
 let lastDistractionTime = null;
 
 const warningAudio = new Audio('/sounds/warning.mp3');
+
+const LABELS = {
+    "fokus": "Fokus ✅",
+    "tiduran": "Tiduran 🛌",
+    "menunduk": "Menunduk 📱",
+    "keluar frame": "Keluar Frame ❌",
+    "cell phone": "Main HP 📱"
+};
 
 // ===== Utils =====
 function getNow() {
@@ -46,43 +54,17 @@ async function detectAll() {
         window.onPoseStatusUpdate(poseStatus);
     }
 
-    const faceResult = await detectFace(video, ctx);
-    if (faceResult === "sad") {
-        faceEmotion = "Sedih 😢";
-        window.onFaceEmotionUpdate(faceEmotion);
-        focus = false;
-        handleDistraction("sedih");
-    } else if (faceResult === "sleepy") {
-        faceEmotion = "Mengantuk 😴";
-        window.onFaceEmotionUpdate(faceEmotion);
-        focus = false;
-        handleDistraction("mengantuk");
-    } else if (faceResult === "happy") {
-        faceEmotion = "Bahagia 😊";
-        window.onFaceEmotionUpdate(faceEmotion);
-    } else if (faceResult === "hilang") {
-        faceEmotion = "Wajah Hilang ❌";
-        window.onFaceEmotionUpdate(faceEmotion);
-        focus = false;
-        handleDistraction("wajah hilang");
-    } else {
-        faceEmotion = "Netral 🙂";
-        window.onFaceEmotionUpdate(faceEmotion);
-    }
-
-    const objectResult = await detectObjects(video, ctx, playWarning);
-    if (objectResult.includes("cell phone")) {
-        objectStatus = "Main HP 📱";
-        window.onObjectDetected(objectStatus);
+    await detectObjects(video, ctx, playWarning); // tidak simpan return, cukup pakai callback
+    if (objectStatus === "Main HP 📱") {
         focus = false;
         handleDistraction("cell phone");
     } else {
-        objectStatus = "Tidak terdeteksi";
-        window.onObjectDetected(objectStatus);
+        window.onObjectDetected(objectStatus); // tetap update jika tidak ada
     }
 
     if (focus) handleFocus();
 }
+
 
 function handleDistraction(type) {
     const now = getNow();
@@ -110,6 +92,7 @@ function handleFocus() {
     if (lastFocusTimes) {
         const diff = seconds(now - lastFocusTimes);
         focusDuration += diff;
+        distractions["fokus"] = (distractions["fokus"] || 0) + diff; // ✅ Tambah ini
     }
 
     lastFocusTimes = now;
@@ -127,7 +110,6 @@ async function startSession() {
     console.log('✅ Backend WebGL siap!');
 
     await setupPoseDetection(video, canvas, ctx);
-    await setupFaceDetection();
     await setupObjectDetection();
 
     console.log("🧠 Semua model siap. Mulai belajar...");
@@ -137,36 +119,60 @@ async function startSession() {
 
 function loop() {
     if (!isStudying) return;
+    if (video.paused || video.ended || video.readyState < 2) return; 
+
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
     detectAll();
     requestAnimationFrame(loop);
 }
-
 function stopSession() {
     isStudying = false;
     studyEndTime = new Date();
 
+    if (video && video.srcObject) {
+        video.srcObject.getTracks().forEach(track => track.stop());
+        video.srcObject = null;
+    }
+
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas?.getContext("2d");
+    ctx?.clearRect(0, 0, canvas.width, canvas.height);
+
     const totalDuration = seconds(studyEndTime - studyStartTime);
+
+    const readableDistractions = {};
+    for (const key in distractions) {
+        const label = LABELS[key] || key;
+        readableDistractions[label] = distractions[key];
+    }
 
     const payload = {
         started_at: studyStartTime.toISOString(),
         ended_at: studyEndTime.toISOString(),
-        total_duration: totalDuration,
+        total_duration: seconds(studyEndTime - studyStartTime),
         focus_duration: focusDuration,
         distraction_duration: distractionDuration,
-        distractions: distractions
+        distraction_log: readableDistractions
     };
 
     console.log("📊 Data sesi belajar:", payload);
 
-    fetch('/api/sessions', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-        },
-        body: JSON.stringify(payload)
+    fetch('/api/study-session', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+    },
+    body: JSON.stringify(payload)
     })
+    .then(async res => {
+    const data = await res.json();
+    if (!res.ok) {
+        throw new Error(`HTTP ${res.status}: ${JSON.stringify(data)}`);
+    }
+    console.log("✅ Data terkirim ke server:", data);
+    })
+    .catch(err => console.error("❌ Gagal kirim data:", err))
     .then(res => res.json())
     .then(data => console.log("✅ Data terkirim ke server:", data))
     .catch(err => console.error("❌ Gagal kirim data:", err));
@@ -211,18 +217,6 @@ window.onload = async () => {
     canvas = document.getElementById('output');
     ctx = canvas.getContext('2d');
 
-    await Promise.all([
-        faceapi.nets.tinyFaceDetector.loadFromUri('/models/tiny_face_detector'),
-        faceapi.nets.faceLandmark68Net.loadFromUri('/models/face_landmark_68'),
-        faceapi.nets.faceExpressionNet.loadFromUri('/models/face_expression'),
-        cocoSsd.load().then(model => window.cocoModel = model),
-        poseDetection.createDetector(poseDetection.SupportedModels.BlazePose, {
-            runtime: 'mediapipe',
-            modelType: 'full',
-            solutionPath: 'https://cdn.jsdelivr.net/npm/@mediapipe/pose'
-        }).then(det => window.poseDetector = det)
-    ]);
-
     video.oncanplay = async () => {
         if (video.readyState >= 2) {
             canvas.width = video.videoWidth;
@@ -230,10 +224,12 @@ window.onload = async () => {
 
             await startSession(); 
 
-            // Mulai semua loop deteksi
-            loopDeteksi();
+            setTimeout(() => {
+                console.log("🎯 Mulai loop deteksi setelah semua siap");
+                requestAnimationFrame(loopDeteksi);
+            }, 500); 
 
-            setTimeout(stopSession, 60 * 60 * 1000); // Stop otomatis 1 jam
+            setTimeout(stopSession, 60 * 60 * 1000);
         } else {
             console.warn("⚠️ Video belum siap diputar.");
         }
@@ -241,12 +237,11 @@ window.onload = async () => {
 };
 
 async function loopDeteksi() {
-    if (!video.paused && !video.ended) {
-        await detectFace(video, canvas, ctx, playWarning);
-        await detectPose(video, canvas, ctx);
-        await detectObject(video, canvas, ctx, playWarning);
-        requestAnimationFrame(loopDeteksi);
-    }
+    if (!video || !ctx || video.paused || video.ended) return;
+
+    await detectPose(video, ctx);
+    await detectObjects(video, ctx, playWarning);
+    requestAnimationFrame(loopDeteksi);
 }
 
 
@@ -254,7 +249,6 @@ function updateCombinedStatus() {
     let finalStatus = "Fokus ✅";
 
     if (poseStatus !== "Fokus ✅") finalStatus = poseStatus;
-    else if (faceEmotion === "Sedih 😢" || faceEmotion === "Mengantuk 😴") finalStatus = faceEmotion;
     else if (objectStatus === "Main HP 📱") finalStatus = "Main HP 📱";
 
     document.getElementById('statusBelajar').textContent = finalStatus;
@@ -264,18 +258,12 @@ function updateCombinedStatus() {
     // Untuk debug panel:
     window.updateDebugStatus?.({
         pose: poseStatus,
-        emotion: faceEmotion,
         object: objectStatus
     });
 }
 
 window.onPoseStatusUpdate = (status) => {
     poseStatus = status;
-    updateCombinedStatus();
-};
-
-window.onFaceEmotionUpdate = (emotion) => {
-    faceEmotion = emotion;
     updateCombinedStatus();
 };
 
