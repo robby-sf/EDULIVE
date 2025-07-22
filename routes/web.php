@@ -56,5 +56,8 @@ Route::get('/belajar', function () {
 
 
 Route::post('/chat', [ChatController::class, 'chat']);
+Route::post('/speak', [ChatController::class, 'speak']);
+Route::post('/chat-image', [ChatController::class, 'chatWithImage']);
+
 
 Route::post('/study-session', [StudyController::class, 'store']);
