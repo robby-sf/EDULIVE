@@ -22,7 +22,7 @@
         "@tensorflow-models/coco-ssd": "^2.2.3",
         "@tensorflow/tfjs": "^4.22.0",
         "composer": "^4.1.0",
-        "face-api.js": "^0.22.2",
+        "face-api.js": "^0.20.0",
         "libphonenumber-js": "^1.12.10",
         "typeit": "^8.8.7"
     }
