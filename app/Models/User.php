@@ -58,6 +58,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Education::class);
     }
+    public function studySessions()
+    {
+        return $this->hasMany(StudySession::class);
+    }
+
 
     protected function profileCompleteness(): Attribute {
         return Attribute::make(

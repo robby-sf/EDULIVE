@@ -1,7 +1,11 @@
+// Variabel global
 let detector;
 let lastFocusTime = Date.now();
 let lastStatus = "Fokus ✅";
-let pendingStatus = "";
+let isPoseActive = true;
+let lastStatusChangeTime = Date.now();
+const statusChangeCooldown = 1000; // minimal 1 detik antara perubahan status
+
 console.log("Pose berhasil dimuat");
 
 const BLAZEPOSE_KEYPOINT_NAMES = [
@@ -36,12 +40,13 @@ window.setupPoseDetection = async function(video, canvas, ctx) {
 };
 
 function detectPoseLoop(video, canvas, ctx) {
-    if (!detector) return;
+    if (!detector || !isPoseActive || !video?.videoWidth) return;
 
     detector.estimatePoses(video).then(poses => {
-        let now = Date.now();
+        if (!isPoseActive || !video?.videoWidth) return;
+
+        const now = Date.now();
         let newStatus = "Fokus ✅";
-        let isFokus = false;
 
         if (poses.length > 0) {
             const keypoints = poses[0].keypoints;
@@ -58,21 +63,22 @@ function detectPoseLoop(video, canvas, ctx) {
                 newStatus = "Keluar Frame ❌";
             } else {
                 const avgShoulderY = (leftShoulder.y + rightShoulder.y) / 2;
-                const headBelowShoulders = nose.y - avgShoulderY > 60;
+                const shoulderDiff = Math.abs(leftShoulder.y - rightShoulder.y);
+                const earDiff = leftEar && rightEar &&
+                    leftEar.score > 0.3 && rightEar.score > 0.3 ?
+                    Math.abs(leftEar.y - rightEar.y) : Infinity;
 
-                const earAligned = leftEar && rightEar &&
-                    leftEar.score > 0.3 && rightEar.score > 0.3 &&
-                    Math.abs(leftEar.y - rightEar.y) < 15;
+                const headBelowShoulders = nose.y - avgShoulderY > 40;
+                const shouldersFlat = shoulderDiff < 12;
+                const earsAligned = earDiff < 12;
+                const headNearShoulders = Math.abs(nose.y - avgShoulderY) < 25;
 
-                const shouldersFlat = Math.abs(leftShoulder.y - rightShoulder.y) < 15;
-
-                if (headBelowShoulders) {
+                if (headBelowShoulders && !shouldersFlat) {
                     newStatus = "Menunduk 📱";
-                } else if (earAligned && shouldersFlat) {
+                } else if (shouldersFlat && earsAligned && headNearShoulders) {
                     newStatus = "Tiduran 🛌";
                 } else {
                     newStatus = "Fokus ✅";
-                    isFokus = true;
                 }
             }
 
@@ -81,27 +87,43 @@ function detectPoseLoop(video, canvas, ctx) {
             newStatus = "Keluar Frame ❌";
         }
 
+        const timeSinceLastChange = now - lastStatusChangeTime;
+
         if (newStatus === "Fokus ✅") {
             lastFocusTime = now;
-            if (lastStatus !== "Fokus ✅") {
+            if (lastStatus !== "Fokus ✅" && timeSinceLastChange >= statusChangeCooldown) {
                 lastStatus = "Fokus ✅";
+                lastStatusChangeTime = now;
                 updateStatus("Fokus ✅");
             }
         } else {
-            if (now - lastFocusTime >= 2000) {
+            const timeOutOfFocus = now - lastFocusTime;
+            if (timeOutOfFocus >= 2000 && timeSinceLastChange >= statusChangeCooldown) {
                 if (lastStatus !== newStatus) {
                     lastStatus = newStatus;
+                    lastStatusChangeTime = now;
                     updateStatus(newStatus);
                 }
             } else {
-                console.log(`⌛ Belum 2 detik, tetap status: ${lastStatus}`);
+                console.log(`⌛ Belum valid ganti status ke ${newStatus}`);
             }
         }
 
-        requestAnimationFrame(() => detectPoseLoop(video, canvas, ctx));
+        window.poseLoopId = requestAnimationFrame(() => detectPoseLoop(video, canvas, ctx));
+    }).catch(err => {
+        console.warn("❌ Error pose loop:", err);
     });
 }
 
+
+window.stopPoseDetection = function() {
+    isPoseActive = false;
+    if (window.poseLoopId) {
+        cancelAnimationFrame(window.poseLoopId);
+        window.poseLoopId = null;
+    }
+    console.log("🛑 Loop pose detection dihentikan.");
+};
 
 function drawKeypoints(keypoints, canvas, ctx) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -177,6 +199,6 @@ function updateStatus(status) {
     } else {
         el.className = "text-2xl font-bold text-red-600";
     }
-}
 
-window.onPoseStatusUpdate?.(newStatus);
+    window.onPoseStatusUpdate?.(status);
+}
