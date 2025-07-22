@@ -63,4 +63,4 @@ Route::post('/speak', [ChatController::class, 'speak']);
 Route::post('/chat-image', [ChatController::class, 'chatWithImage']);
 
 
-Route::post('/study-session', [StudyController::class, 'store']);
+Route::middleware('auth:sanctum')->post('/study-session', [StudyController::class, 'store']);
