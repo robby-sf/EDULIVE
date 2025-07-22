@@ -177,7 +177,6 @@
                     </button>
                 </div>
             </div>
-
         </div>
 
         <div class="w-full max-w-xl mt-6 p-4 bg-white border border-gray-300 rounded-lg shadow text-left space-y-2">

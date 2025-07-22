@@ -51,9 +51,8 @@
 
                     <div id="desc-panel-1" class="absolute top-0 left-0 w-full transition-transform duration-500 ease-in-out">
                         <p class="text-gray-600 leading-relaxed text-justify">
-                           Sebagai CTO AntiNganggur, Rizky Amalia bertanggung jawab untuk merumuskan dan menerapkan strategi teknologi perusahaan.
-                           Dengan latar belakang yang kuat di bidang IT dan manajemen, Rizky fokus pada inovasi produk dan pengembangan solusi yang efisien untuk memenuhi kebutuhan pengguna.
-                           Dia memastikan bahwa teknologi yang digunakan mendukung tujuan bisnis dengan optimal.
+                           As CTO at EDULIVE, Robby is responsible for all technical aspects of the platform, from backend architecture to frontend user experience.
+                           With deep expertise in modern web development, he leads a team of developers to build and maintain a reliable, innovative, and scalable technology infrastructure.
                         </p>
                     </div>
 
@@ -62,19 +61,19 @@
                             <div class="flex items-start gap-4">
                                 <span class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-full border-2 border-gray-400 text-gray-500 font-bold text-sm mt-1">01</span>
                                 <p class="text-gray-600 leading-relaxed text-justify">
-                                    Mengembangkan dan mengimplementasikan strategi teknologi yang sejalan dengan visi perusahaan.
+                                    Directing the technical vision of the EDULIVE platform to ensure it remains cutting-edge and aligned with business objectives.
                                 </p>
                             </div>
                             <div class="flex items-start gap-4">
                                 <span class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-full border-2 border-gray-400 text-gray-500 font-bold text-sm mt-1">02</span>
                                 <p class="text-gray-600 leading-relaxed text-justify">
-                                    Memimpin tim pengembangan dalam menciptakan solusi teknologi baru dan meningkatkan produk yang ada.
+                                    Managing the development team to ensure smooth project execution and high-quality features.
                                 </p>
                             </div>
                             <div class="flex items-start gap-4">
                                 <span class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-full border-2 border-gray-400 text-gray-500 font-bold text-sm mt-1">03</span>
                                 <p class="text-gray-600 leading-relaxed text-justify">
-                                    Mengelola tim IT dan memastikan kolaborasi yang efektif dalam proyek pengembangan.
+                                    Designing a robust infrastructure to ensure optimal platform performance for all users.
                                 </p>
                             </div>
                         </div>
