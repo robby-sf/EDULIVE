@@ -104,7 +104,7 @@
                         </button>
                     </template>
                     <template x-if="showCameraControls">
-                        <button @click="stopCamera()"
+                        <button @click="stopCamera(); window.stopSession()"
                             class="px-8 py-3 bg-red-600 text-white font-semibold rounded-full shadow-lg hover:bg-red-500 transition-colors duration-300">
                             Stop
                         </button>
