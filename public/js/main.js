@@ -11,6 +11,10 @@ let poseLoopId = null;
 let objectLoopId = null;
 let lastFocusTimes = null;
 let lastDistractionTime = null;
+let distractionStartTime = null;
+let focusStartTime = null;
+let lastAudioPlayedAt = {};
+
 
 const warningAudio = new Audio('/sounds/warning.mp3');
 
@@ -20,6 +24,14 @@ const LABELS = {
     "menunduk": "Menunduk 📱",
     "keluar frame": "Keluar Frame ❌",
     "cell phone": "Main HP 📱"
+};
+
+const audioMap = {
+    "tiduran": new Audio('/sounds/Jangan Tidur.mp3'),
+    "menunduk": new Audio('/sounds/Menunduk.mp3'),
+    "keluar frame": new Audio('/sounds/Kamu mau kemana.mp3'),
+    "cell phone": new Audio('/sounds/Jangan Main Hp.mp3'),
+    "drink": new Audio('/sounds/Minum.m4a')
 };
 
 // ===== Utils =====
@@ -39,6 +51,22 @@ function playWarning(text) {
     speechSynthesis.speak(utterance);
 }
 
+function playDistractionAudio(type) {
+    const now = getNow();
+
+    const cooldown = 5 * 1000;
+    if (lastAudioPlayedAt[type] && now - lastAudioPlayedAt[type] < cooldown) {
+        return;
+    }
+
+    lastAudioPlayedAt[type] = now;
+
+    const audio = audioMap[type];
+    if (audio) {
+        audio.play().catch(e => console.warn("⚠️ Gagal play audio:", e));
+    }
+}
+
 // ===== Deteksi Utama =====
 async function detectAll() {
     let focus = true;
@@ -55,7 +83,7 @@ async function detectAll() {
     }
 
     // Simpan hasil object detection
-    const objectResult = await detectObjects(video, ctx, playWarning);
+    const objectResult = await detectObjects(video, ctx);
     if (objectResult === "cell phone") {
         objectStatus = "cell phone";
         focus = false;
@@ -75,51 +103,63 @@ function handleDistraction(type) {
     const now = getNow();
 
     if (currentDistraction !== type) {
+        if (distractionStartTime && currentDistraction) {
+            const diff = seconds(now - distractionStartTime);
+            distractions[currentDistraction] = (distractions[currentDistraction] || 0) + diff;
+            distractionDuration += diff;
+        }
+
         currentDistraction = type;
-        lastDistractionTime = now;
+        distractionStartTime = now;
+
+        if (focusStartTime) {
+            const focusDiff = seconds(now - focusStartTime);
+            focusDuration += focusDiff;
+            distractions["fokus"] = (distractions["fokus"] || 0) + focusDiff;
+            focusStartTime = null;
+        }
+        playDistractionAudio(type);
     }
-
-    const diff = seconds(now - lastDistractionTime);
-    distractions[type] = (distractions[type] || 0) + diff;
-    distractionDuration += diff;
-
-    lastDistractionTime = now;
 }
+
 
 function handleFocus() {
     const now = getNow();
 
     if (currentDistraction !== null) {
+        if (distractionStartTime) {
+            const diff = seconds(now - distractionStartTime);
+            distractions[currentDistraction] = (distractions[currentDistraction] || 0) + diff;
+            distractionDuration += diff;
+        }
+
         currentDistraction = null;
-        lastFocusTimes = now;
+        distractionStartTime = null;
     }
 
-    if (lastFocusTimes) {
-        const diff = seconds(now - lastFocusTimes);
-        focusDuration += diff;
-        distractions["fokus"] = (distractions["fokus"] || 0) + diff; // ✅ Tambah ini
+    if (!focusStartTime) {
+        focusStartTime = now;
     }
-
-    lastFocusTimes = now;
 }
 
 // ===== Session Control =====
-
-
-
 async function startSession() {
     isStudying = true;
     studyStartTime = new Date();
     await tf.setBackend('webgl');
     await tf.ready();
-    console.log('✅ Backend WebGL siap!');
+    // console.log('✅ Backend WebGL siap!');
 
     await setupPoseDetection(video, canvas, ctx);
     await setupObjectDetection();
 
-    console.log("🧠 Semua model siap. Mulai belajar...");
+    // console.log("🧠 Semua model siap. Mulai belajar...");
 
     loop();
+
+    setInterval(() => {
+        playDistractionAudio("drink");
+    }, 10 * 60 * 1000); //debug ke 1 menit
 }
 
 function loop() {
@@ -150,6 +190,19 @@ function stopSession() {
         const label = LABELS[key] || key;
         readableDistractions[label] = distractions[key];
     }
+    const now = getNow();
+
+    if (currentDistraction && distractionStartTime) {
+        const diff = seconds(now - distractionStartTime);
+        distractions[currentDistraction] = (distractions[currentDistraction] || 0) + diff;
+        distractionDuration += diff;
+    }
+
+    if (focusStartTime) {
+        const diff = seconds(now - focusStartTime);
+        distractions["fokus"] = (distractions["fokus"] || 0) + diff;
+        focusDuration += diff;
+    }
 
     const payload = {
         started_at: studyStartTime.toISOString(),
@@ -159,11 +212,15 @@ function stopSession() {
         distraction_log: readableDistractions
     };
 
+    console.log("Total Fokus:", focusDuration, "detik");
+    console.log("Total Gangguan:", distractionDuration, "detik");
+    console.log("Rincian Gangguan:", distractions);
+
     console.log("Data sesi belajar:", payload);
 
         fetch('/study-session', {
             method: 'POST',
-            credentials: 'same-origin', // penting agar cookie session dibawa
+            credentials: 'same-origin', 
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
@@ -176,9 +233,9 @@ function stopSession() {
 
             try {
                 const json = JSON.parse(text);
-                console.log("✅ Parsed JSON:", json);
+                // console.log("✅ Parsed JSON:", json);
             } catch (e) {
-                console.error("❌ Bukan JSON:", e);
+                // console.error("❌ Bukan JSON:", e);
             }
         })
         .catch(err => console.error("❌ Gagal kirim data:", err));

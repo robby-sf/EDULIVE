@@ -178,13 +178,6 @@
                 </div>
             </div>
         </div>
-
-        <div class="w-full max-w-xl mt-6 p-4 bg-white border border-gray-300 rounded-lg shadow text-left space-y-2">
-            <p class="font-semibold text-gray-800">🧪 <span class="text-indigo-600">Status Debug:</span></p>
-            <p><span class="font-medium">Pose:</span> <span id="debugPose" class="text-gray-700">-</span></p>
-            <p><span class="font-medium">Ekspresi:</span> <span id="debugEmotion" class="text-gray-700">-</span></p>
-            <p><span class="font-medium">Objek (HP):</span> <span id="debugObject" class="text-gray-700">-</span></p>
-        </div>
     </div>
 @endsection
 
