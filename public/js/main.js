@@ -4,13 +4,17 @@ let studyStartTime, studyEndTime;
 let focusDuration = 0;
 let distractionDuration = 0;
 let currentDistraction = null;
-let distractions = {}; // Contoh: { "cell phone": 120, "tiduran": 60 }
+let distractions = {};
 let poseStatus = "Fokus ✅";
 let objectStatus = "Tidak terdeteksi";
 let poseLoopId = null;
 let objectLoopId = null;
 let lastFocusTimes = null;
 let lastDistractionTime = null;
+let distractionStartTime = null;
+let focusStartTime = null;
+let lastAudioPlayedAt = {};
+
 
 const warningAudio = new Audio('/sounds/warning.mp3');
 
@@ -20,6 +24,14 @@ const LABELS = {
     "menunduk": "Menunduk 📱",
     "keluar frame": "Keluar Frame ❌",
     "cell phone": "Main HP 📱"
+};
+
+const audioMap = {
+    "tiduran": new Audio('/sounds/Jangan Tidur.mp3'),
+    "menunduk": new Audio('/sounds/Menunduk.mp3'),
+    "keluar frame": new Audio('/sounds/Kamu mau kemana.mp3'),
+    "cell phone": new Audio('/sounds/Jangan Main Hp.mp3'),
+    "drink": new Audio('/sounds/Minum.m4a')
 };
 
 // ===== Utils =====
@@ -39,6 +51,22 @@ function playWarning(text) {
     speechSynthesis.speak(utterance);
 }
 
+function playDistractionAudio(type) {
+    const now = getNow();
+
+    const cooldown = 5 * 1000;
+    if (lastAudioPlayedAt[type] && now - lastAudioPlayedAt[type] < cooldown) {
+        return;
+    }
+
+    lastAudioPlayedAt[type] = now;
+
+    const audio = audioMap[type];
+    if (audio) {
+        audio.play().catch(e => console.warn("⚠️ Gagal play audio:", e));
+    }
+}
+
 // ===== Deteksi Utama =====
 async function detectAll() {
     let focus = true;
@@ -54,13 +82,18 @@ async function detectAll() {
         window.onPoseStatusUpdate(poseStatus);
     }
 
-    await detectObjects(video, ctx, playWarning); // tidak simpan return, cukup pakai callback
-    if (objectStatus === "Main HP 📱") {
+    // Simpan hasil object detection
+    const objectResult = await detectObjects(video, ctx);
+    if (objectResult === "cell phone") {
+        objectStatus = "cell phone";
         focus = false;
         handleDistraction("cell phone");
     } else {
-        window.onObjectDetected(objectStatus); // tetap update jika tidak ada
+        objectStatus = "Tidak terdeteksi";
     }
+
+    // Trigger update status gabungan
+    window.onObjectDetected(objectStatus);
 
     if (focus) handleFocus();
 }
@@ -70,51 +103,63 @@ function handleDistraction(type) {
     const now = getNow();
 
     if (currentDistraction !== type) {
+        if (distractionStartTime && currentDistraction) {
+            const diff = seconds(now - distractionStartTime);
+            distractions[currentDistraction] = (distractions[currentDistraction] || 0) + diff;
+            distractionDuration += diff;
+        }
+
         currentDistraction = type;
-        lastDistractionTime = now;
+        distractionStartTime = now;
+
+        if (focusStartTime) {
+            const focusDiff = seconds(now - focusStartTime);
+            focusDuration += focusDiff;
+            distractions["fokus"] = (distractions["fokus"] || 0) + focusDiff;
+            focusStartTime = null;
+        }
+        playDistractionAudio(type);
     }
-
-    const diff = seconds(now - lastDistractionTime);
-    distractions[type] = (distractions[type] || 0) + diff;
-    distractionDuration += diff;
-
-    lastDistractionTime = now;
 }
+
 
 function handleFocus() {
     const now = getNow();
 
     if (currentDistraction !== null) {
+        if (distractionStartTime) {
+            const diff = seconds(now - distractionStartTime);
+            distractions[currentDistraction] = (distractions[currentDistraction] || 0) + diff;
+            distractionDuration += diff;
+        }
+
         currentDistraction = null;
-        lastFocusTimes = now;
+        distractionStartTime = null;
     }
 
-    if (lastFocusTimes) {
-        const diff = seconds(now - lastFocusTimes);
-        focusDuration += diff;
-        distractions["fokus"] = (distractions["fokus"] || 0) + diff; // ✅ Tambah ini
+    if (!focusStartTime) {
+        focusStartTime = now;
     }
-
-    lastFocusTimes = now;
 }
 
 // ===== Session Control =====
-
-
-
 async function startSession() {
     isStudying = true;
     studyStartTime = new Date();
     await tf.setBackend('webgl');
     await tf.ready();
-    console.log('✅ Backend WebGL siap!');
+    // console.log('✅ Backend WebGL siap!');
 
     await setupPoseDetection(video, canvas, ctx);
     await setupObjectDetection();
 
-    console.log("🧠 Semua model siap. Mulai belajar...");
+    // console.log("🧠 Semua model siap. Mulai belajar...");
 
     loop();
+
+    setInterval(() => {
+        playDistractionAudio("drink");
+    }, 10 * 60 * 1000); //debug ke 1 menit
 }
 
 function loop() {
@@ -145,6 +190,19 @@ function stopSession() {
         const label = LABELS[key] || key;
         readableDistractions[label] = distractions[key];
     }
+    const now = getNow();
+
+    if (currentDistraction && distractionStartTime) {
+        const diff = seconds(now - distractionStartTime);
+        distractions[currentDistraction] = (distractions[currentDistraction] || 0) + diff;
+        distractionDuration += diff;
+    }
+
+    if (focusStartTime) {
+        const diff = seconds(now - focusStartTime);
+        distractions["fokus"] = (distractions["fokus"] || 0) + diff;
+        focusDuration += diff;
+    }
 
     const payload = {
         started_at: studyStartTime.toISOString(),
@@ -154,11 +212,15 @@ function stopSession() {
         distraction_log: readableDistractions
     };
 
+    console.log("Total Fokus:", focusDuration, "detik");
+    console.log("Total Gangguan:", distractionDuration, "detik");
+    console.log("Rincian Gangguan:", distractions);
+
     console.log("Data sesi belajar:", payload);
 
         fetch('/study-session', {
             method: 'POST',
-            credentials: 'same-origin', // penting agar cookie session dibawa
+            credentials: 'same-origin', 
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
@@ -171,45 +233,59 @@ function stopSession() {
 
             try {
                 const json = JSON.parse(text);
-                console.log("✅ Parsed JSON:", json);
+                // console.log("✅ Parsed JSON:", json);
             } catch (e) {
-                console.error("❌ Bukan JSON:", e);
+                // console.error("❌ Bukan JSON:", e);
             }
         })
         .catch(err => console.error("❌ Gagal kirim data:", err));
 
 }
 
-// Deteksi satu frame postur, return status
+// ====== Deteksi Pose Satu Frame ======
 window.detectPose = async function(video, ctx) {
     if (!detector) return "unknown";
 
     const poses = await detector.estimatePoses(video);
-    if (poses.length === 0) return "tidak terdeteksi";
+    if (poses.length === 0) return "keluar frame";
 
     const keypoints = poses[0].keypoints;
     const get = (name) => keypoints.find(p => p.name === name);
+
     const nose = get('nose');
     const leftShoulder = get('left_shoulder');
     const rightShoulder = get('right_shoulder');
     const leftEar = get('left_ear');
     const rightEar = get('right_ear');
+    const leftHip = get('left_hip');
+    const rightHip = get('right_hip');
 
-    const allVisible = [nose, leftShoulder, rightShoulder].every(p => p && p.score > 0.3);
-
-    if (!allVisible) return "keluar frame";
+    const keypointsNeeded = [nose, leftShoulder, rightShoulder, leftHip, rightHip];
+    const visibleCount = keypointsNeeded.filter(p => p && p.score > 0.3).length;
+    if (visibleCount < 3) return "keluar frame";
 
     const avgShoulderY = (leftShoulder.y + rightShoulder.y) / 2;
-    const headBelowShoulders = nose.y - avgShoulderY > 60;
-
-    const earAligned = leftEar && rightEar &&
-        leftEar.score > 0.3 && rightEar.score > 0.3 &&
-        Math.abs(leftEar.y - rightEar.y) < 15;
+    const avgHipY = (leftHip.y + rightHip.y) / 2;
 
     const shouldersFlat = Math.abs(leftShoulder.y - rightShoulder.y) < 15;
 
-    if (headBelowShoulders) return "menunduk";
-    if (earAligned && shouldersFlat) return "tiduran";
+    // ✔ Improve logika "menunduk"
+    const headLeaningDown = nose.y - avgShoulderY > 20;
+    const isMenunduk = headLeaningDown && !shouldersFlat && nose.score > 0.3;
+
+    // ✔ Improve logika "tiduran"
+    const shouldersHorizontal = Math.abs(leftShoulder.y - rightShoulder.y) < 10;
+    const hipsHorizontal = Math.abs(leftHip.y - rightHip.y) < 10;
+    const shouldersDistance = Math.abs(leftShoulder.x - rightShoulder.x);
+    const hipsDistance = Math.abs(leftHip.x - rightHip.x);
+    const torsoAngle = Math.abs(avgShoulderY - avgHipY);
+    const isLying = shouldersHorizontal && hipsHorizontal &&
+                    shouldersDistance > 100 && hipsDistance > 100 &&
+                    torsoAngle < 50;
+
+    if (isLying) return "tiduran";
+    if (isMenunduk) return "menunduk";
+
     return "fokus";
 };
 
@@ -240,24 +316,30 @@ window.onload = async () => {
 
 async function loopDeteksi() {
     if (!video || !ctx || video.paused || video.ended) return;
-
-    await detectPose(video, ctx);
-    await detectObjects(video, ctx, playWarning);
+    
+    // Gunakan detectAll untuk menangani semua deteksi
+    await detectAll();
     requestAnimationFrame(loopDeteksi);
 }
 
 
 function updateCombinedStatus() {
-    let finalStatus = "Fokus ✅";
+    let finalStatus = "fokus";
 
-    if (poseStatus !== "Fokus ✅") finalStatus = poseStatus;
-    else if (objectStatus === "Main HP 📱") finalStatus = "Main HP 📱";
+    if (poseStatus !== "Fokus ✅") {
+        finalStatus = poseStatus;
+    } else if (objectStatus === "cell phone") {
+        finalStatus = "cell phone";
+    }
 
-    document.getElementById('statusBelajar').textContent = finalStatus;
+    const displayLabel = LABELS[finalStatus] || finalStatus;
+
+    document.getElementById('statusBelajar').textContent = displayLabel;
     document.getElementById('statusBelajar').className =
-        finalStatus.includes("Fokus") ? "text-2xl font-bold text-green-600" : "text-2xl font-bold text-red-600";
+        finalStatus === "fokus"
+            ? "text-2xl font-bold text-green-600"
+            : "text-2xl font-bold text-red-600";
 
-    // Untuk debug panel:
     window.updateDebugStatus?.({
         pose: poseStatus,
         object: objectStatus

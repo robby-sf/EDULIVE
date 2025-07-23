@@ -222,22 +222,16 @@
                     class="flex-grow border border-gray-300 rounded-full py-3 px-5 outline-none focus:border-gray-700"
                     @keydown.enter.prevent="imagePreview ? uploadImage() : sendMessage()">
 
-                <button
-                    @click="imagePreview ? uploadImage() : sendMessage()"
-                    class="bg-gray-900 text-white rounded-full p-3 ml-2 hover:bg-gray-800">
-                    <i class="fas fa-paper-plane text-lg"></i>
-                </button>
+                    <button
+                        @click="imagePreview ? uploadImage() : sendMessage()"
+                        class="bg-gray-900 text-white rounded-full p-3 ml-2 hover:bg-gray-800"
+                    >
+                        <i class="fas fa-paper-plane text-lg"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-
-    <div class="w-full max-w-xl mt-6 p-4 bg-white border border-gray-300 rounded-lg shadow text-left space-y-2">
-        <p class="font-semibold text-gray-800">🧪 <span class="text-indigo-600">Status Debug:</span></p>
-        <p><span class="font-medium">Pose:</span> <span id="debugPose" class="text-gray-700">-</span></p>
-        <p><span class="font-medium">Ekspresi:</span> <span id="debugEmotion" class="text-gray-700">-</span></p>
-        <p><span class="font-medium">Objek (HP):</span> <span id="debugObject" class="text-gray-700">-</span></p>
-    </div>
-</div>
 @endsection
 
 @push('scripts')
