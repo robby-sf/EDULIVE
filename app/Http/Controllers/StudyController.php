@@ -10,12 +10,16 @@ class StudyController extends Controller
 {
     public function store(Request $request)
     {
+        \Log::info('📥 StudySession POST diterima!');
+        \Log::info('User ID: ' . Auth::id());
+        \Log::info($request->all());
+        
         $data = $request->validate([
             'started_at' => 'required|date',
             'ended_at' => 'required|date',
             'focus_duration' => 'required|numeric',
             'distraction_duration' => 'required|numeric',
-            'distractions' => 'required|array',
+            'distraction_log' => 'required|array',
         ]);
 
         $session = StudySession::create([
@@ -24,7 +28,7 @@ class StudyController extends Controller
             'end_time' => $data['ended_at'],
             'total_focus_minutes' => $data['focus_duration'],
             'total_distraction_minutes' => $data['distraction_duration'],
-            'distraction_log' => $data['distractions']
+            'distraction_log' => $data['distraction_log']
         ]);
 
         return response()->json([
