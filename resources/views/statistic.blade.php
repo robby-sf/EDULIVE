@@ -12,12 +12,6 @@
         <main>
             <div class="text-center mb-8">
                 <h2 class="text-4xl font-bold mb-3 text-gray-800">Learning Statistics</h2>
-                <button class="bg-white border border-gray-200 rounded-md px-4 py-1.5 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-50 flex items-center gap-2 mx-auto">
-                    This Week
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                </button>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -30,7 +24,7 @@
                         </span>
                     </div>
                     <div>
-                        <p class="text-3xl font-bold text-gray-900">1 jam 45 menit</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ $formattedFocusTime }}</p>
                         <p class="text-sm text-gray-500">Effective Focus Duration</p>
                     </div>
                 </div>
@@ -43,7 +37,7 @@
                         </span>
                     </div>
                     <div>
-                        <p class="text-3xl font-bold text-gray-900">5 Times</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ $totalDisruptions }} Kali</p>
                         <p class="text-sm text-gray-500">Number of disruptions</p>
                     </div>
                 </div>
@@ -56,7 +50,7 @@
                         </span>
                     </div>
                     <div>
-                        <p class="text-3xl font-bold text-gray-900">80/100</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ $overallFocusScore }}/100</p>
                         <p class="text-sm text-gray-500">Overall Focus Score</p>
                     </div>
                 </div>
@@ -69,7 +63,7 @@
                         </span>
                     </div>
                     <div>
-                        <p class="text-3xl font-bold text-gray-900">80%</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ $averageFocusScore }}%</p>
                         <p class="text-sm text-gray-500">Average Focus per Session</p>
                     </div>
                 </div>
@@ -103,27 +97,29 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- Data dummy, nantinya bisa di-loop dari controller --}}
+                            @forelse($sessions as $session)
                             <tr class="bg-white border-b">
-                                <td class="py-4 px-6 font-medium">12 Feb 2024</td>
-                                <td class="py-4 px-6">2j 15m</td>
-                                <td class="py-4 px-6">1j 45m</td>
-                                <td class="py-4 px-6">5</td>
+                                <td class="py-4 px-6 font-medium">{{ \Carbon\Carbon::parse($session->start_time)->format('d M Y') }}</td>
+                                <td class="py-4 px-6">{{ $session->total_focus_minutes + $session->total_distraction_minutes }}m</td>
+                                <td class="py-4 px-6">{{ $session->total_focus_minutes }}m</td>
+                                <td class="py-4 px-6">{{ count($session->distraction_log ?? []) }}</td>
                                 <td class="py-4 px-6">
-                                    <div class="flex items-center gap-2"><span class="h-2.5 w-2.5 bg-green-500 rounded-full"></span> 82</div>
+                                    @php
+                                    $total = $session->total_focus_minutes + $session->total_distraction_minutes;
+                                    $score = $total > 0 ? round(($session->total_focus_minutes / $total) * 100) : 0;
+                                    @endphp
+                                    <div class="flex items-center gap-2">
+                                        <span class="h-2.5 w-2.5 {{ $score >= 75 ? 'bg-green-500' : 'bg-yellow-500' }} rounded-full"></span>
+                                        {{ $score }}
+                                    </div>
                                 </td>
                                 <td class="py-4 px-6"><a href="#" class="text-indigo-600 hover:text-indigo-800 font-semibold">Detail</a></td>
                             </tr>
-                            <tr class="bg-gray-50 border-b">
-                                <td class="py-4 px-6 font-medium">11 Feb 2024</td>
-                                <td class="py-4 px-6">1j 30m</td>
-                                <td class="py-4 px-6">1j 10m</td>
-                                <td class="py-4 px-6">8</td>
-                                <td class="py-4 px-6">
-                                    <div class="flex items-center gap-2"><span class="h-2.5 w-2.5 bg-green-500 rounded-full"></span> 75</div>
-                                </td>
-                                <td class="py-4 px-6"><a href="#" class="text-indigo-600 hover:text-indigo-800 font-semibold">Detail</a></td>
+                            @empty
+                            <tr class="bg-white border-b">
+                                <td colspan="6" class="text-center py-4">Belum ada riwayat sesi belajar.</td>
                             </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -139,10 +135,10 @@
     document.addEventListener('DOMContentLoaded', function() {
         // Data Dummy untuk Grafik
         const learningTimeData = {
-            labels: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'],
+            labels: @json($learningTimeLabels),
             datasets: [{
                 label: 'Waktu Belajar (menit)',
-                data: [90, 85, 110, 130, 140, 150, 120],
+                data: @json($learningTimeData),
                 borderColor: '#8b5cf6',
                 backgroundColor: 'rgba(139, 92, 246, 0.1)',
                 tension: 0.4,
