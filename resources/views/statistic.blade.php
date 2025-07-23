@@ -146,7 +146,7 @@
             }]
         };
         const disruptionData = {
-            labels: ['Tiduran', 'Lihat ke bawah', 'Keluar kamera'],
+            labels: ['Tiduran', 'Menunduk', 'Keluar kamera'],
             datasets: [{
                 label: 'Jumlah Gangguan',
                 data: [50, 40, 25],
