@@ -67,5 +67,5 @@
     @include('partials.notification')
     @stack('scripts')
 </body>
-@stack('scripts')
+
 </html>

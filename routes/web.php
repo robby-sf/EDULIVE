@@ -48,6 +48,8 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::get('/dashboard/statistic', [DashboardController::class, 'statistic'])->name('dashboard.statistic');
+
+    Route::post('/study-session', [StudyController::class, 'store']);
 });
 
 Route::get('/belajar', function () {
@@ -59,4 +61,6 @@ Route::post('/chat', [ChatController::class, 'chat']);
 Route::post('/speak', [ChatController::class, 'speak']);
 Route::post('/chat-image', [ChatController::class, 'chatWithImage']);
 
-Route::middleware('auth:sanctum')->post('/study-session', [StudyController::class, 'store']);
+Route::middleware(['auth'])->group(function () {
+    Route::post('/study-session', [StudyController::class, 'store']);
+});

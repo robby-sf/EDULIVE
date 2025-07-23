@@ -9,7 +9,7 @@ window.setupObjectDetection = async function () {
 window.detectObjects = async function (video, ctx, playWarning) {
     if (!window.objectModel || !ctx || !ctx.canvas) {
         console.warn("❌ Object model atau canvas context belum siap.");
-        return;
+        return "Tidak terdeteksi";
     }
 
     const predictions = await window.objectModel.detect(video);
@@ -35,7 +35,7 @@ window.detectObjects = async function (video, ctx, playWarning) {
         }
     }
 
-    let newStatus = phoneDetected ? "Main HP 📱" : "Tidak terdeteksi 📵";
+    let newStatus = phoneDetected ? "cell phone" : "Tidak terdeteksi";
 
     // Logika delay 2 detik
     if (newStatus === lastObjectStatus) {
@@ -45,7 +45,15 @@ window.detectObjects = async function (video, ctx, playWarning) {
             lastObjectStatus = newStatus;
             updateObjectStatus(newStatus);
 
-            if (newStatus === "Main HP 📱") {
+            // Update global objectStatus untuk digunakan di main.js
+            window.objectStatus = newStatus;
+            
+            // Trigger callback untuk update status gabungan
+            if (window.onObjectDetected) {
+                window.onObjectDetected(newStatus);
+            }
+
+            if (newStatus === "cell phone") {
                 playWarning("Jangan main HP ya!");
             }
 
@@ -54,34 +62,20 @@ window.detectObjects = async function (video, ctx, playWarning) {
             console.log(`⌛ Menunggu 2 detik status objek: ${newStatus}`);
         }
     }
-    if (!window.objectModel) {
-        console.warn("⛔ objectModel belum diload!");
-        return;
-    }
-    if (!ctx || !ctx.canvas) {
-        console.warn("⛔ Context canvas belum siap!");
-        return;
-    }
+    
+    return lastObjectStatus;
 };
 
 function updateObjectStatus(status) {
     const el = document.getElementById('statusObject');
     if (!el) return;
 
-    el.textContent = status;
+    const displayText = status === "cell phone" ? "Main HP 📱" : "Tidak terdeteksi 📵";
+    el.textContent = displayText;
 
-    if (status.includes("Main HP")) {
+    if (status === "cell phone") {
         el.className = "text-xl font-semibold text-red-600";
     } else {
         el.className = "text-xl font-semibold text-green-600";
     }
 }
-async function loopDeteksi() {
-    if (!video || !ctx || video.paused || video.ended) return;
-
-    await detectPose(video, canvas, ctx);
-    await detectObjects(video, canvas, ctx, playWarning);
-    requestAnimationFrame(loopDeteksi);
-}
-
-window.onObjectDetected?.(newStatus);
