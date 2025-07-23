@@ -1,4 +1,6 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -11,7 +13,6 @@
         "Noto Color Emoji";
 }
 
-/* this is for section 1 homepage */
 #animated-title span,
 #animated-tagline span {
     display: inline-block;

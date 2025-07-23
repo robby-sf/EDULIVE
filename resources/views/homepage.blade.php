@@ -231,7 +231,7 @@
                             class="bg-[#000000] rounded-3xl shadow-lg w-full h-full transition-all duration-300 group-hover:shadow-2xl">
                         </div>
 
-                        <img src="{{ asset('asset/rifqima.png') }}" alt="Team Member"
+                        <img src="{{ asset('asset/rifqi.png') }}" alt="Team Member"
                             class="absolute left-1/2 bottom-0 w-auto h-[350px] object-cover rounded-3xl drop-shadow-lg transform -translate-x-1/2" />
                     </div>
 
@@ -268,7 +268,7 @@
                 <h2 class="get-ready text-[100px] leading-tight">STARTED</h2>
             </div>
 
-            <a href="#"
+            <a href="{{route('belajar')}}"
                 class="get-ready mt-8 px-8 py-3 bg-black text-white text-sm font-light tracking-widest rounded-full hover:bg-gray-800 transition-colors duration-300">
                 START
             </a>

@@ -61,7 +61,7 @@
              <div class="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-8 px-4 md:px-0">
                  <a href="{{ route('homepage') }}"
                      class="text-[#000000] font-extralight tracking-wide hover:text-gray-600 transition-colors duration-300">HOME</a>
-                 <a href="#"
+                 <a href="{{route('belajar')}}"
                      class="text-[#000000] font-extralight tracking-wide hover:text-gray-600 transition-colors duration-300">LEARNING</a>
 
                  <div class="relative">
@@ -105,9 +105,6 @@
 
                  {{-- <a href="#"
                      class="text-[#000000] font-extralight tracking-wide hover:text-gray-600 transition-colors duration-300">CHATBOT</a> --}}
-                 <a href="#"
-                     class="text-[#000000] font-extralight tracking-wide hover:text-gray-600 transition-colors duration-300">ABOUT
-                     US</a>
              </div>
 
              {{-- Mobile Button SignIn/SignUp --}}

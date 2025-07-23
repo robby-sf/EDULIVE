@@ -32,7 +32,7 @@
 
             <div class="relative w-full max-w-xs lg:w-2/5 flex-shrink-0">
                 <div class="bg-gradient-to-t from-blue-600 to-blue-400 h-96 w-full rounded-2xl shadow-lg"></div>
-                <img src="{{ asset('asset/rifqima.png') }}" alt="Rifqi Makarim"
+                <img src="{{ asset('asset/rifqi.png') }}" alt="Rifqi Makarim"
                     class="absolute bottom-[0px] left-1/2 -translate-x-1/2 h-[26rem] w-auto object-contain">
             </div>
 
@@ -41,17 +41,15 @@
                 <div>
                     <div class="w-16 h-1 bg-blue-500 mb-4 rounded"></div>
                     <h1 class="text-4xl lg:text-5xl font-extrabold text-gray-800 tracking-tight">Rifqi Makarim</h1>
-                    <p class="text-lg font-medium text-gray-500 mt-1">HR Manager</p>
+                    <p class="text-lg font-medium text-gray-500 mt-1">Backend Developer</p>
                 </div>
 
                 <div class="relative mt-6 overflow-hidden h-72">
 
                     <div id="desc-panel-1" class="absolute top-0 left-0 w-full transition-transform duration-500 ease-in-out">
                         <p class="text-gray-600 leading-relaxed text-justify">
-                            Sebagai HR Manager AntiNganggur, Rifqi Makarim bertanggung jawab untuk mengelola seluruh aspek sumber daya manusia perusahaan.
-                            Dengan pengalaman luas di bidang manajemen SDM, Rafi berfokus pada pengembangan dan penerapan strategi perekrutan yang efektif untuk menarik kandidat berkualitas.
-                            Dia juga berperan dalam menciptakan lingkungan kerja yang positif dan mendukung pertumbuhan karyawan.
-                        </p>
+                           Rifqi is the Backend Developer who architects and implements the server-side logic for the EDULIVE platform.
+                           He focuses on managing databases, and ensuring the application's core systems are secure, efficient, and scalable to support all user-facing features.
                     </div>
 
                     <div id="desc-panel-2" class="absolute top-0 left-0 w-full transition-transform duration-500 ease-in-out translate-x-full">
@@ -59,19 +57,19 @@
                             <div class="flex items-start gap-4">
                                 <span class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-full border-2 border-gray-400 text-gray-500 font-bold text-sm mt-1">01</span>
                                 <p class="text-gray-600 leading-relaxed text-justify">
-                                    Mengelola proses perekrutan, penyusunan deskripsi pekerjaan hingga wawancara dan seleksi kandidat.
+                                    Manages the application's database schema, ensures data integrity, and optimizes queries for fast and reliable performance.
                                 </p>
                             </div>
                             <div class="flex items-start gap-4">
                                 <span class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-full border-2 border-gray-400 text-gray-500 font-bold text-sm mt-1">02</span>
                                 <p class="text-gray-600 leading-relaxed text-justify">
-                                    Mengembangkan dan menerapkan kebijakan sumber daya manusia yang mendukung visi dan misi perusahaan.
+                                    Implements the core business logic, user authentication, and security measures to protect user data and ensure platform stability.
                                 </p>
                             </div>
                             <div class="flex items-start gap-4">
                                 <span class="flex-shrink-0 flex items-center justify-center h-8 w-8 rounded-full border-2 border-gray-400 text-gray-500 font-bold text-sm mt-1">03</span>
                                 <p class="text-gray-600 leading-relaxed text-justify">
-                                    Mengawasi kinerja pegawai dan memberikan umpan balik untuk mendukung perkembangan individu.
+                                    Develops the primary server-side logic for platform features
                                 </p>
                             </div>
                         </div>

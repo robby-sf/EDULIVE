@@ -31,4 +31,5 @@ class StudySession extends Model
     {
         return $this->belongsTo(User::class);
     }
+
 }
