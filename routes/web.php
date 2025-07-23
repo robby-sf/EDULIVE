@@ -48,6 +48,8 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::get('/dashboard/statistic', [DashboardController::class, 'statistic'])->name('dashboard.statistic');
+
+    Route::post('/study-session', [StudyController::class, 'store']);
 });
 
 Route::get('/belajar', function () {

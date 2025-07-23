@@ -25,7 +25,9 @@ class StudyController extends Controller
             'ended_at' => 'required|date',
             'focus_duration' => 'required|numeric',
             'distraction_duration' => 'required|numeric',
+            'distractions' => 'nullable|array',
             'distraction_log' => 'required|array',
+
         ]);
 
         Log::info($data);
