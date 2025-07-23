@@ -149,7 +149,6 @@ function stopSession() {
     const payload = {
         started_at: studyStartTime.toISOString(),
         ended_at: studyEndTime.toISOString(),
-        total_duration: seconds(studyEndTime - studyStartTime),
         focus_duration: focusDuration,
         distraction_duration: distractionDuration,
         distraction_log: readableDistractions
@@ -157,25 +156,28 @@ function stopSession() {
 
     console.log("Data sesi belajar:", payload);
 
-    fetch('/api/study-session', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-    },
-    body: JSON.stringify(payload)
-    })
-    .then(async res => {
-    const data = await res.json();
-    if (!res.ok) {
-        throw new Error(`HTTP ${res.status}: ${JSON.stringify(data)}`);
-    }
-    console.log("✅ Data terkirim ke server:", data);
-    })
-    .catch(err => console.error("❌ Gagal kirim data:", err))
-    .then(res => res.json())
-    .then(data => console.log("✅ Data terkirim ke server:", data))
-    .catch(err => console.error("❌ Gagal kirim data:", err));
+        fetch('/study-session', {
+            method: 'POST',
+            credentials: 'same-origin', // penting agar cookie session dibawa
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(async res => {
+            const text = await res.text();
+            console.log("📨 Server Response:", text);
+
+            try {
+                const json = JSON.parse(text);
+                console.log("✅ Parsed JSON:", json);
+            } catch (e) {
+                console.error("❌ Bukan JSON:", e);
+            }
+        })
+        .catch(err => console.error("❌ Gagal kirim data:", err));
+
 }
 
 // Deteksi satu frame postur, return status

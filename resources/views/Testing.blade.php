@@ -136,6 +136,12 @@
                 <div class="absolute top-4 left-4 bg-black bg-opacity-60 text-white px-3 py-1 rounded-lg text-sm z-30" x-show="showCameraControls" x-cloak>
                     <template x-if="showCameraControls">
                         <span x-text="new Date(timer * 1000).toISOString().substr(14, 5)"></span>
+
+                        <button @click="stopCamera(); window.stopSession()"
+                            class="px-8 py-3 bg-red-600 text-white font-semibold rounded-full shadow-lg hover:bg-red-500 transition-colors duration-300">
+                            Stop
+                        </button>
+
                     </template>
                 </div>
                 <div class="absolute bottom-4 right-4 bg-white bg-opacity-80 text-gray-800 text-sm p-2 rounded-md shadow-md z-30"
