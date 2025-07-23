@@ -54,13 +54,18 @@ async function detectAll() {
         window.onPoseStatusUpdate(poseStatus);
     }
 
-    await detectObjects(video, ctx, playWarning); // tidak simpan return, cukup pakai callback
-    if (objectStatus === "Main HP 📱") {
+    // Simpan hasil object detection
+    const objectResult = await detectObjects(video, ctx, playWarning);
+    if (objectResult === "cell phone") {
+        objectStatus = "cell phone";
         focus = false;
         handleDistraction("cell phone");
     } else {
-        window.onObjectDetected(objectStatus); // tetap update jika tidak ada
+        objectStatus = "Tidak terdeteksi";
     }
+
+    // Trigger update status gabungan
+    window.onObjectDetected(objectStatus);
 
     if (focus) handleFocus();
 }
@@ -240,24 +245,30 @@ window.onload = async () => {
 
 async function loopDeteksi() {
     if (!video || !ctx || video.paused || video.ended) return;
-
-    await detectPose(video, ctx);
-    await detectObjects(video, ctx, playWarning);
+    
+    // Gunakan detectAll untuk menangani semua deteksi
+    await detectAll();
     requestAnimationFrame(loopDeteksi);
 }
 
 
 function updateCombinedStatus() {
-    let finalStatus = "Fokus ✅";
+    let finalStatus = "fokus";
 
-    if (poseStatus !== "Fokus ✅") finalStatus = poseStatus;
-    else if (objectStatus === "Main HP 📱") finalStatus = "Main HP 📱";
+    if (poseStatus !== "Fokus ✅") {
+        finalStatus = poseStatus;
+    } else if (objectStatus === "cell phone") {
+        finalStatus = "cell phone";
+    }
 
-    document.getElementById('statusBelajar').textContent = finalStatus;
+    const displayLabel = LABELS[finalStatus] || finalStatus;
+
+    document.getElementById('statusBelajar').textContent = displayLabel;
     document.getElementById('statusBelajar').className =
-        finalStatus.includes("Fokus") ? "text-2xl font-bold text-green-600" : "text-2xl font-bold text-red-600";
+        finalStatus === "fokus"
+            ? "text-2xl font-bold text-green-600"
+            : "text-2xl font-bold text-red-600";
 
-    // Untuk debug panel:
     window.updateDebugStatus?.({
         pose: poseStatus,
         object: objectStatus

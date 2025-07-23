@@ -36,6 +36,7 @@ class StudyController extends Controller
             'end_time' => $data['ended_at'],
             'total_focus_minutes' => $data['focus_duration'],
             'total_distraction_minutes' => $data['distraction_duration'],
+
             'distraction_log' => $data['distraction_log'],
         ]);
 
