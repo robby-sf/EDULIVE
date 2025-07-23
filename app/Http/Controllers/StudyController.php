@@ -5,14 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\StudySession;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\log;
+
 
 class StudyController extends Controller
 {
     public function store(Request $request)
     {
-        \Log::info('📥 StudySession POST diterima!');
-        \Log::info('User ID: ' . Auth::id());
-        \Log::info($request->all());
+        Log::info('📥 StudySession POST diterima!');
+        Log::info('User ID: ' . Auth::id());
+        Log::info($request->all());
         
         $data = $request->validate([
             'started_at' => 'required|date',

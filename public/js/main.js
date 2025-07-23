@@ -183,36 +183,50 @@ function stopSession() {
     .catch(err => console.error("❌ Gagal kirim data:", err));
 }
 
-// Deteksi satu frame postur, return status
+// ====== Deteksi Pose Satu Frame ======
 window.detectPose = async function(video, ctx) {
     if (!detector) return "unknown";
 
     const poses = await detector.estimatePoses(video);
-    if (poses.length === 0) return "tidak terdeteksi";
+    if (poses.length === 0) return "keluar frame";
 
     const keypoints = poses[0].keypoints;
     const get = (name) => keypoints.find(p => p.name === name);
+
     const nose = get('nose');
     const leftShoulder = get('left_shoulder');
     const rightShoulder = get('right_shoulder');
     const leftEar = get('left_ear');
     const rightEar = get('right_ear');
+    const leftHip = get('left_hip');
+    const rightHip = get('right_hip');
 
-    const allVisible = [nose, leftShoulder, rightShoulder].every(p => p && p.score > 0.3);
-
-    if (!allVisible) return "keluar frame";
+    const keypointsNeeded = [nose, leftShoulder, rightShoulder, leftHip, rightHip];
+    const visibleCount = keypointsNeeded.filter(p => p && p.score > 0.3).length;
+    if (visibleCount < 3) return "keluar frame";
 
     const avgShoulderY = (leftShoulder.y + rightShoulder.y) / 2;
-    const headBelowShoulders = nose.y - avgShoulderY > 60;
-
-    const earAligned = leftEar && rightEar &&
-        leftEar.score > 0.3 && rightEar.score > 0.3 &&
-        Math.abs(leftEar.y - rightEar.y) < 15;
+    const avgHipY = (leftHip.y + rightHip.y) / 2;
 
     const shouldersFlat = Math.abs(leftShoulder.y - rightShoulder.y) < 15;
 
-    if (headBelowShoulders) return "menunduk";
-    if (earAligned && shouldersFlat) return "tiduran";
+    // ✔️ Improve logika "menunduk"
+    const headLeaningDown = nose.y - avgShoulderY > 20;
+    const isMenunduk = headLeaningDown && !shouldersFlat && nose.score > 0.3;
+
+    // ✔️ Improve logika "tiduran"
+    const shouldersHorizontal = Math.abs(leftShoulder.y - rightShoulder.y) < 10;
+    const hipsHorizontal = Math.abs(leftHip.y - rightHip.y) < 10;
+    const shouldersDistance = Math.abs(leftShoulder.x - rightShoulder.x);
+    const hipsDistance = Math.abs(leftHip.x - rightHip.x);
+    const torsoAngle = Math.abs(avgShoulderY - avgHipY);
+    const isLying = shouldersHorizontal && hipsHorizontal &&
+                    shouldersDistance > 100 && hipsDistance > 100 &&
+                    torsoAngle < 50;
+
+    if (isLying) return "tiduran";
+    if (isMenunduk) return "menunduk";
+
     return "fokus";
 };
 
