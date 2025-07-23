@@ -50,7 +50,7 @@
                     ended_at: new Date().toISOString(),
                     focus_duration: Math.round(this.focusSeconds / 60), // Kirim dalam menit
                     distraction_duration: Math.round(this.distractionSeconds / 60), // Kirim dalam menit
-                    distractions: this.distractionLog, // Kirim sebagai array
+                    distraction_log: this.distractionLog, // Kirim sebagai array
                 };
 
                 try {
