@@ -39,11 +39,10 @@ RUN composer install --no-interaction --optimize-autoloader --no-dev
 # Install frontend dependencies & build assets
 RUN npm install && npm run build
 
-# Laravel optimization
-RUN php artisan config:cache && \
-    php artisan route:cache && \
-    php artisan view:cache
-
+# Hapus cache biar APP_DEBUG aktif
+RUN php artisan config:clear && \
+    php artisan cache:clear && \
+    php artisan view:clear
 
 # ======================
 # Tahap 2: Runtime (Final untuk Render)
