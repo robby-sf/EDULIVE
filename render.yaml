@@ -7,7 +7,6 @@ services:
     dockerfilePath: ./Dockerfile
     dockerContext: .
     buildCommand: ""
-    startCommand: "php artisan serve --host=0.0.0.0 --port=10000"
     envVars:
       - key: APP_ENV
         value: production
@@ -27,7 +26,7 @@ services:
       - key: DB_PORT
         value: 3306
       - key: DB_DATABASE
-        value: Edulive
+        value: edulive
       - key: DB_USERNAME
         fromDatabase:
           name: edulive-mysql
@@ -45,5 +44,5 @@ services:
 
 databases:
   - name: edulive-mysql
-    databaseName: Edulive
+    databaseName: edulive
     plan: free
