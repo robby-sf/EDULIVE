@@ -7,6 +7,7 @@ services:
     dockerfilePath: ./Dockerfile
     dockerContext: .
     buildCommand: ""
+    startCommand: "" # kosong, karena CMD ditentukan di Dockerfile
     envVars:
       - key: APP_ENV
         value: production
@@ -15,7 +16,7 @@ services:
       - key: APP_DEBUG
         value: false
       - key: APP_URL
-        value: https://edulive.onrender.com
+        value: https://edulive-laravel.onrender.com
       - key: DB_CONNECTION
         value: mysql
       - key: DB_HOST
@@ -40,6 +41,7 @@ services:
         value: https://api.openai.com/v1
       - key: OPENAI_MODEL
         value: gpt-4o
+
 
 databases:
   - name: edulive-mysql

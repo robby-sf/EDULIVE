@@ -1,12 +1,12 @@
-# Tahap 1: Builder - Menginstal semua dependensi
-FROM php:8.2-fpm as builder
+# ======================
+# Tahap 1: Builder
+# ======================
+FROM php:8.2-fpm AS builder
 
-# Set direktori kerja
+# Set working directory
 WORKDIR /app
 
-# Install dependensi sistem yang dibutuhkan
-# libpng-dev, libjpeg-dev, etc., untuk proses gambar
-# libzip-dev untuk ekstensi zip
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpng-dev \
@@ -21,53 +21,42 @@ RUN apt-get update && apt-get install -y \
     curl \
     libzip-dev
 
-# Install ekstensi PHP yang umum digunakan Laravel
+# Install PHP extensions
 RUN docker-php-ext-install pdo_mysql exif pcntl bcmath gd zip
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Install Node.js dan npm
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-RUN apt-get install -y nodejs
+# Install Node.js
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && apt-get install -y nodejs
 
-# Salin semua file proyek
+# Copy Laravel project files
 COPY . .
 
-# Install dependensi composer
+# Install PHP dependencies
 RUN composer install --no-interaction --optimize-autoloader --no-dev
 
-# Install dependensi npm dan build aset frontend
+# Install frontend dependencies & build assets
 RUN npm install && npm run build
 
-# Optimasi untuk produksi
-RUN php artisan config:cache
-RUN php artisan route:cache
-RUN php artisan view:cache
+# Laravel optimization
+RUN php artisan config:cache && \
+    php artisan route:cache && \
+    php artisan view:cache
 
-
-# Tahap 2: Production - Image final yang ramping
-FROM php:8.2-fpm as production
+# ======================
+# Tahap 2: Runtime (Final image untuk Render)
+# ======================
+FROM php:8.2-cli AS runtime
 
 WORKDIR /app
 
-# Salin hanya file yang dibutuhkan dari tahap builder
-COPY --from=builder /app/bootstrap /app/bootstrap
-COPY --from=builder /app/config /app/config
-COPY --from=builder /app/database /app/database
-COPY --from=builder /app/public /app/public
-COPY --from=builder /app/resources /app/resources
-COPY --from=builder /app/routes /app/routes
-COPY --from=builder /app/storage /app/storage
-COPY --from=builder /app/vendor /app/vendor
-COPY --from=builder /app/artisan /app/artisan
-COPY --from=builder /app/composer.json /app/composer.json
+# Copy project dari builder
+COPY --from=builder /app /app
 
-# Atur kepemilikan file agar bisa ditulis oleh web server
-RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
+# Expose HTTP port (Render butuh ini)
+EXPOSE 10000
 
-# Expose port yang digunakan oleh PHP-FPM
-EXPOSE 9000
-
-# Perintah default untuk menjalankan container
-CMD ["php-fpm"]
+# Jalankan Laravel dengan built-in server
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=10000"]
