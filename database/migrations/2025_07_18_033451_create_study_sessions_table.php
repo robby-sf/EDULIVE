@@ -12,8 +12,8 @@ class CreateStudySessionsTable extends Migration
             $table->unsignedBigInteger('user_id'); 
             $table->timestamp('start_time');
             $table->timestamp('end_time')->nullable(); 
-            $table->integer('total_focus_minutes')->default(0); 
-            $table->integer('total_distraction_minutes')->default(0); 
+            $table->float('total_focus_minutes')->default(0); 
+            $table->float('total_distraction_minutes')->default(0); 
             $table->json('distraction_log')->nullable();
             $table->timestamps();
 
