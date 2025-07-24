@@ -29,9 +29,13 @@ services:
       - key: DB_DATABASE
         value: Edulive
       - key: DB_USERNAME
-        value: sail
+        fromDatabase:
+          name: edulive-mysql
+          property: user
       - key: DB_PASSWORD
-        value: password
+        fromDatabase:
+          name: edulive-mysql
+          property: password
       - key: OPENAI_API_KEY
         sync: false
       - key: OPENAI_API_BASE
@@ -42,6 +46,4 @@ services:
 databases:
   - name: edulive-mysql
     databaseName: Edulive
-    user: sail
-    password: password
     plan: free
