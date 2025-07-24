@@ -19,9 +19,8 @@ services:
       - key: DB_CONNECTION
         value: mysql
       - key: DB_HOST
-        fromService:
+        fromDatabase:
           name: edulive-mysql
-          type: pserv
           property: host
       - key: DB_PORT
         value: 3306
