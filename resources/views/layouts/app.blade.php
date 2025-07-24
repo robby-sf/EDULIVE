@@ -14,11 +14,7 @@
 
     <style>[x-cloak] { display: none !important; }</style>
 
-
-    {{-- HANYA GUNAKAN INI: Memuat semua CSS & JS melalui Vite --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    {{-- Link Font & Ikon bisa tetap ada --}}
     <link rel="icon" href="{{ asset('favicon.png') }}" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,22 +27,6 @@
         body {
             background-color: #ffffff;
         }
-
-        /* @keyframes fade-in-down {
-            0% {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .animate-fade-in-down {
-            animation: fade-in-down 1s ease-out both;
-        } */
     </style>
 
     @stack('styles')

@@ -12,7 +12,6 @@
                     {{-- FOTO PROFIL --}}
                     <div class="relative flex-shrink-0">
                         <div class="w-40 h-40 md:w-48 md:h-48 rounded-full shadow-md">
-                            {{-- Menampilkan gambar dari storage atau fallback dari UI Avatars --}}
                             <img src="{{ $user->profile?->profile_image ? asset('storage/' . $user->profile->profile_image) : 'https://ui-avatars.com/api/?name=' . urlencode($user->name) . '&background=EBF4FF&color=7F9CF5&size=192' }}"
                                 alt="Profile picture of {{ $user->name }}" class="w-full h-full rounded-full object-cover">
                         </div>
@@ -62,7 +61,6 @@
                     @forelse ($user->educations as $education)
                         <div class="flex items-start gap-4 p-4 border rounded-lg">
                             <div class="flex-shrink-0 w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
-                                {{-- Ikon Edukasi --}}
                             </div>
                             <div class="flex-grow">
                                 <p class="font-bold text-gray-800">{{ $education->institution_name }}</p>

@@ -71,15 +71,12 @@ class ProfileController extends Controller
         $user = Auth::user();
         $profile = $user->profile()->firstOrCreate(['user_id' => $user->id]);
 
-        // Hapus gambar lama jika ada
         if ($profile->profile_image && Storage::disk('public')->exists($profile->profile_image)) {
             Storage::disk('public')->delete($profile->profile_image);
         }
 
-        // Simpan gambar baru dan dapatkan path-nya
         $path = $request->file('profile_image')->store('avatars', 'public');
 
-        // Update path gambar di database
         $profile->update(['profile_image' => $path]);
 
         return response()->json([
@@ -150,7 +147,7 @@ class ProfileController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Education history updated!',
-            'data' => $education // Gunakan key 'data'
+            'data' => $education
         ]);
     }
 

@@ -76,36 +76,36 @@
                 <h1 class="text-3xl font-bold text-gray-900 mb-4" x-show="showStartButton" x-cloak>Teman Belajar</h1>
 
                 <div class="relative w-full max-w-4xl aspect-video bg-gray-200 rounded-lg shadow-lg border-4 border-gray-300 overflow-hidden">
-                    <video 
-                        id="video" 
-                        autoplay 
-                        muted 
-                        playsinline  
+                    <video
+                        id="video"
+                        autoplay
+                        muted
+                        playsinline
                         class="absolute top-0 left-0 w-full h-full object-cover z-10"
                         x-show="showCameraControls"
                         x-cloak>
                     </video>
-                    <canvas 
-                        id="output" 
+                    <canvas
+                        id="output"
                         class="absolute top-0 left-0 w-full h-full object-cover z-20 !pointer-events-none hidden">
                     </canvas>
-                    <div 
-                        x-show="showStartButton" 
-                        x-cloak 
+                    <div
+                        x-show="showStartButton"
+                        x-cloak
                         class="absolute inset-0 flex items-center justify-center text-gray-500 text-xl z-0">
                         Kamera belum aktif
                     </div>
-                    <div 
-                        class="absolute top-4 left-4 bg-black bg-opacity-60 text-white px-3 py-1 rounded-lg text-sm z-30" 
-                        x-show="showCameraControls" 
+                    <div
+                        class="absolute top-4 left-4 bg-black bg-opacity-60 text-white px-3 py-1 rounded-lg text-sm z-30"
+                        x-show="showCameraControls"
                         x-cloak>
                         <template x-if="showCameraControls">
                             <span x-text="new Date(timer * 1000).toISOString().substr(14, 5)"></span>
                         </template>
                     </div>
-                    <div 
+                    <div
                         class="absolute top-4 right-4 bg-white bg-opacity-80 text-gray-800 text-sm p-2 rounded-md shadow-md z-30"
-                        x-show="showCameraControls" 
+                        x-show="showCameraControls"
                         x-cloak>
                         <p class="font-semibold">Status Postur:</p>
                         <p id="statusBelajar" class="text-lg font-bold text-green-600">Fokus ✅</p>
@@ -199,7 +199,6 @@
 @endsection
 
 @push('scripts')
-    {{-- Semua script khusus untuk halaman ini sekarang ada di sini --}}
     <script src="{{ asset('js/chatbot.js') }}"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.3.0"></script>

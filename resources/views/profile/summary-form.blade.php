@@ -32,7 +32,6 @@
                     <p class="text-[#5e5e5e] text-base md:text-lg font-normal tracking-[1px] font-['Poppins',_sans-serif] mb-4">
                         Highlight your unique experiences, ambitions, and strengths.
                     </p>
-                    {{-- MODIFIED: Increased height for better visual balance --}}
                     <textarea id="personal_summary" name="personal_summary" rows="8"
                         class="w-full h-[340px] md:h-[357px] px-5 py-4 bg-white border border-black rounded-[10px] text-lg md:text-xl text-[#5e5e5e] focus:ring-2 focus:ring-black focus:outline-none resize-none font-['Poppins',_sans-serif]"
                         placeholder="Tell us about yourself...">{{ $user->profile?->personal_summary ?? '' }}</textarea>

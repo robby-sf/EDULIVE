@@ -53,8 +53,8 @@
 
 
 #features-title {
-    visibility: visible; /* Tidak lagi disembunyikan, karena TypeIt langsung menulis */
-    white-space: nowrap; /* Supaya efek ketik satu baris */
+    visibility: visible;
+    white-space: nowrap;
 }
 
 #features-title .letter.visible {

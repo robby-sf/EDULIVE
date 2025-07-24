@@ -10,28 +10,22 @@
                     <h3 class="text-black text-lg font-normal tracking-[1px] normal-case">COMPLETNESS OF PROFILE</h3>
                     <span class="text-black text-lg font-normal tracking-[1px]">{{ $user->profile_completeness }}%</span>
                 </div>
-                {{-- Modified: Warna, tinggi, dan shadow disesuaikan --}}
                 <div class="w-full bg-gray-200 rounded-full h-[16px] shadow-[0px_4px_16.5px_0px_rgba(0,0,0,0.25)]">
                     <div class="bg-gray-400 h-[16px] rounded-full" style="width: {{ $user->profile_completeness }}%;"></div>
                 </div>
             </div>
         </div>
 
-        {{-- CARD BANNER UNTUK PROFIL USER --}}
         <div class="bg-white rounded-2xl shadow-md p-6 md:p-8">
             <div class="flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-6">
 
                 <div class="relative flex-shrink-0">
                     <div class="w-40 h-40 md:w-48 md:h-48 rounded-full shadow-lg">
-                        {{-- 1. GAMBAR PROFIL DENGAN ID & FALLBACK --}}
-                        {{-- Menampilkan gambar dari storage jika ada, jika tidak, gunakan layanan UI Avatars --}}
                         <img id="profile-picture-display"
                             src="{{ $user->profile?->profile_image ? asset('storage/' . $user->profile->profile_image) : 'https://ui-avatars.com/api/?name=' . urlencode($user->name) . '&background=D9D9D9&color=616161&size=192' }}"
                             alt="Profile Picture" class="w-full h-full rounded-full object-cover">
                     </div>
 
-                    {{-- 2. TOMBOL EDIT DENGAN ID --}}
-                    {{-- Tombol ini akan digunakan oleh JavaScript untuk membuka modal --}}
                     <button id="edit-picture-btn"
                         class="absolute bottom-2 right-2 w-10 h-10 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition shadow-md border border-gray-200">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
@@ -115,14 +109,11 @@
             <h2 class="text-xl font-semibold text-gray-900">Personal Summary</h2>
 
             @if ($user->profile?->personal_summary)
-                {{-- Container baru dengan border yang membungkus teks dan tombol edit --}}
                 <div class="mt-2 flex items-center justify-between w-full px-6 py-4 border border-gray-300 rounded-lg bg-white">
                     {{-- Teks summary --}}
                     <p id="summary-text-display" class="text-[#5E5E5E]">{{ $user->profile->personal_summary }}</p>
 
-                    {{-- Tombol Edit dengan ikon baru --}}
                     <button id="edit-summary-btn" class="text-gray-600 hover:text-gray-500 flex-shrink-0 ml-4">
-                        {{-- SVG baru yang sesuai dengan gambar --}}
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                             stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -144,7 +135,6 @@
 
         {{-- EDUCATION HISTORY --}}
         <div class="mt-10 pt-6 border-t border-gray-200">
-            {{-- Header dan Tombol Add --}}
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-semibold text-gray-900">Education History</h2>
                 <button id="add-education-btn"
@@ -153,7 +143,6 @@
                 </button>
             </div>
 
-            {{-- Container utama untuk daftar pendidikan. Menyimpan URL untuk JavaScript --}}
             <div id="education-list-container" data-store-url="{{ route('profile.education.store') }}"
                 data-base-update-url="{{ route('profile.index') }}/education">
 
@@ -180,7 +169,6 @@
                                     {{ $education->end_year }}</p>
                             </div>
 
-                            {{-- Tombol Aksi (Edit & Delete) dengan atribut data-* --}}
                             <div class="flex-shrink-0 flex gap-6">
                                 <button class="edit-education-btn text-gray-600 hover:text-gray-500"
                                     data-id="{{ $education->id }}" data-institution="{{ $education->institution_name }}"
@@ -205,7 +193,6 @@
                                 </button>
                             </div>
                         </div>
-                        {{-- Tampilan jika tidak ada riwayat pendidikan --}}
                     @empty
                         <div id="no-education-record" class="text-center py-10 border-2 border-dashed rounded-lg">
                             <p class="text-gray-500">No education history has been added yet.</p>

@@ -68,7 +68,6 @@ public function chatWithImage(Request $request)
         'image' => 'required|image|max:5120', // max 5MB
     ]);
 
-    // Konversi gambar ke base64
     $image = $request->file('image');
     $imageData = base64_encode(file_get_contents($image->getRealPath()));
     $base64Image = 'data:' . $image->getMimeType() . ';base64,' . $imageData;

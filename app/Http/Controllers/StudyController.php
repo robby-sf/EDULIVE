@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\log;
 
 class StudyController extends Controller
 {
-    
+
     public function store(Request $request)
     {
         Log::info("📥 StudySession POST diterima!");
@@ -19,7 +19,7 @@ class StudyController extends Controller
         }
         Log::info("User ID: " . Auth::id());
 
-        
+
         $data = $request->validate([
             'started_at' => 'required|date',
             'ended_at' => 'required|date',
@@ -35,9 +35,8 @@ class StudyController extends Controller
             'user_id' => Auth::id(),
             'start_time' => $data['started_at'],
             'end_time' => $data['ended_at'],
-            'total_focus_minutes' => $data['focus_duration'] / 60 ,
-            'total_distraction_minutes' => $data['distraction_duration'] / 60,
-
+            'total_focus_minutes' => round($data['focus_duration'] / 60),
+            'total_distraction_minutes' => round($data['distraction_duration'] / 60),
             'distraction_log' => $data['distraction_log'],
         ]);
 
@@ -46,6 +45,4 @@ class StudyController extends Controller
             'data' => $session
         ]);
     }
-
 }
-

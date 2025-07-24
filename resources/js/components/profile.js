@@ -193,17 +193,14 @@ const closeSummaryModal = () => {
             </svg>`;
             }
 
-            // Tampilkan notifikasi
             notification.classList.remove("hidden");
-            // Paksa browser untuk me-render elemen sebelum memulai transisi
+
             void notification.offsetWidth;
 
-            // Animasi muncul: scale up dan fade in
             notification.classList.add("-translate-x-1/2", "-translate-y-1/2");
             notificationContent.classList.remove("opacity-0", "scale-95");
             notificationContent.classList.add("opacity-100", "scale-100");
 
-            // Sembunyikan otomatis setelah 3 detik
             setTimeout(() => {
                 hideNotification();
             }, 3000);
@@ -212,22 +209,18 @@ const closeSummaryModal = () => {
         const hideNotification = () => {
             if (!notification || !notificationContent) return;
 
-            // Animasi hilang: scale down dan fade out
             notificationContent.classList.remove("opacity-100", "scale-100");
             notificationContent.classList.add("opacity-0", "scale-95");
 
-            // Sembunyikan elemen setelah animasi selesai
             setTimeout(() => {
                 notification.classList.add("hidden");
-                // Hapus kelas transform agar posisi reset untuk pemanggilan berikutnya
                 notification.classList.remove(
                     "-translate-x-1/2",
                     "-translate-y-1/2"
                 );
-            }, 300); // 300ms sesuai durasi transisi
+            }, 300);
         };
 
-        // Tambahkan event listener untuk tombol close pada notifikasi
         notificationCloseBtn?.addEventListener("click", hideNotification);
 
         // --- MODAL CONTROL ---
@@ -249,7 +242,6 @@ const closeSummaryModal = () => {
             setTimeout(() => biodataModal.classList.add("hidden"), 300);
         };
 
-        // --- FUNGSI LOKASI & API (Tidak ada perubahan, tapi panggilannya diupdate) ---
         const setInitialLocation = async (addressString) => {
             if (!addressString) {
                 await populateCountries();
@@ -290,7 +282,6 @@ const closeSummaryModal = () => {
                 }
             } catch (error) {
                 console.error("Failed to set initial location:", error);
-                // Panggilan notifikasi diupdate
                 showNotification(
                     "Woopsie!",
                     "Could not pre-fill location data.",
@@ -322,7 +313,6 @@ const closeSummaryModal = () => {
                 );
             } catch (error) {
                 console.error("Error populating countries:", error);
-                // Panggilan notifikasi diupdate
                 showNotification(
                     "Woopsie!",
                     "Failed to load country data.",
@@ -452,7 +442,6 @@ summaryModal?.addEventListener('click', (e) => {
         closeShareModalBtn?.addEventListener("click", closeShareModal);
         copyProfileLinkBtn?.addEventListener("click", copyProfileLink);
         shareModal?.addEventListener("click", (e) => {
-            // Menutup modal jika klik di area luar konten (backdrop)
             if (e.target === shareModal) closeShareModal();
         });
 
@@ -469,7 +458,6 @@ summaryModal?.addEventListener('click', (e) => {
             populateCities(countrySelect.value, e.target.value)
         );
 
-        // --- FORM SUBMISSION (PANGGILAN NOTIFIKASI DIUPDATE) ---
         biodataForm?.addEventListener("submit", async function (event) {
             event.preventDefault();
 
@@ -504,14 +492,12 @@ summaryModal?.addEventListener('click', (e) => {
             try {
                 const response = await axios.post(this.action, formData);
                 closeModal();
-                // Panggil notifikasi baru dengan JUDUL dan PESAN
                 showNotification("Successful!", response.data.message, true);
                 setTimeout(() => window.location.reload(), 1500);
             } catch (error) {
                 const errorMessage =
                     error.response?.data?.message ||
                     "An error occurred. Please try again.";
-                // Panggil notifikasi baru dengan JUDUL dan PESAN
                 showNotification("Woopsie!", errorMessage, false);
             } finally {
                 saveBtn.disabled = false;

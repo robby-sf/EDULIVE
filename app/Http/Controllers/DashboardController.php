@@ -13,25 +13,21 @@ class DashboardController extends Controller
     {
         $sessions = StudySession::where('user_id', Auth::id())->latest()->get();
 
-        // Ambil total menit FOKUS langsung dari DB (ini sudah benar)
         $totalFocusMinutes = $sessions->sum('total_focus_minutes');
 
-        // Inisialisasi penghitung durasi gangguan dalam detik
         $disruptionDurationCounts = [
             'tiduran' => 0,
             'menunduk' => 0,
             'keluar frame' => 0,
-            'cell phone' => 0, 
+            'cell phone' => 0,
         ];
 
         foreach ($sessions as $session) {
 
             $log = json_decode($session->distraction_log, true);
-            
+
             if (is_array($log)) {
-                // Loop melalui setiap jenis gangguan dan durasinya dalam detik
                 foreach ($log as $distractionType => $durationInSeconds) {
-                    // Sekarang kita hanya perlu membersihkan dan mencocokkan
                     $key = strtolower(trim($distractionType));
                     if (array_key_exists($key, $disruptionDurationCounts)) {
                         $disruptionDurationCounts[$key] += $durationInSeconds;
@@ -40,7 +36,6 @@ class DashboardController extends Controller
             }
         }
 
-        // HITUNG ULANG total menit gangguan dari data detik agar akurat
         $totalDisruptionSeconds = array_sum($disruptionDurationCounts);
         $totalDisruptionMinutes = $totalDisruptionSeconds / 60;
 
@@ -58,7 +53,6 @@ class DashboardController extends Controller
             $averageFocusPerSession = round($sumOfSessionScores / $totalSessions);
         }
 
-        // Siapkan data untuk chart (sudah benar, mengubah detik ke menit)
         $disruptionChartData = [
             'labels' => array_keys($disruptionDurationCounts),
             'data' => array_map(fn($secs) => $secs / 60, array_values($disruptionDurationCounts)),

@@ -8,7 +8,6 @@
 @section('content')
 <div class="bg-slate-50 text-gray-800">
     <div class="container mx-auto p-4 md:p-8">
-        {{-- Main Content --}}
         <main>
             <div class="text-center mb-8">
                 <h2 class="text-4xl font-bold mb-3 text-gray-800">Learning Statistics</h2>
@@ -72,12 +71,10 @@
             <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-8">
                 <div class="lg:col-span-3 bg-white p-6 rounded-xl shadow-md">
                     <h3 class="text-lg font-semibold mb-4 text-gray-800">Learning Time Trends</h3>
-                    {{-- Placeholder untuk Chart.js --}}
                     <canvas id="learningTimeChart"></canvas>
                 </div>
                 <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-md">
                     <h3 class="text-lg font-semibold mb-4 text-gray-800">Duration of some disturbances</h3>
-                    {{-- Placeholder untuk Chart.js --}}
                     <canvas id="disruptionChart"></canvas>
                 </div>
             </div>
@@ -102,7 +99,6 @@
                                     {{ \Carbon\Carbon::parse($session->start_time)->format('d M Y, H:i') }}
                                 </td>
 
-                                {{-- Kolom Durasi Belajar --}}
                                 <td class="py-4 px-6">
                                     @php
                                     $totalBelajarMinutes = $session->total_focus_minutes + $session->total_distraction_minutes;
@@ -115,7 +111,6 @@
                                     @endif
                                 </td>
 
-                                {{-- Kolom Durasi Fokus --}}
                                 <td class="py-4 px-6">
                                     @php
                                     $totalFokusMinutes = $session->total_focus_minutes;
@@ -128,7 +123,6 @@
                                     @endif
                                 </td>
 
-                                {{-- Kolom Durasi Gangguan --}}
                                 <td class="py-4 px-6">
                                     @php
                                     $totalGangguanMinutes = $session->total_distraction_minutes;
@@ -141,7 +135,6 @@
                                     @endif
                                 </td>
 
-                                {{-- Kolom Skor Fokus --}}
                                 <td class="py-4 px-6">
                                     @php
                                     $totalDuration = $session->total_focus_minutes + $session->total_distraction_minutes;
@@ -168,7 +161,6 @@
     </div>
 </div>
 
-{{-- Memuat script untuk Chart.js dan inisialisasi grafik --}}
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -224,7 +216,7 @@
             data: disruptionData,
             options: {
                 responsive: true,
-                indexAxis: 'y', // Membuat bar menjadi horizontal
+                indexAxis: 'y',
                 plugins: {
                     legend: {
                         display: false
