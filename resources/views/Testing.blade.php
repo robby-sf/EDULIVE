@@ -74,27 +74,44 @@
             <div :class="{'w-full': !$store.chatbotStore.show, 'w-3/5': $store.chatbotStore.show}" class="relative flex flex-col items-center justify-center p-4 transition-all duration-300">
 
                 <h1 class="text-3xl font-bold text-gray-900 mb-4" x-show="showStartButton" x-cloak>Teman Belajar</h1>
-                <p class="text-gray-700 mb-6" x-show="showStartButton" x-cloak>Akses kamera sedang diaktifkan...</p>
 
                 <div class="relative w-full max-w-4xl aspect-video bg-gray-200 rounded-lg shadow-lg border-4 border-gray-300 overflow-hidden">
-                    <video id="video" autoplay muted playsinline  class="absolute top-0 left-0 w-full h-full object-contain z-10"
+                    <video 
+                        id="video" 
+                        autoplay 
+                        muted 
+                        playsinline  
+                        class="absolute top-0 left-0 w-full h-full object-cover z-10"
                         x-show="showCameraControls"
-                    x-cloak></video>
-                    <canvas id="output" class="absolute top-0 left-0 w-full h-full object-contain z-50 !pointer-events-none"></canvas>
-                    <div x-show="showStartButton" x-cloak class="absolute inset-0 flex items-center justify-center text-gray-500 text-xl z-0">
+                        x-cloak>
+                    </video>
+                    <canvas 
+                        id="output" 
+                        class="absolute top-0 left-0 w-full h-full object-cover z-20 !pointer-events-none hidden">
+                    </canvas>
+                    <div 
+                        x-show="showStartButton" 
+                        x-cloak 
+                        class="absolute inset-0 flex items-center justify-center text-gray-500 text-xl z-0">
                         Kamera belum aktif
                     </div>
-                    <div class="absolute top-4 left-4 bg-black bg-opacity-60 text-white px-3 py-1 rounded-lg text-sm z-30" x-show="showCameraControls" x-cloak>
+                    <div 
+                        class="absolute top-4 left-4 bg-black bg-opacity-60 text-white px-3 py-1 rounded-lg text-sm z-30" 
+                        x-show="showCameraControls" 
+                        x-cloak>
                         <template x-if="showCameraControls">
                             <span x-text="new Date(timer * 1000).toISOString().substr(14, 5)"></span>
                         </template>
                     </div>
-                    <div class="absolute bottom-4 right-4 bg-white bg-opacity-80 text-gray-800 text-sm p-2 rounded-md shadow-md z-30"
-                        x-show="showCameraControls" x-cloak>
+                    <div 
+                        class="absolute top-4 right-4 bg-white bg-opacity-80 text-gray-800 text-sm p-2 rounded-md shadow-md z-30"
+                        x-show="showCameraControls" 
+                        x-cloak>
                         <p class="font-semibold">Status Postur:</p>
                         <p id="statusBelajar" class="text-lg font-bold text-green-600">Fokus ✅</p>
                     </div>
                 </div>
+
 
                 <div class="flex justify-center items-center mt-8 space-x-4">
                     <template x-if="showStartButton">
