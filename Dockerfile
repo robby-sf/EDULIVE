@@ -3,7 +3,6 @@
 # ======================
 FROM php:8.2-fpm AS builder
 
-# Set working directory
 WORKDIR /app
 
 # Install system dependencies
@@ -45,18 +44,22 @@ RUN php artisan config:cache && \
     php artisan route:cache && \
     php artisan view:cache
 
+
 # ======================
-# Tahap 2: Runtime (Final image untuk Render)
+# Tahap 2: Runtime (Final untuk Render)
 # ======================
-FROM php:8.2-cli AS runtime
+FROM php:8.2-fpm AS runtime
 
 WORKDIR /app
 
-# Copy project dari builder
+# Copy seluruh hasil builder
 COPY --from=builder /app /app
 
-# Expose HTTP port (Render butuh ini)
+# Pastikan permission Laravel bisa ditulis
+RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
+
+# Expose port yang dipakai Laravel (via php artisan serve)
 EXPOSE 10000
 
-# Jalankan Laravel dengan built-in server
+# Jalankan Laravel built-in server
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=10000"]

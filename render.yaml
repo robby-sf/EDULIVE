@@ -6,8 +6,8 @@ services:
     region: singapore
     dockerfilePath: ./Dockerfile
     dockerContext: .
-    buildCommand: ""
-    startCommand: "" # kosong, karena CMD ditentukan di Dockerfile
+    buildCommand: ""             # Kosong karena semua build sudah di Dockerfile
+    startCommand: ""             # Kosong karena CMD di Dockerfile
     envVars:
       - key: APP_ENV
         value: production
@@ -41,7 +41,6 @@ services:
         value: https://api.openai.com/v1
       - key: OPENAI_MODEL
         value: gpt-4o
-
 
 databases:
   - name: edulive-mysql
