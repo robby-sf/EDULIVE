@@ -137,9 +137,9 @@ function drawKeypoints(keypoints, canvas, ctx) {
         }
     });
 
-    ctx.fillStyle = 'blue';
-    ctx.font = '20px Arial';
-    ctx.fillText('Canvas Aktif 🟢', 10, 30);
+    // ctx.fillStyle = 'blue';
+    // ctx.font = '20px Arial';
+    // ctx.fillText('Canvas Aktif', 10, 30);
     drawSkeleton(keypoints, ctx);
 }
 
