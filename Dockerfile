@@ -42,11 +42,21 @@ FROM php:8.2-fpm AS runtime
 
 WORKDIR /app
 
+# 🔧 Install ulang ekstensi PHP yg dibutuhkan Laravel
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev \
+    libzip-dev && \
+    docker-php-ext-install pdo_mysql exif pcntl bcmath gd zip
+
+# Salin semua hasil builder
 COPY --from=builder /app /app
 
+# Permission Laravel
 RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
 
 EXPOSE 10000
 
-# 🔧 Tambahkan: Clear cache SAAT CONTAINER RUNNING
+# Jalankan Laravel built-in server
 CMD ["sh", "-c", "php artisan config:clear && php artisan cache:clear && php artisan serve --host=0.0.0.0 --port=10000"]
