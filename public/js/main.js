@@ -200,21 +200,21 @@ function stopSession() {
 
     if (focusStartTime) {
         const diff = seconds(now - focusStartTime);
-        distractions["fokus"] = (distractions["fokus"] || 0) + diff;
+        // distractions["fokus"] = (distractions["fokus"] || 0) + diff;
         focusDuration += diff;
     }
 
     const payload = {
         started_at: studyStartTime.toISOString(),
         ended_at: studyEndTime.toISOString(),
-        focus_duration: focusDuration,
-        distraction_duration: distractionDuration,
-        distraction_log: readableDistractions
+        focus_duration: focusDuration, 
+        distraction_duration: distractionDuration, 
+        distraction_log: JSON.stringify(distractions), 
     };
 
-    console.log("Total Fokus:", focusDuration, "detik");
-    console.log("Total Gangguan:", distractionDuration, "detik");
-    console.log("Rincian Gangguan:", distractions);
+    // console.log("Total Fokus:", focusDuration, "detik");
+    // console.log("Total Gangguan:", distractionDuration, "detik");
+    // console.log("Rincian Gangguan:", distractions);
 
     console.log("Data sesi belajar:", payload);
 

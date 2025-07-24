@@ -12,12 +12,6 @@
         <main>
             <div class="text-center mb-8">
                 <h2 class="text-4xl font-bold mb-3 text-gray-800">Learning Statistics</h2>
-                <button class="bg-white border border-gray-200 rounded-md px-4 py-1.5 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-50 flex items-center gap-2 mx-auto">
-                    This Week
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                </button>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -30,7 +24,7 @@
                         </span>
                     </div>
                     <div>
-                        <p class="text-3xl font-bold text-gray-900">1 jam 45 menit</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ number_format($effectiveFocusMinutes, 1, ',', '.') }} minute</p>
                         <p class="text-sm text-gray-500">Effective Focus Duration</p>
                     </div>
                 </div>
@@ -43,8 +37,8 @@
                         </span>
                     </div>
                     <div>
-                        <p class="text-3xl font-bold text-gray-900">5 Times</p>
-                        <p class="text-sm text-gray-500">Number of disruptions</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ number_format($totalDisruptionMinutes, 1, ',', '.') }} minute</p>
+                        <p class="text-sm text-gray-500">Total Minute of disruptions</p>
                     </div>
                 </div>
                 <div class="bg-white p-6 rounded-xl shadow-md flex flex-col gap-4">
@@ -56,7 +50,7 @@
                         </span>
                     </div>
                     <div>
-                        <p class="text-3xl font-bold text-gray-900">80/100</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ $overallFocusScore }}/100</p>
                         <p class="text-sm text-gray-500">Overall Focus Score</p>
                     </div>
                 </div>
@@ -69,7 +63,7 @@
                         </span>
                     </div>
                     <div>
-                        <p class="text-3xl font-bold text-gray-900">80%</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ $averageFocusPerSession }}%</p>
                         <p class="text-sm text-gray-500">Average Focus per Session</p>
                     </div>
                 </div>
@@ -82,7 +76,7 @@
                     <canvas id="learningTimeChart"></canvas>
                 </div>
                 <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-md">
-                    <h3 class="text-lg font-semibold mb-4 text-gray-800">Most Common Type of Disruption</h3>
+                    <h3 class="text-lg font-semibold mb-4 text-gray-800">Duration of some disturbances</h3>
                     {{-- Placeholder untuk Chart.js --}}
                     <canvas id="disruptionChart"></canvas>
                 </div>
@@ -97,33 +91,75 @@
                                 <th scope="col" class="py-3 px-6">Tanggal</th>
                                 <th scope="col" class="py-3 px-6">Durasi Belajar</th>
                                 <th scope="col" class="py-3 px-6">Durasi Fokus</th>
-                                <th scope="col" class="py-3 px-6">Jumlah Gangguan</th>
+                                <th scope="col" class="py-3 px-6">Durasi Gangguan</th>
                                 <th scope="col" class="py-3 px-6">Skor Fokus</th>
-                                <th scope="col" class="py-3 px-6">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- Data dummy, nantinya bisa di-loop dari controller --}}
+                            @forelse($sessions as $session)
+                            <tr class="bg-white border-b hover:bg-gray-50">
+                                <td class="py-4 px-6 font-medium">
+                                    {{ \Carbon\Carbon::parse($session->start_time)->format('d M Y, H:i') }}
+                                </td>
+
+                                {{-- Kolom Durasi Belajar --}}
+                                <td class="py-4 px-6">
+                                    @php
+                                    $totalBelajarMinutes = $session->total_focus_minutes + $session->total_distraction_minutes;
+                                    $menitBelajar = floor($totalBelajarMinutes);
+                                    $detikBelajar = round(($totalBelajarMinutes - $menitBelajar) * 60);
+                                    @endphp
+                                    {{ $menitBelajar }} menit
+                                    @if($detikBelajar > 0)
+                                    {{ $detikBelajar }} detik
+                                    @endif
+                                </td>
+
+                                {{-- Kolom Durasi Fokus --}}
+                                <td class="py-4 px-6">
+                                    @php
+                                    $totalFokusMinutes = $session->total_focus_minutes;
+                                    $menitFokus = floor($totalFokusMinutes);
+                                    $detikFokus = round(($totalFokusMinutes - $menitFokus) * 60);
+                                    @endphp
+                                    {{ $menitFokus }} menit
+                                    @if($detikFokus > 0)
+                                    {{ $detikFokus }} detik
+                                    @endif
+                                </td>
+
+                                {{-- Kolom Durasi Gangguan --}}
+                                <td class="py-4 px-6">
+                                    @php
+                                    $totalGangguanMinutes = $session->total_distraction_minutes;
+                                    $menitGangguan = floor($totalGangguanMinutes);
+                                    $detikGangguan = round(($totalGangguanMinutes - $menitGangguan) * 60);
+                                    @endphp
+                                    {{ $menitGangguan }} menit
+                                    @if($detikGangguan > 0)
+                                    {{ $detikGangguan }} detik
+                                    @endif
+                                </td>
+
+                                {{-- Kolom Skor Fokus --}}
+                                <td class="py-4 px-6">
+                                    @php
+                                    $totalDuration = $session->total_focus_minutes + $session->total_distraction_minutes;
+                                    $focusScore = $totalDuration > 0 ? round(($session->total_focus_minutes / $totalDuration) * 100) : 0;
+                                    @endphp
+                                    <div class="flex items-center gap-2">
+                                        <span class="h-2.5 w-2.5 {{ $focusScore >= 75 ? 'bg-green-500' : ($focusScore >= 50 ? 'bg-yellow-500' : 'bg-red-500') }} rounded-full"></span>
+                                        {{ $focusScore }}
+                                    </div>
+                                </td>
+                            </tr>
+                            @empty
                             <tr class="bg-white border-b">
-                                <td class="py-4 px-6 font-medium">12 Feb 2024</td>
-                                <td class="py-4 px-6">2j 15m</td>
-                                <td class="py-4 px-6">1j 45m</td>
-                                <td class="py-4 px-6">5</td>
-                                <td class="py-4 px-6">
-                                    <div class="flex items-center gap-2"><span class="h-2.5 w-2.5 bg-green-500 rounded-full"></span> 82</div>
+                                <td colspan="5" class="py-4 px-6 text-center text-gray-500">
+                                    Belum ada riwayat sesi belajar.
                                 </td>
-                                <td class="py-4 px-6"><a href="#" class="text-indigo-600 hover:text-indigo-800 font-semibold">Detail</a></td>
                             </tr>
-                            <tr class="bg-gray-50 border-b">
-                                <td class="py-4 px-6 font-medium">11 Feb 2024</td>
-                                <td class="py-4 px-6">1j 30m</td>
-                                <td class="py-4 px-6">1j 10m</td>
-                                <td class="py-4 px-6">8</td>
-                                <td class="py-4 px-6">
-                                    <div class="flex items-center gap-2"><span class="h-2.5 w-2.5 bg-green-500 rounded-full"></span> 75</div>
-                                </td>
-                                <td class="py-4 px-6"><a href="#" class="text-indigo-600 hover:text-indigo-800 font-semibold">Detail</a></td>
-                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -139,10 +175,10 @@
     document.addEventListener('DOMContentLoaded', function() {
         // Data Dummy untuk Grafik
         const learningTimeData = {
-            labels: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'],
+            labels: @json($learningTimeChartData['labels']),
             datasets: [{
                 label: 'Waktu Belajar (menit)',
-                data: [90, 85, 110, 130, 140, 150, 120],
+                data: @json($learningTimeChartData['data']),
                 borderColor: '#8b5cf6',
                 backgroundColor: 'rgba(139, 92, 246, 0.1)',
                 tension: 0.4,
@@ -150,14 +186,15 @@
             }]
         };
         const disruptionData = {
-            labels: ['Tiduran', 'Lihat ke bawah', 'Keluar kamera'],
+            labels: @json($disruptionChartData['labels']),
             datasets: [{
                 label: 'Jumlah Gangguan',
-                data: [50, 40, 25],
+                data: @json($disruptionChartData['data']),
                 backgroundColor: [
                     'rgba(99, 102, 241, 0.7)',
                     'rgba(139, 92, 246, 0.7)',
                     'rgba(167, 139, 250, 0.7)',
+                    'rgba(239, 68, 68, 0.7)'
                 ],
                 borderColor: [
                     '#6366f1',
