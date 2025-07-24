@@ -14,7 +14,6 @@ export function initProfile() {
         );
         const biodataForm = document.getElementById("biodata-form");
 
-        // Elemen-elemen untuk notifikasi baru yang lebih detail
         const notification = document.getElementById("notification");
         const notificationTitle = document.getElementById("notification-title");
         const notificationMessage = document.getElementById(
@@ -54,7 +53,6 @@ export function initProfile() {
         const hiddenPhoneNumber = document.getElementById("phone_number");
         let countriesData = [];
 
-        // Sebaiknya simpan API Key di file .env untuk keamanan
         const API_KEY =
             "RmxzNnpCNlBiTUVzYWJFWlFmdm5tUFRlOEZBU0xxQ0hQQVIzaFFDRw==";
 
@@ -77,34 +75,42 @@ export function initProfile() {
             "preview-profile-link-btn"
         );
 
-        const addSummaryBtn = document.getElementById('add-summary-btn');
-const editSummaryBtn = document.getElementById('edit-summary-btn');
-const summaryModal = document.getElementById('summary-modal');
-const summaryModalContent = document.getElementById('summary-modal-content'); // Ambil elemen konten
-const closeSummaryModalBtn = document.getElementById('close-summary-modal-btn');
-const cancelSummaryModalBtn = document.getElementById('cancel-summary-modal-btn');
-const summaryForm = document.getElementById('summary-form');
+        const addSummaryBtn = document.getElementById("add-summary-btn");
+        const editSummaryBtn = document.getElementById("edit-summary-btn");
+        const summaryModal = document.getElementById("summary-modal");
+        const summaryModalContent = document.getElementById(
+            "summary-modal-content"
+        );
+        const closeSummaryModalBtn = document.getElementById(
+            "close-summary-modal-btn"
+        );
+        const cancelSummaryModalBtn = document.getElementById(
+            "cancel-summary-modal-btn"
+        );
+        const summaryForm = document.getElementById("summary-form");
 
-const openSummaryModal = () => {
-    if (summaryModal && summaryModalContent) {
-        summaryModal.classList.remove('hidden');
-        void summaryModal.offsetWidth; // Memicu reflow browser
-        summaryModal.classList.remove('opacity-0');
-        summaryModalContent.classList.remove('opacity-0', 'scale-95');
-        summaryModalContent.classList.add('opacity-100', 'scale-100');
-    }
-};
+        const openSummaryModal = () => {
+            if (summaryModal && summaryModalContent) {
+                summaryModal.classList.remove("hidden");
+                void summaryModal.offsetWidth; // Memicu reflow browser
+                summaryModal.classList.remove("opacity-0");
+                summaryModalContent.classList.remove("opacity-0", "scale-95");
+                summaryModalContent.classList.add("opacity-100", "scale-100");
+            }
+        };
 
-const closeSummaryModal = () => {
-    if (summaryModal && summaryModalContent) {
-        summaryModalContent.classList.remove('opacity-100', 'scale-100');
-        summaryModalContent.classList.add('opacity-0', 'scale-95');
-        summaryModal.classList.add('opacity-0');
-        setTimeout(() => summaryModal.classList.add('hidden'), 300); // Sesuaikan durasi dengan transisi
-    }
-};
+        const closeSummaryModal = () => {
+            if (summaryModal && summaryModalContent) {
+                summaryModalContent.classList.remove(
+                    "opacity-100",
+                    "scale-100"
+                );
+                summaryModalContent.classList.add("opacity-0", "scale-95");
+                summaryModal.classList.add("opacity-0");
+                setTimeout(() => summaryModal.classList.add("hidden"), 300);
+            }
+        };
 
-        // --- Fungsi BARU untuk Modal Share Profile ---
         const openShareModal = () => {
             if (!shareModal || !shareProfileBtn) return;
             const profileUrl = shareProfileBtn.dataset.shareUrl;
@@ -142,12 +148,11 @@ const closeSummaryModal = () => {
                 });
         };
 
-        // --- FUNGSI NOTIFIKASI BARU (MODIFIKASI TOTAL) ---
         /**
          * Menampilkan notifikasi universal.
-         * @param {string} title - Judul notifikasi (cth: "Successful!" atau "Woopsie!").
-         * @param {string} message - Pesan detail notifikasi.
-         * @param {boolean} isSuccess - Menentukan apakah ini notifikasi sukses (true) atau gagal (false).
+         * @param {string} title
+         * @param {string} message
+         * @param {boolean} isSuccess
          */
 
         const notificationContent = document.getElementById(
@@ -178,14 +183,12 @@ const closeSummaryModal = () => {
             );
 
             if (isSuccess) {
-                // --- Style untuk notifikasi SUKSES ---
                 notificationIconContainer.classList.add("bg-green-100");
                 notificationIconContainer.innerHTML = `
             <svg class="w-12 h-12 text-green-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
             </svg>`;
             } else {
-                // --- Style untuk notifikasi GAGAL ---
                 notificationIconContainer.classList.add("bg-red-100");
                 notificationIconContainer.innerHTML = `
             <svg class="w-12 h-12 text-red-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -193,17 +196,13 @@ const closeSummaryModal = () => {
             </svg>`;
             }
 
-            // Tampilkan notifikasi
             notification.classList.remove("hidden");
-            // Paksa browser untuk me-render elemen sebelum memulai transisi
             void notification.offsetWidth;
 
-            // Animasi muncul: scale up dan fade in
             notification.classList.add("-translate-x-1/2", "-translate-y-1/2");
             notificationContent.classList.remove("opacity-0", "scale-95");
             notificationContent.classList.add("opacity-100", "scale-100");
 
-            // Sembunyikan otomatis setelah 3 detik
             setTimeout(() => {
                 hideNotification();
             }, 3000);
@@ -212,22 +211,19 @@ const closeSummaryModal = () => {
         const hideNotification = () => {
             if (!notification || !notificationContent) return;
 
-            // Animasi hilang: scale down dan fade out
             notificationContent.classList.remove("opacity-100", "scale-100");
             notificationContent.classList.add("opacity-0", "scale-95");
 
             // Sembunyikan elemen setelah animasi selesai
             setTimeout(() => {
                 notification.classList.add("hidden");
-                // Hapus kelas transform agar posisi reset untuk pemanggilan berikutnya
                 notification.classList.remove(
                     "-translate-x-1/2",
                     "-translate-y-1/2"
                 );
-            }, 300); // 300ms sesuai durasi transisi
+            }, 300);
         };
 
-        // Tambahkan event listener untuk tombol close pada notifikasi
         notificationCloseBtn?.addEventListener("click", hideNotification);
 
         // --- MODAL CONTROL ---
@@ -249,7 +245,6 @@ const closeSummaryModal = () => {
             setTimeout(() => biodataModal.classList.add("hidden"), 300);
         };
 
-        // --- FUNGSI LOKASI & API (Tidak ada perubahan, tapi panggilannya diupdate) ---
         const setInitialLocation = async (addressString) => {
             if (!addressString) {
                 await populateCountries();
@@ -290,7 +285,6 @@ const closeSummaryModal = () => {
                 }
             } catch (error) {
                 console.error("Failed to set initial location:", error);
-                // Panggilan notifikasi diupdate
                 showNotification(
                     "Woopsie!",
                     "Could not pre-fill location data.",
@@ -392,7 +386,6 @@ const closeSummaryModal = () => {
                 });
 
                 if (response.data.success) {
-                    // Update gambar di halaman tanpa reload
                     const newImagePath = `/storage/${
                         response.data.path
                     }?t=${new Date().getTime()}`;
@@ -413,46 +406,45 @@ const closeSummaryModal = () => {
         });
 
         // --- SUMMARY ---
-        addSummaryBtn?.addEventListener('click', openSummaryModal);
-editSummaryBtn?.addEventListener('click', openSummaryModal);
-closeSummaryModalBtn?.addEventListener('click', closeSummaryModal);
-cancelSummaryModalBtn?.addEventListener('click', closeSummaryModal);
-summaryModal?.addEventListener('click', (e) => {
-    if (e.target === summaryModal) {
-        closeSummaryModal();
-    }
-});
-
-    summaryForm?.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const formData = new FormData(this);
-        const saveBtn = this.querySelector('button[type="submit"]');
-        saveBtn.disabled = true;
-        saveBtn.textContent = "Saving...";
-
-        try {
-            const response = await axios.post(this.action, formData);
-            if (response.data.success) {
-                showNotification('Success!', response.data.message, true);
-                // Refresh halaman untuk melihat perubahan
-                setTimeout(() => window.location.reload(), 1500);
+        addSummaryBtn?.addEventListener("click", openSummaryModal);
+        editSummaryBtn?.addEventListener("click", openSummaryModal);
+        closeSummaryModalBtn?.addEventListener("click", closeSummaryModal);
+        cancelSummaryModalBtn?.addEventListener("click", closeSummaryModal);
+        summaryModal?.addEventListener("click", (e) => {
+            if (e.target === summaryModal) {
+                closeSummaryModal();
             }
-        } catch (error) {
-            const errorMessage = error.response?.data?.message || 'Save failed. Please try again.';
-            showNotification('Woopsie!', errorMessage, false);
-        } finally {
-            saveBtn.disabled = false;
-            saveBtn.textContent = "Save";
-            closeSummaryModal();
-        }
-    });
+        });
 
-        // --- Event Listeners BARU untuk Modal Share Profile ---
+        summaryForm?.addEventListener("submit", async function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const saveBtn = this.querySelector('button[type="submit"]');
+            saveBtn.disabled = true;
+            saveBtn.textContent = "Saving...";
+
+            try {
+                const response = await axios.post(this.action, formData);
+                if (response.data.success) {
+                    showNotification("Success!", response.data.message, true);
+                    setTimeout(() => window.location.reload(), 1500);
+                }
+            } catch (error) {
+                const errorMessage =
+                    error.response?.data?.message ||
+                    "Save failed. Please try again.";
+                showNotification("Woopsie!", errorMessage, false);
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.textContent = "Save";
+                closeSummaryModal();
+            }
+        });
+
         shareProfileBtn?.addEventListener("click", openShareModal);
         closeShareModalBtn?.addEventListener("click", closeShareModal);
         copyProfileLinkBtn?.addEventListener("click", copyProfileLink);
         shareModal?.addEventListener("click", (e) => {
-            // Menutup modal jika klik di area luar konten (backdrop)
             if (e.target === shareModal) closeShareModal();
         });
 
@@ -469,7 +461,6 @@ summaryModal?.addEventListener('click', (e) => {
             populateCities(countrySelect.value, e.target.value)
         );
 
-        // --- FORM SUBMISSION (PANGGILAN NOTIFIKASI DIUPDATE) ---
         biodataForm?.addEventListener("submit", async function (event) {
             event.preventDefault();
 
@@ -504,14 +495,14 @@ summaryModal?.addEventListener('click', (e) => {
             try {
                 const response = await axios.post(this.action, formData);
                 closeModal();
-                // Panggil notifikasi baru dengan JUDUL dan PESAN
+
                 showNotification("Successful!", response.data.message, true);
                 setTimeout(() => window.location.reload(), 1500);
             } catch (error) {
                 const errorMessage =
                     error.response?.data?.message ||
                     "An error occurred. Please try again.";
-                // Panggil notifikasi baru dengan JUDUL dan PESAN
+
                 showNotification("Woopsie!", errorMessage, false);
             } finally {
                 saveBtn.disabled = false;

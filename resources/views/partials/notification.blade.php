@@ -4,10 +4,8 @@
     {{-- Container Notifikasi --}}
     <div
         class="flex items-center gap-4 w-full max-w-sm p-4 text-gray-900 bg-[#EEEEEE] rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
-        {{-- Ikon Notifikasi (akan diubah oleh JS) --}}
         <div id="notification-icon-container"
             class="inline-flex items-center justify-center flex-shrink-0 w-10 h-10 rounded-full">
-            {{-- Placeholder untuk ikon success atau error --}}
         </div>
 
         {{-- Pesan Notifikasi --}}

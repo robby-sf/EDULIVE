@@ -115,14 +115,10 @@
             <h2 class="text-xl font-semibold text-gray-900">Personal Summary</h2>
 
             @if ($user->profile?->personal_summary)
-                {{-- Container baru dengan border yang membungkus teks dan tombol edit --}}
                 <div class="mt-2 flex items-center justify-between w-full px-6 py-4 border border-gray-300 rounded-lg bg-white">
-                    {{-- Teks summary --}}
                     <p id="summary-text-display" class="text-[#5E5E5E]">{{ $user->profile->personal_summary }}</p>
 
-                    {{-- Tombol Edit dengan ikon baru --}}
                     <button id="edit-summary-btn" class="text-gray-600 hover:text-gray-500 flex-shrink-0 ml-4">
-                        {{-- SVG baru yang sesuai dengan gambar --}}
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                             stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -133,7 +129,6 @@
                     </button>
                 </div>
             @else
-                {{-- Bagian ini tetap sama jika summary belum ada --}}
                 <p class="text-gray-500 mt-2">Add a personal summary to your profile as a way to introduce who you are.</p>
                 <button id="add-summary-btn"
                     class="mt-3 px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg font-semibold text-sm text-gray-700 hover:bg-gray-200 transition">
@@ -144,7 +139,6 @@
 
         {{-- EDUCATION HISTORY --}}
         <div class="mt-10 pt-6 border-t border-gray-200">
-            {{-- Header dan Tombol Add --}}
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-semibold text-gray-900">Education History</h2>
                 <button id="add-education-btn"
@@ -153,16 +147,13 @@
                 </button>
             </div>
 
-            {{-- Container utama untuk daftar pendidikan. Menyimpan URL untuk JavaScript --}}
             <div id="education-list-container" data-store-url="{{ route('profile.education.store') }}"
                 data-base-update-url="{{ route('profile.index') }}/education">
 
                 <div id="education-list" class="space-y-4">
-                    {{-- Loop untuk setiap item pendidikan --}}
                     @forelse ($user->educations as $education)
                         <div id="education-item-{{ $education->id }}"
                             class="flex items-center gap-4 px-8 py-4 border border-gray-300 rounded-lg bg-white">
-                            {{-- Ikon Pendidikan --}}
                             <div class="flex-shrink-0 w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
@@ -180,7 +171,6 @@
                                     {{ $education->end_year }}</p>
                             </div>
 
-                            {{-- Tombol Aksi (Edit & Delete) dengan atribut data-* --}}
                             <div class="flex-shrink-0 flex gap-6">
                                 <button class="edit-education-btn text-gray-600 hover:text-gray-500"
                                     data-id="{{ $education->id }}" data-institution="{{ $education->institution_name }}"
@@ -205,7 +195,6 @@
                                 </button>
                             </div>
                         </div>
-                        {{-- Tampilan jika tidak ada riwayat pendidikan --}}
                     @empty
                         <div id="no-education-record" class="text-center py-10 border-2 border-dashed rounded-lg">
                             <p class="text-gray-500">No education history has been added yet.</p>

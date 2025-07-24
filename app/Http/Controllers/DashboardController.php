@@ -13,20 +13,21 @@ class DashboardController extends Controller
     {
         $sessions = StudySession::where('user_id', Auth::id())->latest()->get();
 
-        
+        // Ambil total menit FOKUS langsung dari DB (ini sudah benar)
         $totalFocusMinutes = $sessions->sum('total_focus_minutes');
-        
+
+        // Inisialisasi penghitung durasi gangguan dalam detik
         $disruptionDurationCounts = [
             'tiduran' => 0,
             'menunduk' => 0,
             'keluar frame' => 0,
-            'cell phone' => 0, 
+            'cell phone' => 0,
         ];
 
         foreach ($sessions as $session) {
 
             $log = json_decode($session->distraction_log, true);
-            
+
             if (is_array($log)) {
                 foreach ($log as $distractionType => $durationInSeconds) {
                     $key = strtolower(trim($distractionType));
@@ -62,9 +63,10 @@ class DashboardController extends Controller
             'labels' => $sessions->pluck('start_time')->map(fn($date) => Carbon::parse($date)->format('d M'))->reverse()->values()->toArray(),
             'data' => $sessions->pluck('total_focus_minutes')->reverse()->values()->toArray(),
         ];
+
         return view('statistic', [
             'effectiveFocusMinutes' => $totalFocusMinutes,
-            'totalDisruptionMinutes' => $totalDisruptionMinutes, 
+            'totalDisruptionMinutes' => $totalDisruptionMinutes,
             'overallFocusScore' => $overallFocusScore,
             'averageFocusPerSession' => $averageFocusPerSession,
             'learningTimeChartData' => $learningTimeChartData,

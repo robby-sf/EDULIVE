@@ -101,17 +101,12 @@
     {{-- Notification Component --}}
     <div id="notification" class="hidden fixed top-1/2 left-1/2 z-[100] transition-all duration-300 ease-out">
 
-        {{-- Container Notifikasi (dibuat vertikal dan lebih besar) --}}
         <div id="notification-content"
             class="flex flex-col items-center gap-4 w-64 p-6 text-gray-900 bg-[#EEEEEE] rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] transform opacity-0 scale-95">
-
-            {{-- Ikon Notifikasi (dibuat lebih besar) --}}
             <div id="notification-icon-container"
                 class="inline-flex items-center justify-center flex-shrink-0 w-20 h-20 rounded-full mb-2">
-                {{-- Ikon akan diisi oleh JavaScript --}}
             </div>
 
-            {{-- Pesan Notifikasi (dibuat di tengah) --}}
             <div class="text-center">
                 <span id="notification-title" class="block text-xl font-semibold"></span>
                 <p id="notification-message" class="text-md font-normal text-gray-600 mt-1"></p>

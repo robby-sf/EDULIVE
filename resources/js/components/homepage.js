@@ -55,29 +55,16 @@ export function initHomepage() {
 
     // EventListener Section 2 HOMEPAGE
     document.addEventListener("DOMContentLoaded", () => {
-        // 1. Ambil elemen section pembungkus dan semua elemen teks
         const parallaxSection = document.getElementById("parallax-section");
         const revealTexts = document.querySelectorAll(".reveal-text");
 
-        // Pastikan elemennya ada sebelum melanjutkan
         if (!parallaxSection || revealTexts.length === 0) return;
 
-        // 2. Loop setiap elemen teks untuk menambahkan event 'mouseenter'
         revealTexts.forEach((textElement) => {
             textElement.addEventListener("mouseenter", () => {
-                // Saat mouse masuk, tambahkan kelas 'visible' untuk memunculkannya
                 textElement.classList.add("visible");
             });
-            // Tidak ada 'mouseleave' di sini agar teks tetap terlihat
         });
-
-        // // 3. Tambahkan satu event 'mouseleave' pada section pembungkus
-        // parallaxSection.addEventListener("mouseleave", () => {
-        //     // Saat mouse keluar dari seluruh section, reset semua teks
-        //     revealTexts.forEach((el) => {
-        //         el.classList.remove("visible");
-        //     });
-        // });
     });
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -92,20 +79,19 @@ export function initHomepage() {
             (entries) => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
-                        // Jalankan TypeIt hanya sekali
+
                         new TypeIt("#features-title", {
                             strings: "FEATURES",
                             speed: 150,
                             waitUntilVisible: true,
-                            cursor: true, // kamu bisa set ke false kalau tak ingin kursor
+                            cursor: true,
                             afterComplete: async (instance) => {
-                                // Setelah efek ketik selesai, tampilkan kartu fitur
                                 featureCards.forEach((card, index) => {
                                     setTimeout(() => {
                                         card.classList.add("visible");
                                     }, index * 200);
                                 });
-                                instance.destroy(); // Hentikan instance TypeIt
+                                instance.destroy();
                             },
                         }).go();
 
@@ -135,18 +121,16 @@ export function initHomepage() {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
                         teamCards.forEach((card, index) => {
-                            // Delay dibuat berbeda untuk setiap kartu agar muncul satu per satu
                             setTimeout(() => {
                                 card.classList.add("is-visible");
                             }, index * 200); // Jeda 200ms
                         });
-                        // Hentikan observasi setelah animasi berjalan agar tidak berulang
                         observer.unobserve(teamSection);
                     }
                 });
             },
             {
-                threshold: 0.2, // Animasi akan berjalan saat 20% dari section terlihat
+                threshold: 0.2,
             }
         );
 
@@ -167,14 +151,14 @@ export function initHomepage() {
                         words.forEach((word, index) => {
                             setTimeout(() => {
                                 word.classList.add("visible");
-                            }, index * 400); // Delay 400ms antar kata
+                            }, index * 400);
                         });
-                        observer.unobserve(section); // Hentikan observasi setelah animasi berjalan
+                        observer.unobserve(section);
                     }
                 });
             },
             {
-                threshold: 0.5, // Animasi berjalan saat 50% section terlihat
+                threshold: 0.5,
             }
         );
 

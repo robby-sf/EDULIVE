@@ -10,7 +10,6 @@ export function initNavigation() {
             menuOverlay.classList.toggle("hidden");
         });
 
-        // Close the menu when clicking outside of it
         menuOverlay.addEventListener("click", () => {
             menu.classList.add("hidden");
             menuOverlay.classList.add("hidden");

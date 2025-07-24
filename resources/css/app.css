@@ -30,7 +30,6 @@
     transform: translateY(0);
 }
 
-/* Keadaan awal (disembunyikan dengan transisi) */
 #spline-model {
     opacity: 0;
     transition: opacity 0.8s ease-in-out;
@@ -53,8 +52,8 @@
 
 
 #features-title {
-    visibility: visible; /* Tidak lagi disembunyikan, karena TypeIt langsung menulis */
-    white-space: nowrap; /* Supaya efek ketik satu baris */
+    visibility: visible;
+    white-space: nowrap;
 }
 
 #features-title .letter.visible {
@@ -62,7 +61,6 @@
     transform: translateY(0) scale(1);
 }
 
-/* Animasi untuk kartu fitur (tetap sama) */
 .feature-card {
     opacity: 0;
     transform: translateY(50px);

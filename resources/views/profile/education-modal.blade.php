@@ -9,10 +9,8 @@
         {{-- FORM --}}
         <form id="education-form" method="POST" action="">
             @csrf
-            {{-- Method spoofing untuk 'EDIT' --}}
             <input type="hidden" name="_method" id="education-method-field">
 
-            {{-- HEADER (MODIFIED: Disesuaikan dengan biodata-form) --}}
             <div class="flex justify-between items-center mb-10">
                 <h2 id="education-modal-title" class="text-black text-2xl md:text-4xl font-medium tracking-[2px]">
                     {_MODAL_TITLE_}
@@ -25,7 +23,6 @@
                 </button>
             </div>
 
-            {{-- KONTEN FORM (MODIFIED: Disesuaikan dengan biodata-form) --}}
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                 {{-- Education Level --}}
                 <div class="md:col-span-2">
@@ -81,7 +78,6 @@
                 </div>
             </div>
 
-            {{-- TOMBOL AKSI (MODIFIED: Disesuaikan dengan biodata-form) --}}
             <div class="flex items-center gap-6 mt-12">
                 <button type="submit" id="education-submit-button"
                     class="px-8 py-3 bg-black rounded-[10px] text-white text-xl hover:bg-gray-800 transition">

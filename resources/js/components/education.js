@@ -16,9 +16,6 @@ export function initEducationModal() {
     const submitButton = document.getElementById('education-submit-button');
     const methodField = document.getElementById('education-method-field');
 
-    /**
-     * Fungsi untuk membuka modal dengan animasi.
-     */
     const openModal = () => {
         modal.classList.remove('hidden');
         setTimeout(() => {
@@ -27,9 +24,6 @@ export function initEducationModal() {
         }, 10); // delay kecil untuk transisi
     };
 
-    /**
-     * Fungsi untuk menutup modal dengan animasi.
-     */
     const closeModal = () => {
         modal.classList.add('opacity-0');
         modalContent.classList.add('scale-95', 'opacity-0');
@@ -40,31 +34,26 @@ export function initEducationModal() {
         }, 300);
     };
 
-    /**
-     * Menyiapkan modal untuk mode "ADD".
-     */
+
     document.getElementById('add-education-btn').addEventListener('click', () => {
         form.reset();
         modalTitle.textContent = 'Add Education History';
         submitButton.textContent = 'Save';
-        form.action = storeUrl; // Gunakan URL untuk 'store'
+        form.action = storeUrl;
         methodField.value = 'POST';
         openModal();
     });
 
-    /**
-     * Menyiapkan modal untuk mode "EDIT" menggunakan event delegation.
-     */
     container.addEventListener('click', function(e) {
         const editButton = e.target.closest('.edit-education-btn');
         if (editButton) {
             const id = editButton.dataset.id;
             modalTitle.textContent = 'Edit Education History';
             submitButton.textContent = 'Save Changes';
-            form.action = `${baseUpdateUrl}/${id}`; // URL dinamis untuk 'update'
+            form.action = `${baseUpdateUrl}/${id}`;
             methodField.value = 'PUT';
 
-            // Isi form dengan data dari tombol yang diklik
+
             document.getElementById('degree').value = editButton.dataset.degree;
             document.getElementById('institution_name').value = editButton.dataset.institution;
             document.getElementById('field_of_study').value = editButton.dataset.field;
@@ -76,31 +65,25 @@ export function initEducationModal() {
         }
     });
 
-    /**
-     * Event handler untuk menutup modal.
-     */
+
     modal.addEventListener('click', e => {
-        // Tutup jika klik di luar konten, tombol close, atau tombol cancel
         if (e.target === modal || e.target.closest('.close-education-modal') || e.target.closest('.cancel-education-modal')) {
             closeModal();
         }
     });
 
-    /**
-     * Meng-handle submit form (ADD dan EDIT) menggunakan Fetch API (AJAX).
-     */
+
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
 
         const formData = new FormData(this);
         const url = this.action;
 
-        // Ambil token CSRF dari meta tag
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
         try {
             const response = await fetch(url, {
-                method: 'POST', // AJAX selalu 'POST', method asli (PUT/POST) dikirim via _method
+                method: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': csrfToken,
                     'Accept': 'application/json',
@@ -112,10 +95,10 @@ export function initEducationModal() {
 
             if (response.ok && result.success) {
                 showNotification('Success!', result.message, true);
-                setTimeout(() => location.reload(), 1500); // Reload setelah notifikasi terlihat
+                setTimeout(() => location.reload(), 1500);
                 closeModal();
             } else {
-                 // Menampilkan error validasi atau error lainnya
+
                 const errorMessage = result.message || 'An error occurred.';
                 showNotification('Woopsie!', errorMessage, false);
             }
@@ -125,9 +108,6 @@ export function initEducationModal() {
         }
     });
 
-    /**
-     * Meng-handle aksi DELETE menggunakan event delegation.
-     */
     container.addEventListener('click', async function(e) {
         const deleteButton = e.target.closest('.delete-education-btn');
         if (deleteButton) {

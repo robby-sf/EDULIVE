@@ -1,9 +1,6 @@
-// Variabel untuk menyimpan elemen-elemen notifikasi
 let notification, notificationTitle, notificationMessage, notificationIconContainer, notificationContent, notificationCloseBtn;
 
-// Fungsi untuk menampilkan notifikasi
 export function showNotification(title, message, isSuccess = true) {
-    // Inisialisasi elemen jika belum ada
     if (!notification) {
         notification = document.getElementById("notification");
         notificationTitle = document.getElementById("notification-title");
@@ -12,14 +9,12 @@ export function showNotification(title, message, isSuccess = true) {
         notificationContent = document.getElementById("notification-content");
         notificationCloseBtn = document.getElementById("notification-close-btn");
 
-        // Tambahkan event listener ke tombol close
         notificationCloseBtn?.addEventListener('click', hideNotification);
     }
 
-    // Pastikan semua elemen ada sebelum melanjutkan
     if (!notification || !notificationTitle || !notificationMessage || !notificationIconContainer || !notificationContent) {
         console.error("Elemen notifikasi tidak ditemukan di DOM!");
-        // Fallback ke alert biasa jika notifikasi kustom tidak ada
+
         alert(`${title}: ${message}`);
         return;
     }
@@ -27,7 +22,6 @@ export function showNotification(title, message, isSuccess = true) {
     notificationTitle.textContent = title;
     notificationMessage.textContent = message;
 
-    // Reset ikon dan warna
     notificationIconContainer.innerHTML = '';
     notificationIconContainer.classList.remove('bg-green-100', 'bg-red-100');
 
@@ -45,20 +39,16 @@ export function showNotification(title, message, isSuccess = true) {
             </svg>`;
     }
 
-    // Tampilkan notifikasi
     notification.classList.remove("hidden");
     void notification.offsetWidth;
 
-    // Animasi muncul
     notification.classList.add('-translate-x-1/2', '-translate-y-1/2');
     notificationContent.classList.remove("opacity-0", "scale-95");
     notificationContent.classList.add("opacity-100", "scale-100");
 
-    // Sembunyikan otomatis setelah 3 detik
     setTimeout(hideNotification, 3000);
 }
 
-// Fungsi untuk menyembunyikan notifikasi
 function hideNotification() {
     if (!notification || !notificationContent) return;
 
